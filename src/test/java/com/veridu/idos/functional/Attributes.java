@@ -31,6 +31,7 @@ public class Attributes extends MainTestSetup {
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
         response = this.attribute.create(userName, name, value, support);
         JsonObject data = getResponseData(response);
+        
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
         assertEquals(value, data.get("value").getAsString());
@@ -40,8 +41,9 @@ public class Attributes extends MainTestSetup {
     @Test
     public void test2GetOne() throws SDKException {
         response = this.attribute.getOne(userName, name);
-        assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonArray().getAsJsonArray().get(0).getAsJsonObject();
+        
+        assertTrue(response.get("status").getAsBoolean());
         assertEquals(name, data.get("name").getAsString());
         assertEquals(value, data.get("value").getAsString());
     }
@@ -51,6 +53,7 @@ public class Attributes extends MainTestSetup {
         JsonObject json = this.attribute.listAll(userName);
         JsonArray array = json.get("data").getAsJsonArray();
         JsonObject data = array.get(0).getAsJsonObject();
+        
         assertTrue(json.get("status").getAsBoolean());
         assertTrue(data.has("name"));
         assertTrue(data.has("value"));
@@ -60,6 +63,7 @@ public class Attributes extends MainTestSetup {
     @Test
     public void test4DeleteOne() throws SDKException {
         JsonObject json = this.attribute.delete(userName, name);
+        
         assertTrue(json.get("status").getAsBoolean());
         assertEquals(1, json.get("deleted").getAsInt());
     }

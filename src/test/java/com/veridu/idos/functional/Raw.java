@@ -19,7 +19,6 @@ import com.veridu.idos.exceptions.SDKException;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Raw extends MainTestSetup {
     private ProfileRaw raw;
-    private String name = "collection-name";
     private int sourceId;
 
     @Before
@@ -32,44 +31,35 @@ public class Raw extends MainTestSetup {
     @Test
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
         HashMap<String, String> hashmap = new HashMap<>();
-        hashmap.put("value", "test");
-        response = this.raw.create(userName, this.sourceId, name, hashmap);
+        hashmap.put("value", "value-test");
+        
+        response = this.raw.create(userName, this.sourceId, "collection-name-1", hashmap);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
-        assertEquals(name, data.get("name").getAsString());
+        assertEquals("collection-name-1", data.get("collection").getAsString());
+        assertEquals("value-test", data.get("data").getAsJsonObject().get("value").getAsString());
     }
 
-    // @Test
-    // public void test2Upsert() throws SDKException {
-    // HashMap<String, String> hashmap = new HashMap<>();
-    // hashmap.put("value", "value-test");
-    // response = this.raw.upsert(userName, this.sourceId, "colllection-name",
-    // hashmap);
-    // JsonObject data = getResponseData(response);
-    // assertTrue(isResponseOk(response));
-    // assertEquals(name, data.get("name").getAsString());
-    // assertEquals("false", data.get("pass").getAsString());
-    // }
-    //
-    // @Test
-    // public void test3UpdateOne() throws SDKException,
-    // UnsupportedEncodingException {
-    // HashMap<String, String> hashmap = new HashMap<>();
-    // hashmap.put("value", "value");
-    // response = this.raw.update(userName, name, hashmap);
-    // JsonObject data = getResponseData(response);
-    // assertTrue(isResponseOk(response));
-    // assertEquals(name, data.get("source").getAsString());
-    // assertEquals("true", data.get("collection").getAsString());
-    // }
+     @Test
+     public void test2Upsert() throws SDKException {
+	     HashMap<String, String> hashmap = new HashMap<>();
+	     hashmap.put("value", "value-test");
+	     
+	     response = this.raw.upsert(userName, this.sourceId, "collection-name-2", hashmap);
+	     JsonObject data = getResponseData(response);
+	     assertTrue(isResponseOk(response));
+	     assertEquals("collection-name-2", data.get("collection").getAsString());
+	     assertEquals("value-test", data.get("data").getAsJsonObject().get("value").getAsString());
+     }
 
     @Test
-    public void test4ListAll() throws SDKException {
+    public void test3ListAll() throws SDKException {
         JsonObject json = this.raw.listAll(userName);
         JsonArray array = json.get("data").getAsJsonArray();
         JsonObject data = array.get(0).getAsJsonObject();
         assertTrue(json.get("status").getAsBoolean());
         assertTrue(data.has("source"));
         assertTrue(data.has("collection"));
+        assertTrue(data.has("data"));
     }
 }
