@@ -3,7 +3,7 @@ package com.veridu.idos;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import com.veridu.idos.endpoints.ProfileAttributes;
+import com.veridu.idos.endpoints.ProfileCandidates;
 import com.veridu.idos.endpoints.ProfileFeatures;
 import com.veridu.idos.endpoints.ProfileGates;
 import com.veridu.idos.endpoints.ProfileProcesses;
@@ -54,9 +54,9 @@ public class IdOSAPIFactory implements Serializable {
     private ProfileTasks task;
 
     /**
-     * ProfileAttributes Endpoint object
+     * ProfileCandidates Endpoint object
      */
-    private ProfileAttributes attribute;
+    private ProfileCandidates attribute;
 
     /**
      * ProfileScores Endpoint object
@@ -103,9 +103,9 @@ public class IdOSAPIFactory implements Serializable {
      * @return ProfileAttribute instance
      * @throws InvalidToken
      */
-    public ProfileAttributes getAttribute() throws InvalidToken {
-        if (!(this.attribute instanceof ProfileAttributes))
-            this.attribute = new ProfileAttributes(this.credentials);
+    public ProfileCandidates getAttribute() throws InvalidToken {
+        if (!(this.attribute instanceof ProfileCandidates))
+            this.attribute = new ProfileCandidates(this.credentials);
         return this.attribute;
     }
 

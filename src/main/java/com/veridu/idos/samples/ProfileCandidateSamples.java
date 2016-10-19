@@ -1,12 +1,12 @@
 package com.veridu.idos.samples;
 
-import java.io.UnsupportedEncodingException;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
 
-public class ProfileAttributeSamples {
+import java.io.UnsupportedEncodingException;
+
+public class ProfileCandidateSamples {
     public static void main(String[] args) throws SDKException, UnsupportedEncodingException {
         /**
          * JsonObject used to parse the response

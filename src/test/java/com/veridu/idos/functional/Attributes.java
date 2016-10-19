@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.UnsupportedEncodingException;
 
+import com.veridu.idos.endpoints.ProfileCandidates;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -12,12 +13,11 @@ import org.junit.runners.MethodSorters;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.veridu.idos.endpoints.ProfileAttributes;
 import com.veridu.idos.exceptions.SDKException;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Attributes extends MainTestSetup {
-    private ProfileAttributes attribute;
+    private ProfileCandidates attribute;
     private String name = "attribute-test";
     private String value = "WeirdAttributesáéó!@$%£values";
     private float support = 0.5f;
