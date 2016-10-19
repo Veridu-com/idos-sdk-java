@@ -24,7 +24,7 @@ public class Attributes extends MainTestSetup {
 
     @Before
     public void setUp() throws Exception {
-        this.attribute = factory.getAttribute();
+        this.attribute = factory.getCandidates();
     }
 
     @Test

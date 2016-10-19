@@ -32,7 +32,7 @@ public class ProfileCandidateSamples {
         /**
          * Gets the response from the API listing all attributes
          */
-        JsonObject json = idOSAPIFactory.getAttribute().listAll(username);
+        JsonObject json = idOSAPIFactory.getCandidates().listAll(username);
 
         /**
          * Prints the response
@@ -42,12 +42,12 @@ public class ProfileCandidateSamples {
         /**
          * Gets the response from the API trying to create a new attribute
          */
-        json = idOSAPIFactory.getAttribute().create(username, "attributeName", "attributeValue", 0.5);
+        json = idOSAPIFactory.getCandidates().create(username, "attributeName", "attributeValue", 0.5);
 
         /**
          * Get the response form the API getting one attribute
          */
-        json = idOSAPIFactory.getAttribute().getOne(username, "attributeName");
+        json = idOSAPIFactory.getCandidates().getOne(username, "attributeName");
 
         /**
          * Prints the array response
@@ -57,7 +57,7 @@ public class ProfileCandidateSamples {
         /**
          * Deletes the attribute created giving the attribute name
          */
-        json = idOSAPIFactory.getAttribute().delete(username, "attributeName");
+        json = idOSAPIFactory.getCandidates().delete(username, "attributeName");
 
         /**
          * Prints the status of the request
@@ -67,7 +67,7 @@ public class ProfileCandidateSamples {
         /**
          * Deletes all profile attributes related to the username
          */
-        json = idOSAPIFactory.getAttribute().deleteAll(username);
+        json = idOSAPIFactory.getCandidates().deleteAll(username);
 
         /**
          * Prints the number of deleted attributes

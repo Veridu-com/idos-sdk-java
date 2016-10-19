@@ -1,21 +1,10 @@
 package com.veridu.idos;
 
+import com.veridu.idos.endpoints.*;
+import com.veridu.idos.exceptions.InvalidToken;
+
 import java.io.Serializable;
 import java.util.HashMap;
-
-import com.veridu.idos.endpoints.ProfileCandidates;
-import com.veridu.idos.endpoints.ProfileFeatures;
-import com.veridu.idos.endpoints.ProfileGates;
-import com.veridu.idos.endpoints.ProfileProcesses;
-import com.veridu.idos.endpoints.ProfileRaw;
-import com.veridu.idos.endpoints.ProfileReferences;
-import com.veridu.idos.endpoints.ProfileScores;
-import com.veridu.idos.endpoints.ProfileSources;
-import com.veridu.idos.endpoints.ProfileTasks;
-import com.veridu.idos.endpoints.ProfileWarnings;
-import com.veridu.idos.endpoints.Profiles;
-import com.veridu.idos.endpoints.SSO;
-import com.veridu.idos.exceptions.InvalidToken;
 
 /**
  * CredentialFactory Endpoint creates all Endpoints
@@ -56,16 +45,16 @@ public class IdOSAPIFactory implements Serializable {
     /**
      * ProfileCandidates Endpoint object
      */
-    private ProfileCandidates attribute;
+    private ProfileCandidates candidates;
 
     /**
      * ProfileScores Endpoint object
      */
     private ProfileScores score;
     /**
-     * ProfileWarnings Endpoint object
+     * ProfileFlags Endpoint object
      */
-    private ProfileWarnings warning;
+    private ProfileFlags flags;
 
     /**
      * ProfileRaw Endpoint object
@@ -103,10 +92,10 @@ public class IdOSAPIFactory implements Serializable {
      * @return ProfileAttribute instance
      * @throws InvalidToken
      */
-    public ProfileCandidates getAttribute() throws InvalidToken {
-        if (!(this.attribute instanceof ProfileCandidates))
-            this.attribute = new ProfileCandidates(this.credentials);
-        return this.attribute;
+    public ProfileCandidates getCandidates() throws InvalidToken {
+        if (!(this.candidates instanceof ProfileCandidates))
+            this.candidates = new ProfileCandidates(this.credentials);
+        return this.candidates;
     }
 
     /**
@@ -172,13 +161,13 @@ public class IdOSAPIFactory implements Serializable {
     /**
      * Instantiates Warning endpoint
      *
-     * @return ProfileWarnings instance
+     * @return ProfileFlags instance
      * @throws InvalidToken
      */
-    public ProfileWarnings getWarning() throws InvalidToken {
-        if (!(this.warning instanceof ProfileWarnings))
-            this.warning = new ProfileWarnings(this.credentials);
-        return this.warning;
+    public ProfileFlags getFlags() throws InvalidToken {
+        if (!(this.flags instanceof ProfileFlags))
+            this.flags = new ProfileFlags(this.credentials);
+        return this.flags;
     }
 
     /**

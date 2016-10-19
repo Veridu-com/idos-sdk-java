@@ -12,18 +12,18 @@ import org.junit.runners.MethodSorters;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.veridu.idos.endpoints.ProfileWarnings;
+import com.veridu.idos.endpoints.ProfileFlags;
 import com.veridu.idos.exceptions.SDKException;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Warnings extends MainTestSetup {
-    private ProfileWarnings warning;
+    private ProfileFlags warning;
     private String slug = "middle-slug-mismatch";
     private String attribute = "middle-name";
 
     @Before
     public void setUp() throws Exception {
-        this.warning = factory.getWarning();
+        this.warning = factory.getFlags();
     }
 
     @Test
