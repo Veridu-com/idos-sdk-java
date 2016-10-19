@@ -129,6 +129,10 @@ public class Filter {
         return this.addFilterByKeyName("name", filter);
     }
 
+    public Filter addCandidateAttributeNameFilter(String filter) {
+        return this.addFilterByKeyName("attribute", filter);
+    }
+
     /**
      * Adds a slug filter
      *
