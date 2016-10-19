@@ -9,59 +9,59 @@ import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
 
 /**
- * ProfileWarnings Endpoint class
- * 
+ * ProfileFlags Endpoint class
+ *
  * @version 2.0
  */
-public class ProfileWarnings extends AbstractEndpoint {
+public class ProfileFlags extends AbstractEndpoint {
 
     /**
      * Constructor class
-     * 
+     *
      * @param token
      */
-    public ProfileWarnings(HashMap<String, String> credentials) throws InvalidToken {
+    public ProfileFlags(HashMap<String, String> credentials) throws InvalidToken {
         super(credentials, IdOSAuthType.HANDLER);
     }
 
     /**
      * Lists all warnings given the username
-     * 
+     *
      * @param username
      * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject listAll(String username) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/warnings");
+        return this.fetch("GET", "profiles/" + username + "/flags");
     }
 
     /**
-     * Lists all warnings given the username, with filtering
-     * 
+     * Lists all flags given the username, with filtering
+     *
      * @param username
      * @param filter
      * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject listAll(String username, Filter filter) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/warnings", null, filter);
+        return this.fetch("GET", "profiles/" + username + "/flags", null, filter);
     }
 
     /**
      * Retrieves the warn related to the given warning slug
-     * 
+     *
      * @param username
      * @param warningSlug
      * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject getOne(String username, String warningSlug) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/warnings/" + warningSlug);
+        return this.fetch("GET", "profiles/" + username + "/flags/" + warningSlug);
     }
 
     /**
      * Creates a new warning related to the username given
-     * 
+     *
      * @param username
      * @param slug
      * @param attribute
@@ -74,41 +74,41 @@ public class ProfileWarnings extends AbstractEndpoint {
         data.addProperty("slug", slug);
         data.addProperty("attribute", attribute);
 
-        return this.fetch("POST", "profiles/" + username + "/warnings", data);
+        return this.fetch("POST", "profiles/" + username + "/flags", data);
     }
 
     /**
      * Deletes a warning given its warning slug
-     * 
+     *
      * @param username
      * @param warningSlug
      * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject delete(String username, String warningSlug) throws SDKException {
-        return this.fetch("DELETE", "profiles/" + username + "/warnings/" + warningSlug);
+        return this.fetch("DELETE", "profiles/" + username + "/flags/" + warningSlug);
     }
 
     /**
-     * Deletes all warnings related to the given username
-     * 
+     * Deletes all flags related to the given username
+     *
      * @param username
      * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject deleteAll(String username) throws SDKException {
-        return this.fetch("DELETE", "profiles/" + username + "/warnings");
+        return this.fetch("DELETE", "profiles/" + username + "/flags");
     }
 
     /**
-     * Deletes all warnings related to the given username, with filtering
-     * 
+     * Deletes all flags related to the given username, with filtering
+     *
      * @param username
      * @param filter
      * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject deleteAll(String username, Filter filter) throws SDKException {
-        return this.fetch("DELETE", "profiles/" + username + "/warnings", null, filter);
+        return this.fetch("DELETE", "profiles/" + username + "/flags", null, filter);
     }
 }

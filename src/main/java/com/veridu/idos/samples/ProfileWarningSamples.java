@@ -34,7 +34,7 @@ public class ProfileWarningSamples {
         /**
          * Gets the response from the API listing all warnings
          */
-        JsonObject json = idOSAPIFactory.getWarning().listAll(username);
+        JsonObject json = idOSAPIFactory.getFlags().listAll(username);
 
         /**
          * Prints the response
@@ -44,7 +44,7 @@ public class ProfileWarningSamples {
         /**
          * Gets the response from the API trying to create a new warning
          */
-        json = idOSAPIFactory.getWarning().create(username, "middle-name-mismatch", "middle-name");
+        json = idOSAPIFactory.getFlags().create(username, "middle-name-mismatch", "middle-name");
 
         /**
          * Prints the response
@@ -54,7 +54,7 @@ public class ProfileWarningSamples {
         /**
          * Get the response form the API getting one warning
          */
-        json = idOSAPIFactory.getWarning().getOne(username, "middle-name-mismatch");
+        json = idOSAPIFactory.getFlags().getOne(username, "middle-name-mismatch");
 
         /**
          * Prints the array response
@@ -64,7 +64,7 @@ public class ProfileWarningSamples {
         /**
          * Deletes the warning giving the warning slug
          */
-        json = idOSAPIFactory.getWarning().delete(username, "middle-name-mismatch");
+        json = idOSAPIFactory.getFlags().delete(username, "middle-name-mismatch");
 
         /**
          * Prints the status of the request
@@ -74,7 +74,7 @@ public class ProfileWarningSamples {
         /**
          * Deletes all warnings
          */
-        json = idOSAPIFactory.getWarning().deleteAll(username);
+        json = idOSAPIFactory.getFlags().deleteAll(username);
 
         /**
          * Prints the number of deleted warnings

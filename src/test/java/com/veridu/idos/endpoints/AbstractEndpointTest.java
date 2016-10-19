@@ -106,7 +106,7 @@ public class AbstractEndpointTest {
         credentials.put("creentialPrivateKey", "credentialPrivateKey");
 
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(credentials);
-        ProfileAttributes attribute = idOSAPIFactory.getAttribute();
+        ProfileCandidates attribute = idOSAPIFactory.getCandidates();
         Object[] params = { "GET", "profiles/attributes", null };
         assertEquals(Config.BASE_URL + "/profiles/attributes",
                 Whitebox.invokeMethod(attribute, "transformURL", params));
@@ -124,7 +124,7 @@ public class AbstractEndpointTest {
         credentials.put("credentialPublicKey", "credentialPublicKey");
         credentials.put("creentialPrivateKey", "credentialPrivateKey");
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(credentials);
-        ProfileAttributes attribute = idOSAPIFactory.getAttribute();
+        ProfileCandidates attribute = idOSAPIFactory.getCandidates();
         JsonObject data = new JsonObject();
         data.addProperty("response", "response");
         Filter filter = Filter.createFilter();
