@@ -1,78 +1,69 @@
 package com.veridu.idos.samples;
 
+import java.io.UnsupportedEncodingException;
+
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
-
-import java.io.UnsupportedEncodingException;
 
 public class ProfileCandidateSamples {
     public static void main(String[] args) throws SDKException, UnsupportedEncodingException {
         /**
          * JsonObject used to parse the response
-         * 
+         *
          * @see https://github.com/google/gson
          */
-        JsonObject parsed = null;
+        JsonObject json = null;
+
         /**
-         * IdOSAPIFactory is a class that instantiate all endpoints as their
-         * methods (getEndpointName) are called. The endpoints don't need to be
-         * instantiated one by one. You just need to call the
-         * factory.getEndpoint and its going to be instantiated and available to
-         * call its methods. In other words, it means that all endpoints is
-         * going to pass by an IdOSAPIFactory Class, and accessed through this
-         * object
-         * 
+         * To instantiate the idOSAPIFactory object, responsible to call the
+         * endpoints, its necessary to pass throughout the constructor a HashMap
+         * containing all credentials related to the type of authorization
+         * required by the endpoint desired. The method getCredentials() from
+         * the IdOSSamplesHelper Class, gets the credentials from the
+         * settings.Config class and returns the HashMap containing the
+         * credentials.
          */
+
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /* Username necessary for all requests of this endpoint */
         String username = "f67b96dcf96b49d713a520ce9f54053c";
 
         /**
-         * Gets the response from the API listing all attributes
+         * Creates a candidate to be listed in the attributes endpoint. To
+         * create a new candidate, its necessary to call the function create()
+         * passing as parameter the stored username, the attribute name, the
+         * value of the attribute and the support value.
          */
-        JsonObject json = idOSAPIFactory.getCandidates().listAll(username);
+        json = idOSAPIFactory.getCandidates().create(username, "email", "jhon@jhon.com", 0.9);
 
         /**
-         * Prints the response
+         * Checks if the candidates were created before calling other methods
+         * related to the candidates that requires an existing candidate.
          */
-        System.out.println(json);
+        if (json.get("status").getAsBoolean() == true) {
 
-        /**
-         * Gets the response from the API trying to create a new attribute
-         */
-        json = idOSAPIFactory.getCandidates().create(username, "attributeName", "attributeValue", 0.5);
+            /**
+             * Lists all candidates related to the username provided
+             */
+            json = idOSAPIFactory.getCandidates().listAll(username);
 
-        /**
-         * Get the response form the API getting one attribute
-         */
-        json = idOSAPIFactory.getCandidates().getOne(username, "attributeName");
+            /**
+             * Prints api call response to Candidates endpoint
+             */
+            System.out.println(json);
 
-        /**
-         * Prints the array response
-         */
-        System.out.println(json.get("data").getAsJsonObject());
+            /**
+             * Deletes all candidates related to the username provided.
+             */
+            json = idOSAPIFactory.getCandidates().deleteAll(username);
 
-        /**
-         * Deletes the attribute created giving the attribute name
-         */
-        json = idOSAPIFactory.getCandidates().delete(username, "attributeName");
-
-        /**
-         * Prints the status of the request
-         */
-        System.out.println(json.get("status").getAsBoolean());
-
-        /**
-         * Deletes all profile attributes related to the username
-         */
-        json = idOSAPIFactory.getCandidates().deleteAll(username);
-
-        /**
-         * Prints the number of deleted attributes
-         */
-        System.out.println(json.get("deleted").getAsInt());
+            /**
+             * Prints the number of deleted candidates, information received
+             * from the api call response to Candidates endpoint
+             */
+            System.out.println(json.get("deleted").getAsInt());
+        }
     }
-
 }
