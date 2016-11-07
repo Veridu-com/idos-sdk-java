@@ -36,4 +36,9 @@ public class Config {
      */
     public static String credentialPrivateKey = "";
 
+    /**
+     * userName (required in many endpoints)
+     */
+    public static String userName = "";
+
 }
