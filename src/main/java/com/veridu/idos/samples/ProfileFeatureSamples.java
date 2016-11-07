@@ -1,86 +1,120 @@
 package com.veridu.idos.samples;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
-import com.veridu.idos.utils.Filter;
+import com.veridu.idos.settings.Config;
 
 public class ProfileFeatureSamples {
     public static void main(String[] args) throws InvalidToken, SDKException, UnsupportedEncodingException {
         /**
-         * JsonObject used to parse the response
+         * JsonObject used to store the api call response
          * 
          * @see https://github.com/google/gson
          */
-        JsonObject parsed = null;
+        JsonObject json = null;
         /**
-         * IdOSAPIFactory is a class that instantiate all endpoints as their
-         * methods (getEndpointName) are called. The endpoints don't need to be
-         * instantiated one by one. You just need to call the
-         * factory.getEndpoint and its going to be instantiated and available to
-         * call its methods. In other words, it means that all endpoints is
-         * going to pass by an IdOSAPIFactory Class, and accessed through this
-         * object
-         * 
+         * To instantiate the featureIdOSAPIFactory object, responsible to call
+         * the endpoints, its necessary to pass throughout the constructor a
+         * HashMap containing all credentials related to the type of
+         * authorization required by the endpoint desired. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns a HashMap
+         * containing the credentials.
          */
-        IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
-
-        /* Username necessary for all requests of this endpoint */
-        String username = "fd1fde2f31535a266ea7f70fdf224079";
+        IdOSAPIFactory featureIdOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Gets the response from the API listing all features
+         * To create a new source, its necessary to create a new hashMap
+         * containing all the tags the new source will have.
          */
-        Filter filter = Filter.createFilter();
-        filter.setAllPagesTrue();
-        JsonObject json = idOSAPIFactory.getFeature().listAll(username, filter);
+        HashMap<String, String> tags = new HashMap<>();
+        tags.put("tag-1", "value-1");
+        tags.put("tag-2", "value-2");
 
         /**
-         * Prints the response
+         * Creates a new source to be used in the feature endpoint. To create a
+         * new source, its necessary to pass as paremeter the userName, the
+         * source name and the HashMap<String, String> tags, containing all the
+         * tags related to the new source to be created.
          */
-        System.out.println(json);
+        json = featureIdOSAPIFactory.getSource().create(Config.userName, "name-test", tags);
 
         /**
-         * Gets the response from the API trying to create a new feature
+         * Stores the source id of the created source.
          */
-        json = idOSAPIFactory.getFeature().create(username, "Testing", "testing");
+        int sourceId = json.get("data").getAsJsonObject().get("id").getAsInt();
 
         /**
-         * get the featureId
+         * Deletes all features related to the userName provided to avoid
+         * creating a repeated feature.
          */
-        int id = json.get("id").getAsInt();
+        json = featureIdOSAPIFactory.getFeature().deleteAll(Config.userName);
 
         /**
-         * Get the response form the API getting one feature
+         * Creates a new feature. To create a new feature, its necessary to call
+         * the create() method passing as parameter the userName, the source id,
+         * the feature name, the feature value and finally, the type of the
+         * feature value.
          */
-        json = idOSAPIFactory.getFeature().getOne(username, id);
+        json = featureIdOSAPIFactory.getFeature().create(Config.userName, "Testing", "testing");
 
         /**
-         * Prints the array response
+         * Checks if the feature was created before calling other methods
+         * related to the features endpoint that requires an existing feature.
          */
-        System.out.println(json.get("data").getAsJsonObject());
+        if (json.get("status").getAsBoolean() == true) {
+            /**
+             * Lists all features related to the Config.userName provided
+             */
+            json = featureIdOSAPIFactory.getFeature().listAll(Config.userName);
 
-        /**
-         * Updates the feature giving the feature-slug
-         */
-        json = idOSAPIFactory.getFeature().update(username, id, 2, "new value");
+            /**
+             * Prints api call response to Features endpoint
+             */
+            System.out.println(json.get("data"));
 
-        /**
-         * Prints the response response
-         */
-        System.out.println(json);
+            /**
+             * Stores the feature id of the feature created
+             */
+            int featureId = json.get("data").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsInt();
 
-        /**
-         * Deletes the credential feature giving the feature name
-         */
-        json = idOSAPIFactory.getFeature().delete(username, id);
+            /**
+             * Retrieves information of the feature created passing the stored
+             * feature id
+             */
+            json = featureIdOSAPIFactory.getFeature().getOne(Config.userName, featureId);
 
-        /**
-         * Prints the status of the request
-         */
-        System.out.println(json.get("status").getAsBoolean());
+            /**
+             * Prints api call response to Features endpoint
+             */
+            System.out.println(json);
+
+            /**
+             * Updates the feature created passing as parameter the userName,
+             * feature id, the new feature's value and the type of the new
+             * value.
+             */
+            json = featureIdOSAPIFactory.getFeature().update(Config.userName, featureId, 2, "new value");
+
+            /**
+             * Prints api call response to Features endpoint
+             */
+            System.out.println(json.get("data"));
+
+            /**
+             * Deletes the updated feature passing the feature id stored
+             */
+            json = featureIdOSAPIFactory.getFeature().delete(Config.userName, featureId);
+
+            /**
+             * Prints the status of the api call response.
+             */
+            System.out.println(json.get("status").getAsBoolean());
+        }
     }
 }
