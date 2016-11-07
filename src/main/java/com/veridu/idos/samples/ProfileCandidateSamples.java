@@ -25,7 +25,6 @@ public class ProfileCandidateSamples {
          * settings.Config class and returns the HashMap containing the
          * credentials.
          */
-
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**

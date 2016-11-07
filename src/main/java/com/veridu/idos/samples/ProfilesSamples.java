@@ -7,30 +7,31 @@ import com.veridu.idos.exceptions.SDKException;
 public class ProfilesSamples {
     public static void main(String[] args) throws SDKException {
         /**
-         * JsonObject used to parse the response
-         * 
+         * JsonObject used to store the api call response
+         *
          * @see https://github.com/google/gson
          */
-        JsonObject parsed = null;
+        JsonObject json = null;
+
         /**
-         * IdOSAPIFactory is a class that instantiate all endpoints as their
-         * methods (getEndpointName) are called. The endpoints don't need to be
-         * instantiated one by one. You just need to call the
-         * factory.getEndpoint and its going to be instantiated and available to
-         * call its methods. In other words, it means that all endpoints is
-         * going to pass by an IdOSAPIFactory Class, and accessed through this
-         * object
-         * 
+         * To instantiate the idOSAPIFactory object, responsible to call the
+         * endpoints, its necessary to pass throughout the constructor a HashMap
+         * containing all credentials related to the type of authorization
+         * required by the endpoint desired. The method getCredentials() from
+         * the IdOSSamplesHelper Class, gets the credentials from the
+         * settings.Config class and returns the HashMap containing the
+         * credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Gets the response from the API listing all profiles
+         * Lists all profiles
          */
-        JsonObject json = idOSAPIFactory.getProfile().listAll();
+        json = idOSAPIFactory.getProfile().listAll();
 
         /**
-         * Prints each item of the list
+         * Prints each item of the list of profiles, information coming from the
+         * api call response to Profiles Endpoint.
          */
         for (int i = 0; i < json.get("data").getAsJsonArray().size(); i++) {
             System.out.println(json.get("data").getAsJsonArray().get(i).getAsJsonObject());
