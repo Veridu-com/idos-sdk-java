@@ -3,51 +3,56 @@ package com.veridu.idos.samples;
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
+import com.veridu.idos.settings.Config;
 
 public class ProfileProcessSamples {
     public static void main(String[] args) throws SDKException {
         /**
-         * JsonObject used to parse the response
-         * 
+         * JsonObject used to store the api call response
+         *
          * @see https://github.com/google/gson
          */
-        JsonObject parsed = null;
+        JsonObject json = null;
+
         /**
-         * IdOSAPIFactory is a class that instantiate all endpoints as their
-         * methods (getEndpointName) are called. The endpoints don't need to be
-         * instantiated one by one. You just need to call the
-         * factory.getEndpoint and its going to be instantiated and available to
-         * call its methods. In other words, it means that all endpoints is
-         * going to pass by an CredentialFactory Class, and accessed through
-         * this object
-         * 
+         * To instantiate the idOSAPIFactory object, responsible to call the
+         * endpoints, its necessary to pass throughout the constructor a HashMap
+         * containing all credentials related to the type of authorization
+         * required by the endpoint desired. The method getCredentials() from
+         * the IdOSSamplesHelper Class, gets the credentials from the
+         * settings.Config class and returns the HashMap containing the
+         * credentials.
          */
-
-        /* Username necessary for all requests of this endpoint */
-        String username = "f67b96dcf96b49d713a520ce9f54053c";
-
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Gets the response from the API listing all processes
+         * Lists all processes related to the provided userName.
          */
-        JsonObject json = idOSAPIFactory.getProcess().listAll(username);
+        json = idOSAPIFactory.getProcess().listAll(Config.userName);
 
         /**
-         * Prints the response
+         * Prints api call response to Processes endpoint
          */
-        System.out.println(json.get("data").getAsJsonArray());
-
-        int id = json.get("data").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsInt();
-
-        /**
-         * Get the response form the API getting one process
-         */
-        json = idOSAPIFactory.getProcess().getOne(username, id);
+        System.out.println("List All: ");
+        for (int i = 0; i < json.get("data").getAsJsonArray().size(); i++) {
+            System.out.println(json.get("data").getAsJsonArray().get(i));
+        }
 
         /**
-         * Prints the array response
+         * Stores the process id of the first index of the api call response.
          */
+        int processId = json.get("data").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsInt();
+
+        /**
+         * Retrieves information about the process related to the stored
+         * processId.
+         */
+        json = idOSAPIFactory.getProcess().getOne(Config.userName, processId);
+
+        /**
+         * Prints api call response to Processes endpoint
+         */
+        System.out.println("Get One: ");
         System.out.println(json.get("data").getAsJsonObject());
     }
 }

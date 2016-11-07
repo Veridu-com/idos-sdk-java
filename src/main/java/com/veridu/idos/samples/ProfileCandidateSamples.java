@@ -37,7 +37,7 @@ public class ProfileCandidateSamples {
         json = idOSAPIFactory.getCandidates().create(Config.userName, "email", "jhon@jhon.com", 0.9);
 
         /**
-         * Checks if the candidates were created before calling other methods
+         * Checks if the candidate was created before calling other methods
          * related to the candidates that requires an existing candidate.
          */
         if (json.get("status").getAsBoolean() == true) {

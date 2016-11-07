@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
+import com.veridu.idos.settings.Config;
 
 public class ProfileRawSamples {
 
@@ -26,48 +27,53 @@ public class ProfileRawSamples {
          * object
          * 
          */
-        IdOSAPIFactory factory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
-
-        /* Username necessary for all requests of this endpoint */
-        String username = "fd1fde2f31535a266ea7f70fdf224079";
+        IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Lists all sources to get the id of the first one
+         * To create a new raw data, its necessary to provide a source id. To
+         * create a new source, its necessary to create a new hashMap containing
+         * all the tags the new source will have.
          */
-        json = factory.getSource().listAll(username);
-
-        int sourceId = json.get("data").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsInt();
-        System.out.println(sourceId);
+        HashMap<String, String> tags = new HashMap<>();
+        tags.put("tag-1", "value-1");
+        tags.put("tag-2", "value-2");
 
         /**
-         * Prints the response
+         * Creates a new source to be used in the feature endpoint. To create a
+         * new source, its necessary to pass as paremeter the userName, the
+         * source name and the HashMap<String, String> tags, containing all the
+         * tags related to the new source to be created.
          */
-        System.out.println(json);
+        json = idOSAPIFactory.getSource().create(Config.userName, "name-test", tags);
 
         /**
-         * Gets the response from the API trying to create a new raw
+         * Stores the source id of the created source
          */
+        int sourceId = json.get("data").getAsJsonObject().get("id").getAsInt();
 
+        /**
+         * Creates a new raw data
+         */
         HashMap<String, String> data = new HashMap<>();
         data.put("value", "test");
-
-        json = factory.getRaw().create(username, sourceId, "collection-test", data);
-
-        /**
-         * Prints the array response
-         */
-        System.out.println(json.get("data").getAsJsonObject());
+        json = idOSAPIFactory.getRaw().create(Config.userName, sourceId, "collection-test", data);
 
         /**
-         * Gets the response from the API listing all raw
+         * Checks if the raw data was created before calling other methods
+         * related to the raw endpoint that requires an existing raw data.
          */
-        json = factory.getRaw().listAll(username);
+        if (json.get("status").getAsBoolean() == true) {
+            /**
+             * Lists all raw related to the provided userName
+             */
+            json = idOSAPIFactory.getRaw().listAll(Config.userName);
 
-        /**
-         * Prints the api response
-         */
-        System.out.println(json);
-
+            /**
+             * Prints the api response to Raw Endpoint
+             */
+            for (int i = 0; i < json.get("data").getAsJsonArray().size(); i++) {
+                System.out.println(json.get("data").getAsJsonArray().get(i).getAsJsonObject());
+            }
+        }
     }
-
 }
