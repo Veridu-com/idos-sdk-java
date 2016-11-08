@@ -78,6 +78,23 @@ public class ProfileSources extends AbstractEndpoint {
     }
 
     /**
+     * Updates a source giving its sourceId
+     * 
+     * @param username
+     * @param sourceId
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject update(String username, int sourceId, HashMap<String, String> tags) throws SDKException {
+        JsonObject jsonTags = new JsonObject();
+        for (String key : tags.keySet())
+            jsonTags.addProperty(key, tags.get(key));
+        JsonObject data = new JsonObject();
+        data.add("tags", jsonTags);
+        return this.fetch("PATCH", "profiles/" + username + "/sources/" + sourceId, data);
+    }
+
+    /**
      * Deletes a source given the source name
      * 
      * @param username

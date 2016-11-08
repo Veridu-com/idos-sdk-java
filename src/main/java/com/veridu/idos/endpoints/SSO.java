@@ -35,7 +35,7 @@ public class SSO extends AbstractEndpoint {
     }
 
     /**
-     * Creates a new SSO provider
+     * Creates a new SSO provider(OAuth2)
      * 
      * @param providerName
      * @param credentialPublicKey
@@ -49,6 +49,26 @@ public class SSO extends AbstractEndpoint {
         data.addProperty("credential", credentialPublicKey);
         data.addProperty("access_token", accessToken);
 
+        return this.fetch("POST", "sso", data);
+    }
+
+    /**
+     * Creates a new SSO provider(OAuth1)
+     * 
+     * @param providerName
+     * @param credentialPublicKey
+     * @param accessToken
+     * @param tokenSecret
+     * @return JsonObject
+     * @throws SDKException
+     */
+    public JsonObject create(String providerName, String credentialPublicKey, String accessToken, String tokenSecret)
+            throws SDKException {
+        JsonObject data = new JsonObject();
+        data.addProperty("provider", providerName);
+        data.addProperty("credential", credentialPublicKey);
+        data.addProperty("access_token", accessToken);
+        data.addProperty("token_secret", tokenSecret);
         return this.fetch("POST", "sso", data);
     }
 

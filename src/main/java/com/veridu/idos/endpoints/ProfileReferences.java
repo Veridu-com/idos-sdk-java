@@ -6,8 +6,8 @@ import java.util.HashMap;
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
-import com.veridu.idos.utils.IdOSAuthType;
 import com.veridu.idos.utils.Filter;
+import com.veridu.idos.utils.IdOSAuthType;
 
 /**
  * Profile References Endpoint Class
@@ -74,6 +74,21 @@ public class ProfileReferences extends AbstractEndpoint {
         data.addProperty("name", attributeName);
         data.addProperty("value", attributeValue);
         return this.fetch("POST", "profiles/" + username + "/references", data);
+    }
+
+    /**
+     * Updates a reference given the attribute name
+     * 
+     * @param username
+     * @param attributeName
+     * @param attributeValue
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject update(String username, String attributeName, String attributeValue) throws SDKException {
+        JsonObject data = new JsonObject();
+        data.addProperty("value", attributeValue);
+        return this.fetch("PATCH", "profiles/" + username + "/references/" + attributeName, data);
     }
 
     /**
