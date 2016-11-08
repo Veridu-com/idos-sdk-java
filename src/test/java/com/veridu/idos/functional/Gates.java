@@ -27,6 +27,8 @@ public class Gates extends MainTestSetup {
 
     @Test
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
+        // Deletes all gates to avoid create an existing gate
+        this.gate.deleteAll(userName);
         response = this.gate.create(userName, name, false);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
@@ -35,7 +37,22 @@ public class Gates extends MainTestSetup {
     }
 
     @Test
-    public void test2GetOne() throws SDKException {
+    public void test2DeleteOne() throws SDKException {
+        JsonObject json = this.gate.delete(userName, name.toLowerCase());
+        assertTrue(json.get("status").getAsBoolean());
+    }
+
+    @Test
+    public void test3UpsertOne() throws UnsupportedEncodingException, SDKException {
+        response = this.gate.upsert(userName, name, false);
+        JsonObject data = getResponseData(response);
+        assertTrue(isResponseOk(response));
+        assertEquals(name, data.get("name").getAsString());
+        assertEquals("false", data.get("pass").getAsString());
+    }
+
+    @Test
+    public void test4GetOne() throws SDKException {
         response = this.gate.getOne(userName, name);
         assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonObject();
@@ -44,7 +61,7 @@ public class Gates extends MainTestSetup {
     }
 
     @Test
-    public void test3UpdateOne() throws SDKException, UnsupportedEncodingException {
+    public void test5UpdateOne() throws SDKException, UnsupportedEncodingException {
         response = this.gate.update(userName, name, true);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
@@ -53,7 +70,7 @@ public class Gates extends MainTestSetup {
     }
 
     @Test
-    public void test4ListAll() throws SDKException {
+    public void test6ListAll() throws SDKException {
         JsonObject json = this.gate.listAll(userName);
         JsonArray array = json.get("data").getAsJsonArray();
         JsonObject data = array.get(0).getAsJsonObject();
@@ -63,20 +80,14 @@ public class Gates extends MainTestSetup {
     }
 
     @Test
-    public void test5DeleteOne() throws SDKException {
-        JsonObject json = this.gate.delete(userName, name.toLowerCase());
-        assertTrue(json.get("status").getAsBoolean());
-    }
+    public void test7DeleteAll() throws SDKException, UnsupportedEncodingException {
 
-    @Test
-    public void test6DeleteAll() throws SDKException, UnsupportedEncodingException {
-
-        // create first attr
-        response = this.gate.create(userName, name, false);
+        // create first gate
+        response = this.gate.upsert(userName, name, false);
         assertTrue(response.get("status").getAsBoolean());
 
-        // create second attr
-        response = this.gate.create(userName, "another-one", true);
+        // create second gate
+        response = this.gate.upsert(userName, "another-one", true);
         assertTrue(response.get("status").getAsBoolean());
 
         // test they are there

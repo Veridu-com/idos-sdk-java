@@ -1,10 +1,22 @@
 package com.veridu.idos;
 
-import com.veridu.idos.endpoints.*;
-import com.veridu.idos.exceptions.InvalidToken;
-
 import java.io.Serializable;
 import java.util.HashMap;
+
+import com.veridu.idos.endpoints.ProfileAttributes;
+import com.veridu.idos.endpoints.ProfileCandidates;
+import com.veridu.idos.endpoints.ProfileFeatures;
+import com.veridu.idos.endpoints.ProfileFlags;
+import com.veridu.idos.endpoints.ProfileGates;
+import com.veridu.idos.endpoints.ProfileProcesses;
+import com.veridu.idos.endpoints.ProfileRaw;
+import com.veridu.idos.endpoints.ProfileReferences;
+import com.veridu.idos.endpoints.ProfileScores;
+import com.veridu.idos.endpoints.ProfileSources;
+import com.veridu.idos.endpoints.ProfileTasks;
+import com.veridu.idos.endpoints.Profiles;
+import com.veridu.idos.endpoints.SSO;
+import com.veridu.idos.exceptions.InvalidToken;
 
 /**
  * CredentialFactory Endpoint creates all Endpoints
@@ -48,6 +60,11 @@ public class IdOSAPIFactory implements Serializable {
     private ProfileCandidates candidates;
 
     /**
+     * ProfileAttributes Endpoint object
+     */
+    private ProfileAttributes attributes;
+
+    /**
      * ProfileScores Endpoint object
      */
     private ProfileScores score;
@@ -87,9 +104,9 @@ public class IdOSAPIFactory implements Serializable {
     }
 
     /**
-     * Instantiates Attribute endpoint
+     * Instantiates Candidate endpoint.
      *
-     * @return ProfileAttribute instance
+     * @return ProfileCandidate instance
      * @throws InvalidToken
      */
     public ProfileCandidates getCandidates() throws InvalidToken {
@@ -99,7 +116,19 @@ public class IdOSAPIFactory implements Serializable {
     }
 
     /**
-     * Instantiates Feature endpoint
+     * Instantiates Attribute endpoint.
+     *
+     * @return ProfileAttribute instance
+     * @throws InvalidToken
+     */
+    public ProfileAttributes getAttributes() throws InvalidToken {
+        if (!(this.attributes instanceof ProfileAttributes))
+            this.attributes = new ProfileAttributes(this.credentials);
+        return this.attributes;
+    }
+
+    /**
+     * Instantiates Feature endpoint.
      *
      * @return ProfileFeatures instance
      * @throws InvalidToken

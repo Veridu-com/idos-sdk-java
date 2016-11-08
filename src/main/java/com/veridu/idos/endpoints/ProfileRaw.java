@@ -116,4 +116,15 @@ public class ProfileRaw extends AbstractEndpoint {
         data.add("data", array);
         return this.fetch("PATCH", "profiles/" + username + "/raw/" + collection, data);
     }
+
+    /**
+     * Deletes all raw data related to the username provided
+     * 
+     * @param username
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject deleteAll(String username) throws SDKException {
+        return this.fetch("DELETE", "profiles/" + username + "/raw");
+    }
 }

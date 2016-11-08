@@ -43,7 +43,24 @@ public class Features extends MainTestSetup {
     }
 
     @Test
-    public void test2GetOne() throws SDKException {
+    public void test2DeleteOne() throws SDKException {
+        JsonObject json = this.feature.delete(userName, this.id);
+        assertTrue(json.get("status").getAsBoolean());
+    }
+
+    @Test
+    public void test3UpsertOne() throws UnsupportedEncodingException, SDKException {
+        response = this.feature.upsert(userName, name, value);
+        JsonObject data = getResponseData(response);
+        assertTrue(isResponseOk(response));
+        assertEquals(name, data.get("name").getAsString());
+        assertEquals(value, data.get("value").getAsString());
+        assertEquals("string", data.get("type").getAsString());
+        assertTrue(data.has("id"));
+    }
+
+    @Test
+    public void test4GetOne() throws SDKException {
         response = this.feature.getOne(userName, this.id);
         assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonObject();
@@ -54,7 +71,7 @@ public class Features extends MainTestSetup {
     }
 
     @Test
-    public void test3ListAll() throws SDKException {
+    public void test5ListAll() throws SDKException {
         JsonObject json = this.feature.listAll(userName);
         JsonArray array = json.get("data").getAsJsonArray();
         JsonObject data = array.get(0).getAsJsonObject();
@@ -65,19 +82,13 @@ public class Features extends MainTestSetup {
     }
 
     @Test
-    public void test4DeleteOne() throws SDKException {
-        JsonObject json = this.feature.delete(userName, this.id);
-        assertTrue(json.get("status").getAsBoolean());
-    }
+    public void test6DeleteAll() throws SDKException, UnsupportedEncodingException {
 
-    @Test
-    public void test5DeleteAll() throws SDKException, UnsupportedEncodingException {
-
-        // create first att
+        // create first feature
         response = this.feature.create(userName, name, value);
         assertTrue(response.get("status").getAsBoolean());
 
-        // create second att
+        // create second feature
         response = this.feature.create(userName, "another-one", "123+-@áéã");
         assertTrue(response.get("status").getAsBoolean());
 
@@ -94,7 +105,7 @@ public class Features extends MainTestSetup {
     }
 
     @Test
-    public void test6Upsert() throws SDKException, UnsupportedEncodingException {
+    public void test7Upsert() throws SDKException, UnsupportedEncodingException {
         response = this.feature.upsert(userName, name, value);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));

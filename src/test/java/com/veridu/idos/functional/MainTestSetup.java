@@ -22,7 +22,7 @@ public class MainTestSetup {
         credentials.put("credentialPublicKey", Config.credentialPublicKey);
         credentials.put("servicePrivateKey", Config.servicePrivateKey);
         credentials.put("servicePublicKey", Config.servicePublicKey);
-        credentials.put("username", "");
+        credentials.put("username", Config.userName);
 
         factory = new IdOSAPIFactory(getCredentials());
         userName = getCredentials().get("username");
