@@ -1,24 +1,24 @@
 package com.veridu.idos.test.functional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.UnsupportedEncodingException;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.veridu.idos.endpoints.ProfileGates;
+import com.veridu.idos.exceptions.SDKException;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.veridu.idos.endpoints.ProfileGates;
-import com.veridu.idos.exceptions.SDKException;
+import java.io.UnsupportedEncodingException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Gates extends MainTestSetup {
     private ProfileGates gate;
-    private String name = "gate-test";
+    private String name = "gate";
+    private String slug = "gate-confidence-level";
 
     @Before
     public void setUp() throws Exception {
@@ -39,7 +39,7 @@ public class Gates extends MainTestSetup {
 
     @Test
     public void test2DeleteOne() throws SDKException {
-        JsonObject json = this.gate.delete(userName, name.toLowerCase());
+        JsonObject json = this.gate.delete(userName, slug);
         assertTrue(json.get("status").getAsBoolean());
     }
 
@@ -55,7 +55,7 @@ public class Gates extends MainTestSetup {
 
     @Test
     public void test4GetOne() throws SDKException {
-        response = this.gate.getOne(userName, name);
+        response = this.gate.getOne(userName, slug);
         assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonObject();
         assertEquals(name, data.get("name").getAsString());
@@ -64,7 +64,7 @@ public class Gates extends MainTestSetup {
 
     @Test
     public void test5UpdateOne() throws SDKException, UnsupportedEncodingException {
-        response = this.gate.update(userName, name, true, "confidence_level");
+        response = this.gate.update(userName, slug, true);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());

@@ -1,10 +1,10 @@
 package com.veridu.idos.endpoints;
 
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.IdOSAuthType;
+
+import java.util.HashMap;
 
 /**
  * Profile Tasks Endpoint Class
@@ -113,11 +113,10 @@ public class ProfileTasks extends AbstractEndpoint {
 
     /**
      * Updates a task given its taksId and processId
-     * 
+     *
      * @param username
      * @param processId
      * @param taskId
-     * @param name
      * @param running
      * @param success
      * @param message
@@ -135,14 +134,13 @@ public class ProfileTasks extends AbstractEndpoint {
 
     /**
      * Updates a task given its taksId and processId
-     * 
+     *
      * @param username
      * @param processId
      * @param taskId
-     * @param name
      * @param running
      * @param success
-     * 
+     *
      * @return JsonObject response
      * @throws SDKException
      */
@@ -156,13 +154,12 @@ public class ProfileTasks extends AbstractEndpoint {
 
     /**
      * Updates a task given its taksId and processId
-     * 
+     *
      * @param username
      * @param processId
      * @param taskId
-     * @param name
      * @param running
-     * 
+     *
      * @return JsonObject response
      * @throws SDKException
      */

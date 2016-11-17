@@ -1,12 +1,12 @@
 package com.veridu.idos.endpoints;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 /**
  * Profile Gates Endpoint Class
@@ -143,25 +143,6 @@ public class ProfileGates extends AbstractEndpoint {
             throws SDKException, UnsupportedEncodingException {
         JsonObject data = new JsonObject();
         data.addProperty("pass", pass);
-        return this.fetch("PATCH", "profiles/" + username + "/gates/" + gateName, data);
-    }
-
-    /**
-     * Updates a gate given its gate name
-     *
-     * @param username
-     * @param gateName
-     * @param pass
-     * @param confidence_level
-     * @return JsonObject response
-     * @throws SDKException
-     * @throws UnsupportedEncodingException
-     */
-    public JsonObject update(String username, String gateName, boolean pass, String confidenceLevel)
-            throws SDKException, UnsupportedEncodingException {
-        JsonObject data = new JsonObject();
-        data.addProperty("pass", pass);
-        data.addProperty("confidence_level", confidenceLevel);
         return this.fetch("PATCH", "profiles/" + username + "/gates/" + gateName, data);
     }
 

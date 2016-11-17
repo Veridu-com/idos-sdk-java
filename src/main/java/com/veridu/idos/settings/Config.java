@@ -7,16 +7,6 @@ public class Config {
     public static String BASE_URL = "https://api.idos.io/1.0";
 
     /**
-     * Company's private key
-     */
-    public static String companyPrivateKey = "";
-
-    /**
-     * Company's public key
-     */
-    public static String companyPublicKey = "";
-
-    /**
      * Service's public key
      */
     public static String servicePublicKey = "";
