@@ -17,29 +17,19 @@ public class SSOSamples {
         JsonObject json = null;
 
         /**
-         * To instantiate the idOSAPIFactory object, responsible to call the
-         * endpoints, its necessary to pass throughout the constructor a HashMap
-         * containing all credentials related to the type of authorization
-         * required by the endpoint desired. The method getCredentials() from
-         * the IdOSSamplesHelper Class, gets the credentials from the
-         * settings.Config class and returns the HashMap containing the
-         * credentials.
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Lists all available providers for the SSO.
-         */
-        json = idOSAPIFactory.getSSO().listAll();
-
-        /**
-         * Prints api call response to SSO endpoint;
-         */
-        System.out.println(json.get("data").getAsJsonArray());
-
-        /**
-         * Retrieves data from one provider, passing the name of the provider.
-         * In this example, twitter.
+         * Checks if a provider is enabled whose name needs to be provided as a
+         * parameter
          */
         json = idOSAPIFactory.getSSO().getOne("twitter");
 
@@ -49,7 +39,8 @@ public class SSOSamples {
         System.out.println(json.get("data").getAsJsonObject());
 
         /**
-         * Creates an OAuth2 type sso.
+         * Creates an OAuth2 type SSO, passing as parameter the name of the
+         * provider, the credential public key and the user access token.
          *
          * Note: You should replace "accessToken" with a valid Facebook access
          * token.
@@ -62,8 +53,9 @@ public class SSOSamples {
         System.out.println(json.get("data").getAsJsonObject());
 
         /**
-         * Creates an OAuth1 type SSO, passing the name of the provider, the
-         * credential public key, the user access token and the token secret.
+         * Creates an OAuth1 type SSO, passing as parameter the name of the
+         * provider, the credential public key, the user access token and the
+         * token secret.
          *
          * Note: You should replace "accessToken" and "tokenSecret" with a valid
          * Twitter access token / token secret.

@@ -47,18 +47,6 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Retrieves an candidate given its attribute name
-     *
-     * @param username
-     * @param attributeName
-     * @return JsonObject response
-     * @throws SDKException
-     */
-    public JsonObject getOne(String username, String attributeName) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/candidates/" + attributeName);
-    }
-
-    /**
      * Creates a new candidate passing the name of the attribute
      *
      * @param username
@@ -76,18 +64,6 @@ public class ProfileCandidates extends AbstractEndpoint {
         data.addProperty("value", attributeValue);
         data.addProperty("support", attributeSupport);
         return this.fetch("POST", "profiles/" + username + "/candidates", data);
-    }
-
-    /**
-     * Deletes an candidate given its attributeName
-     *
-     * @param username
-     * @param attributeName
-     * @return JsonObject response
-     * @throws SDKException
-     */
-    public JsonObject delete(String username, String attributeName) throws SDKException {
-        return this.fetch("DELETE", "profiles/" + username + "/candidates/" + attributeName);
     }
 
     /**

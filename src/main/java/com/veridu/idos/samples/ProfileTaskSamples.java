@@ -7,7 +7,6 @@ import com.veridu.idos.settings.Config;
 
 public class ProfileTaskSamples {
     public static void main(String[] args) throws SDKException {
-
         /**
          * JsonObject used to store the api call response
          *
@@ -16,18 +15,18 @@ public class ProfileTaskSamples {
         JsonObject json = null;
 
         /**
-         * To instantiate the idOSAPIFactory object, responsible to call the
-         * endpoints, its necessary to pass throughout the constructor a HashMap
-         * containing all credentials related to the type of authorization
-         * required by the endpoint desired. The method getCredentials() from
-         * the IdOSSamplesHelper Class, gets the credentials from the
-         * settings.Config class and returns the HashMap containing the
-         * credentials.
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * To start making requests to the Tasks endpoint, its necessary to
+         * To start making requests to the Tasks endpoint, it is necessary to
          * provide the process id, and the tasks is going to be related related
          * to this process id. Therefore, in this sample, it lists all processes
          * related to the provided userName.
@@ -40,10 +39,10 @@ public class ProfileTaskSamples {
         int processId = json.get("data").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsInt();
 
         /**
-         * Creates a new task. To create a new task, its necessary to call the
-         * create() method passing as parameter the userName, the task name, the
-         * task event, the boolean value for running status, the boolean value
-         * for the success status and, finally, the message. Note: The message
+         * Creates a new task. To create a new task, it is necessary to call the
+         * create() method passing the userName, the task name, the task event,
+         * the boolean value for running status, the boolean value for the
+         * success status and the message as a parameter. Note: The message
          * parameter and the boolean value for the success status are optional.
          */
         json = idOSAPIFactory.getTask().create(Config.userName, processId, "Testing", "testing", true, false,
@@ -51,7 +50,7 @@ public class ProfileTaskSamples {
 
         /**
          * Checks if the task was created before calling other methods related
-         * to the tasks endpoint that requires an existing task.
+         * to the tasks endpoint (requires an existing task).
          */
         if (json.get("status").getAsBoolean() == true) {
             /**
@@ -60,10 +59,10 @@ public class ProfileTaskSamples {
             int taskId = json.get("data").getAsJsonObject().get("id").getAsInt();
 
             /**
-             * Updates the task created passing as parameter the stored taskId,
-             * task name, the task event, the boolean value for running status,
-             * the boolean value for the success status and, finally, the
-             * message(optional).
+             * Updates the task created passing the stored taskId, task name,
+             * the task event, the boolean value for running status, the boolean
+             * value for the success status and the message(optional) as a
+             * parameter.
              */
             json = idOSAPIFactory.getTask().update(Config.userName, processId, taskId, true, true);
 

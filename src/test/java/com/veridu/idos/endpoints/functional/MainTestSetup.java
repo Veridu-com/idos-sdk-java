@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.endpoints.functional;
 
 import java.util.HashMap;
 

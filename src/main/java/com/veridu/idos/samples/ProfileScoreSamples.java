@@ -18,22 +18,22 @@ public class ProfileScoreSamples {
         JsonObject json = null;
 
         /**
-         * To instantiate the idOSAPIFactory object, responsible to call the
-         * endpoints, its necessary to pass throughout the constructor a HashMap
-         * containing all credentials related to the type of authorization
-         * required by the endpoint desired. The method getCredentials() from
-         * the IdOSSamplesHelper Class, gets the credentials from the
-         * settings.Config class and returns the HashMap containing the
-         * credentials.
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
          * Creates or updates a score. The upsert() method checks if the score
          * already exists on the database, if so, it updates it. Otherwise, it
-         * creates a new score. To create or update a score is necessary to call
-         * the method upsert() passing as parameter the userName, the attribute
-         * name, the score name and the score value.
+         * creates a new score. To create or update a score it is necessary to
+         * call the method upsert() passing the userName, the attribute name,
+         * the score name and the score value as a parameter.
          */
         json = idOSAPIFactory.getScore().upsert(Config.userName, "lastName", "Doe", 0.6);
 
@@ -57,8 +57,8 @@ public class ProfileScoreSamples {
 
             /**
              * Retrieves information of the score created/updated giving the
-             * userName and the score's name as parameter to the getOne()
-             * method.
+             * userName and the score's name to the getOne() method as a
+             * parameter.
              */
             json = idOSAPIFactory.getScore().getOne(Config.userName, "lastName");
 
@@ -68,8 +68,8 @@ public class ProfileScoreSamples {
             System.out.println(json.get("data").getAsJsonObject());
 
             /**
-             * Deletes the score created passing as parameter the username and
-             * the score name
+             * Deletes the score created passing the username and the score name
+             * as a parameter.
              */
             json = idOSAPIFactory.getScore().delete(Config.userName, "lastName");
 

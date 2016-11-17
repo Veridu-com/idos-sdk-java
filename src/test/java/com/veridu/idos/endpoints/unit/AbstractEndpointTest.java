@@ -1,10 +1,14 @@
-package com.veridu.idos.endpoints;
+package com.veridu.idos.endpoints.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import com.veridu.idos.endpoints.AbstractEndpoint;
+import com.veridu.idos.endpoints.ProfileCandidates;
+import com.veridu.idos.endpoints.ProfileTasks;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -139,6 +143,9 @@ public class AbstractEndpointTest {
         AbstractEndpoint endpoint = Mockito.mock(AbstractEndpoint.class, Mockito.CALLS_REAL_METHODS);
         JsonObject json = new JsonObject();
         json.addProperty("status", true);
+        Method convertToJson = endpoint.getClass().getDeclaredMethod("convertToJson");
+        convertToJson.setAccessible(true);
+        convertToJson.invoke(endpoint, null);
         assertEquals(json, endpoint.convertToJson("{\"status\":true}"));
     }
 }

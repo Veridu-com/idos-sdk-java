@@ -14,13 +14,13 @@ public class ProfilesSamples {
         JsonObject json = null;
 
         /**
-         * To instantiate the idOSAPIFactory object, responsible to call the
-         * endpoints, its necessary to pass throughout the constructor a HashMap
-         * containing all credentials related to the type of authorization
-         * required by the endpoint desired. The method getCredentials() from
-         * the IdOSSamplesHelper Class, gets the credentials from the
-         * settings.Config class and returns the HashMap containing the
-         * credentials.
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 

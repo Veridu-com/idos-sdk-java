@@ -1,7 +1,5 @@
 package com.veridu.idos.endpoints;
 
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
@@ -20,8 +18,8 @@ public class SSO extends AbstractEndpoint {
      * @param credentials
      * @throws InvalidToken
      */
-    public SSO(HashMap<String, String> credentials) throws InvalidToken {
-        super(credentials, IdOSAuthType.NONE);
+    public SSO() throws InvalidToken {
+        super(null, IdOSAuthType.NONE);
     }
 
     /**

@@ -18,20 +18,20 @@ public class ProfileReferenceSamples {
         JsonObject json = null;
 
         /**
-         * To instantiate the idOSAPIFactory object, responsible to call the
-         * endpoints, its necessary to pass throughout the constructor a HashMap
-         * containing all credentials related to the type of authorization
-         * required by the endpoint desired. The method getCredentials() from
-         * the IdOSSamplesHelper Class, gets the credentials from the
-         * settings.Config class and returns the HashMap containing the
-         * credentials.
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Creates a new reference. To create a new reference is necessary to
-         * call the createNew() method passing as parameter: the userName, the
-         * reference name and the reference value.
+         * Creates a new reference. To create a new reference it is necessary to
+         * call the createNew() method passing the userName, the reference name
+         * and the reference value as a parameter.
          */
         json = idOSAPIFactory.getReference().create(Config.userName, "reference", "value");
 
@@ -49,14 +49,14 @@ public class ProfileReferenceSamples {
             }
 
             /**
-             * Updates the created reference passing as parameter the
-             * reference's name and the new reference value.
+             * Updates the created reference passing the reference's name and
+             * the new reference value as a parameter.
              */
             json = idOSAPIFactory.getReference().update(Config.userName, "reference", "new-value");
 
             /**
-             * Retrieves information about one reference, if status of the last
-             * request is true.
+             * Retrieves information about one reference, if the status of the
+             * last request is true.
              */
             if (json.get("status").getAsBoolean() == true) {
                 json = idOSAPIFactory.getReference().getOne(Config.userName, "reference");

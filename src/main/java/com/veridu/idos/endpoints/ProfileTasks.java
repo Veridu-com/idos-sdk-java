@@ -154,4 +154,22 @@ public class ProfileTasks extends AbstractEndpoint {
         data.addProperty("success", success);
         return this.fetch("PATCH", "profiles/" + username + "/processes/" + processId + "/tasks/" + taskId, data);
     }
+
+    /**
+     * Updates a task given its taksId and processId
+     * 
+     * @param username
+     * @param processId
+     * @param taskId
+     * @param name
+     * @param running
+     * 
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject update(String username, int processId, int taskId, boolean running) throws SDKException {
+        JsonObject data = new JsonObject();
+        data.addProperty("running", running);
+        return this.fetch("PATCH", "profiles/" + username + "/processes/" + processId + "/tasks/" + taskId, data);
+    }
 }

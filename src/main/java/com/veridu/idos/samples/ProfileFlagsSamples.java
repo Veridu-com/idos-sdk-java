@@ -10,27 +10,27 @@ public class ProfileFlagsSamples {
     public static void main(String[] args) throws SDKException {
 
         /**
-         * JsonObject used to store the api call response.
+         * JsonObject used to store the api call response
          *
          * @see https://github.com/google/gson
          */
         JsonObject json = null;
 
         /**
-         * To instantiate the idOSAPIFactory object, responsible to call the
-         * endpoints, its necessary to pass throughout the constructor a HashMap
-         * containing all credentials related to the type of authorization
-         * required by the endpoint desired. The method getCredentials() from
-         * the IdOSSamplesHelper Class, gets the credentials from the
-         * settings.Config class and returns the HashMap containing the
-         * credentials.
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
          * Creates a new flag. To create a new flag is necessary to call the
-         * create() method passing as parameter the userName, the flag's name
-         * and the attribute's name.
+         * create() method passing the userName, the flag's name and the
+         * attribute's name as a parameter.
          */
         json = idOSAPIFactory.getFlags().create(Config.userName, "middle-name-mismatch", "middle-name");
 
@@ -52,8 +52,8 @@ public class ProfileFlagsSamples {
             System.out.println(json.get("data").getAsJsonArray());
 
             /**
-             * Retrieves information about the flag created passing as parameter
-             * the stored flagSlug.
+             * Retrieves information about the flag created passing the stored
+             * flagSlug as a parameter.
              */
             json = idOSAPIFactory.getFlags().getOne(Config.userName, flagSlug);
 
@@ -63,8 +63,8 @@ public class ProfileFlagsSamples {
             System.out.println(json.get("data").getAsJsonObject());
 
             /**
-             * Deletes the flag retrieved passing as parameter the stored
-             * flagSlug.
+             * Deletes the flag retrieved passing the stored flagSlug as a
+             * parameter.
              */
             json = idOSAPIFactory.getFlags().delete(Config.userName, "middle-name-mismatch");
 
@@ -76,17 +76,17 @@ public class ProfileFlagsSamples {
         }
 
         /**
-         * To avoid the number of deleted flags to be equal to 0, the first
-         * thing is to create a new flag, calling the createNew() method passing
-         * as parameter the name of the flag and the attribute name. To create a
-         * new flag is necessary to call the create() method passing as
-         * parameter the userName, the flag's name and the attribute's name.
+         * To avoid the number of deleted flags equalling 0, firstly creating a
+         * new flag, calling the createNew() method passing the name of the flag
+         * and the attribute name as a parameter. To create a new flag is
+         * necessary to call the create() method passing the userName, the
+         * flag's name and the attribute's name as a parameter.
          */
         json = idOSAPIFactory.getFlags().create(Config.userName, "middle-name-mismatch", "middle-name");
 
         /**
          * Checks if the flag was created before calling other methods related
-         * to the flags endpoint that requires an existing flag.
+         * to the flags endpoint (requires an existing flag).
          */
         if (json.get("status").getAsBoolean() == true) {
             /**

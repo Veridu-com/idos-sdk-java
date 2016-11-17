@@ -29,7 +29,7 @@ public class ProfileFeatureSamples {
         IdOSAPIFactory featureIdOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * To create a new source, its necessary to create a new hashMap
+         * To create a new source, it is necessary to create a new hashMap
          * containing all the tags the new source will have.
          */
         HashMap<String, String> tags = new HashMap<>();
@@ -38,9 +38,9 @@ public class ProfileFeatureSamples {
 
         /**
          * Creates a new source to be used in the feature endpoint. To create a
-         * new source, its necessary to pass as paremeter the userName, the
-         * source name and the HashMap<String, String> tags, containing all the
-         * tags related to the new source to be created.
+         * new source, it is necessary to pass the userName, the source name and
+         * the HashMap<String, String> tags, containing all the tags related to
+         * the new source to be created, all as parameters.
          */
         json = featureIdOSAPIFactory.getSource().create(Config.userName, "name-test", tags);
 
@@ -56,16 +56,16 @@ public class ProfileFeatureSamples {
         json = featureIdOSAPIFactory.getFeature().deleteAll(Config.userName);
 
         /**
-         * Creates a new feature. To create a new feature, its necessary to call
-         * the create() method passing as parameter the userName, the source id,
-         * the feature name, the feature value and finally, the type of the
-         * feature value.
+         * Creates a new feature. To create a new feature, it is necessary to
+         * call the create() method passing the userName, the source id, the
+         * feature name, the feature value and the type of the feature value as
+         * a parameter.
          */
         json = featureIdOSAPIFactory.getFeature().create(Config.userName, "Testing", "testing");
 
         /**
          * Checks if the feature was created before calling other methods
-         * related to the features endpoint that requires an existing feature.
+         * related to the features endpoint (requires an existing feature).
          */
         if (json.get("status").getAsBoolean() == true) {
             /**
@@ -95,9 +95,8 @@ public class ProfileFeatureSamples {
             System.out.println(json);
 
             /**
-             * Updates the feature created passing as parameter the userName,
-             * feature id, the new feature's value and the type of the new
-             * value.
+             * Updates the feature created passing the userName, feature id, the
+             * new feature's value and the type of the new value as a parameter.
              */
             json = featureIdOSAPIFactory.getFeature().update(Config.userName, featureId, 2, "new value");
 

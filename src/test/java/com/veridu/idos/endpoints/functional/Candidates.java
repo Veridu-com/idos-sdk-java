@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.endpoints.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +38,7 @@ public class Candidates extends MainTestSetup {
     }
 
     @Test
-    public void test3ListAll() throws SDKException {
+    public void test2ListAll() throws SDKException {
         JsonObject json = this.candidate.listAll(userName);
         JsonArray array = json.get("data").getAsJsonArray();
         JsonObject data = array.get(0).getAsJsonObject();
@@ -50,7 +50,7 @@ public class Candidates extends MainTestSetup {
     }
 
     @Test
-    public void test5DeleteAll() throws SDKException, UnsupportedEncodingException {
+    public void test3DeleteAll() throws SDKException, UnsupportedEncodingException {
 
         // create first candidate
         response = this.candidate.create(userName, attribute, value, support);

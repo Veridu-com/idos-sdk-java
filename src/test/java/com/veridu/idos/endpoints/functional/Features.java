@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.endpoints.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,14 +25,13 @@ public class Features extends MainTestSetup {
     @Before
     public void setUp() throws Exception {
         this.feature = factory.getFeature();
-        JsonObject json = this.feature.listAll(userName);
-        JsonArray array = json.get("data").getAsJsonArray();
-        JsonObject data = array.get(0).getAsJsonObject();
-        this.id = data.get("id").getAsInt();
+        JsonObject json = this.feature.create(userName, name, value);
+        this.id = json.get("data").getAsJsonObject().get("id").getAsInt();
     }
 
     @Test
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
+        this.feature.delete(userName, this.id);
         response = this.feature.create(userName, name, value);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));

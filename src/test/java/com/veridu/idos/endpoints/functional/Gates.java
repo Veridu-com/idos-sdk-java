@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.endpoints.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -29,11 +29,12 @@ public class Gates extends MainTestSetup {
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
         // Deletes all gates to avoid create an existing gate
         this.gate.deleteAll(userName);
-        response = this.gate.create(userName, name, false);
+        response = this.gate.create(userName, name, false, "confidence_level");
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
         assertEquals("false", data.get("pass").getAsString());
+        assertEquals("confidence_level", data.get("confidence_level").getAsString());
     }
 
     @Test
@@ -44,11 +45,12 @@ public class Gates extends MainTestSetup {
 
     @Test
     public void test3UpsertOne() throws UnsupportedEncodingException, SDKException {
-        response = this.gate.upsert(userName, name, false);
+        response = this.gate.upsert(userName, name, false, "confidence_level");
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
         assertEquals("false", data.get("pass").getAsString());
+        assertEquals("confidence_level", data.get("confidence_level").getAsString());
     }
 
     @Test
@@ -62,11 +64,12 @@ public class Gates extends MainTestSetup {
 
     @Test
     public void test5UpdateOne() throws SDKException, UnsupportedEncodingException {
-        response = this.gate.update(userName, name, true);
+        response = this.gate.update(userName, name, true, "confidence_level");
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
         assertEquals("true", data.get("pass").getAsString());
+        assertEquals("confidence_level", data.get("confidence_level").getAsString());
     }
 
     @Test
@@ -102,6 +105,5 @@ public class Gates extends MainTestSetup {
         assertTrue(json.get("deleted").getAsInt() >= 2);
         json = this.gate.listAll(userName);
         assertTrue(json.get("data").getAsJsonArray().size() == 0);
-
     }
 }

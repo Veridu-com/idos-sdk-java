@@ -30,7 +30,7 @@ public class IdOSAPIFactory implements Serializable {
     private HashMap<String, String> credentials;
 
     /**
-     * ProfileFeatures Endpoint object
+     * ProfileFeaturesTest Endpoint object
      */
     private ProfileFeatures feature;
 
@@ -55,7 +55,7 @@ public class IdOSAPIFactory implements Serializable {
     private ProfileTasks task;
 
     /**
-     * ProfileCandidates Endpoint object
+     * ProfileCandidatesTest Endpoint object
      */
     private ProfileCandidates candidates;
 
@@ -69,12 +69,12 @@ public class IdOSAPIFactory implements Serializable {
      */
     private ProfileScores score;
     /**
-     * ProfileFlags Endpoint object
+     * ProfileFlagsTest Endpoint object
      */
     private ProfileFlags flags;
 
     /**
-     * ProfileRaw Endpoint object
+     * ProfileRawTest Endpoint object
      */
     private ProfileRaw raw;
 
@@ -104,6 +104,16 @@ public class IdOSAPIFactory implements Serializable {
     }
 
     /**
+     * Class constructor
+     *
+     * @param credentials
+     *            HashMap<String, String>
+     */
+    public IdOSAPIFactory() {
+        this.credentials = new HashMap<>();
+    }
+
+    /**
      * Instantiates Candidate endpoint.
      *
      * @return ProfileCandidate instance
@@ -130,7 +140,7 @@ public class IdOSAPIFactory implements Serializable {
     /**
      * Instantiates Feature endpoint.
      *
-     * @return ProfileFeatures instance
+     * @return ProfileFeaturesTest instance
      * @throws InvalidToken
      */
     public ProfileFeatures getFeature() throws InvalidToken {
@@ -190,7 +200,7 @@ public class IdOSAPIFactory implements Serializable {
     /**
      * Instantiates Warning endpoint
      *
-     * @return ProfileFlags instance
+     * @return ProfileFlagsTest instance
      * @throws InvalidToken
      */
     public ProfileFlags getFlags() throws InvalidToken {
@@ -233,7 +243,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public SSO getSSO() throws InvalidToken {
         if (!(this.sso instanceof SSO)) {
-            this.sso = new SSO(this.credentials);
+            this.sso = new SSO();
         }
         return this.sso;
     }

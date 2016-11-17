@@ -9,7 +9,7 @@ import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
 
 /**
- * ProfileFlags Endpoint class
+ * ProfileFlagsTest Endpoint class
  *
  * @version 2.0
  */
@@ -25,7 +25,7 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Lists all warnings given the username
+     * Lists all flags given the username
      *
      * @param username
      * @return JsonObject response
@@ -48,24 +48,24 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Retrieves the warn related to the given warning slug
+     * Retrieves the warn related to the given flag slug
      *
      * @param username
-     * @param warningSlug
+     * @param flagSlug
      * @return JsonObject response
      * @throws SDKException
      */
-    public JsonObject getOne(String username, String warningSlug) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/flags/" + warningSlug);
+    public JsonObject getOne(String username, String flagSlug) throws SDKException {
+        return this.fetch("GET", "profiles/" + username + "/flags/" + flagSlug);
     }
 
     /**
-     * Creates a new warning related to the username given
+     * Creates a new flag related to the username given
      *
      * @param username
      * @param slug
      * @param attribute
-     *            name of the attribute to which the warning refers to
+     *            name of the attribute to which the flag refers to
      * @return JsonObject response
      * @throws SDKException
      */
@@ -78,15 +78,15 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Deletes a warning given its warning slug
+     * Deletes a flag given its flag slug
      *
      * @param username
-     * @param warningSlug
+     * @param flagSlug
      * @return JsonObject response
      * @throws SDKException
      */
-    public JsonObject delete(String username, String warningSlug) throws SDKException {
-        return this.fetch("DELETE", "profiles/" + username + "/flags/" + warningSlug);
+    public JsonObject delete(String username, String flagSlug) throws SDKException {
+        return this.fetch("DELETE", "profiles/" + username + "/flags/" + flagSlug);
     }
 
     /**

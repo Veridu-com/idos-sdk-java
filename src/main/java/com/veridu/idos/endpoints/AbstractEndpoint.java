@@ -197,7 +197,6 @@ public abstract class AbstractEndpoint implements Serializable {
      * @throws SDKException
      */
     protected JsonObject sendRequest(String method, String url, JsonObject data) throws SDKException {
-
         final String authHeader = "Authorization";
         String credential = null;
 
@@ -222,12 +221,22 @@ public abstract class AbstractEndpoint implements Serializable {
 
             switch (method) {
             case "POST":
-                ct = Request.Post(url).setHeader(authHeader, credential)
-                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON).execute()
-                        .returnContent();
+                if (this.authType != this.authType.NONE) {
+                    ct = Request.Post(url).setHeader(authHeader, credential)
+                            .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON).execute()
+                            .returnContent();
+                } else {
+                    ct = Request.Post(url).bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)
+                            .execute().returnContent();
+                }
                 break;
             case "GET":
-                ct = Request.Get(url).setHeader(authHeader, credential).execute().returnContent();
+                if (this.authType != this.authType.NONE) {
+                    ct = Request.Get(url).setHeader(authHeader, credential).execute().returnContent();
+                } else {
+                    ct = Request.Get(url).execute().returnContent();
+                }
+
                 break;
             case "DELETE":
                 ct = Request.Delete(url).setHeader(authHeader, credential).execute().returnContent();
