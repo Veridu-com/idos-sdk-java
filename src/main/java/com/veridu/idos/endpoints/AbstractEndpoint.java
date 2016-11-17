@@ -48,7 +48,7 @@ public abstract class AbstractEndpoint implements Serializable {
     /**
      * Class constructor
      */
-    public AbstractEndpoint(HashMap<String, String> credentials, IdOSAuthType authType) throws InvalidToken {
+    public AbstractEndpoint(HashMap<String, String> credentials, IdOSAuthType authType) {
         this.credentials = credentials;
         this.authType = authType;
     }

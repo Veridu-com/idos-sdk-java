@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import com.google.gson.JsonObject;
-import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
@@ -14,7 +13,7 @@ public class ProfileFeatures extends AbstractEndpoint {
     /**
      * Class constructor
      */
-    public ProfileFeatures(HashMap<String, String> credentials) throws InvalidToken {
+    public ProfileFeatures(HashMap<String, String> credentials) {
         super(credentials, IdOSAuthType.HANDLER);
     }
 

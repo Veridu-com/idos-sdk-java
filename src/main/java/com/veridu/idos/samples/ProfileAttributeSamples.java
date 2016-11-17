@@ -34,17 +34,17 @@ public class ProfileAttributeSamples {
          * passing the stored username, the attribute name, the value of the
          * attribute and the support value as parameter.
          */
-        json = idOSAPIFactory.getCandidates().create(Config.userName, "email", "jhon@jhon.com", 0.9);
+        json = idOSAPIFactory.getCandidate().create(Config.userName, "email", "jhon@jhon.com", 0.9);
 
         /**
          * Checks if the candidate was created before calling other methods
          * related to the candidates (requires an existing candidate).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
             /**
              * Lists all attributes related to the userName provided.
              */
-            json = idOSAPIFactory.getAttributes().listAll(Config.userName);
+            json = idOSAPIFactory.getAttribute().listAll(Config.userName);
 
             /**
              * Prints api call response to Candidates endpoint.

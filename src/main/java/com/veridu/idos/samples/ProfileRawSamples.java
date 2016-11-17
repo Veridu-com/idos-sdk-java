@@ -65,7 +65,7 @@ public class ProfileRawSamples {
          * Checks if the raw data was created before calling other methods
          * related to the raw endpoint (requires an existing raw data).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
             /**
              * Lists all raw related to the provided userName
              */

@@ -41,7 +41,7 @@ public class ProfileScoreSamples {
          * Checks if the score was created before calling other methods related
          * to the scores endpoint that requires an existing score.
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
 
             /**
              * Lists all scores related to the provided userName.

@@ -58,7 +58,7 @@ public class ProfileReferenceSamples {
              * Retrieves information about one reference, if the status of the
              * last request is true.
              */
-            if (json.get("status").getAsBoolean() == true) {
+            if (json.get("status").getAsBoolean()) {
                 json = idOSAPIFactory.getReference().getOne(Config.userName, "reference");
 
                 /**

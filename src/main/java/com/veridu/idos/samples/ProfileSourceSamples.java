@@ -47,7 +47,7 @@ public class ProfileSourceSamples {
          * Checks if at least one source was created before calling other
          * methods related to the sources endpoint(requires an existing source).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
 
             /**
              * Lists all sources related to the provided userName.

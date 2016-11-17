@@ -52,7 +52,7 @@ public class ProfileTaskSamples {
          * Checks if the task was created before calling other methods related
          * to the tasks endpoint (requires an existing task).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
             /**
              * Stores the task id of the task created.
              */

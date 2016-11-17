@@ -32,9 +32,9 @@ public class ProfileFlagsSamples {
          * create() method passing the userName, the flag's name and the
          * attribute's name as a parameter.
          */
-        json = idOSAPIFactory.getFlags().create(Config.userName, "middle-name-mismatch", "middle-name");
+        json = idOSAPIFactory.getFlag().create(Config.userName, "middle-name-mismatch", "middle-name");
 
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
 
             /**
              * Stores the flag slug of the 'middle-name-mismatch' flag created.
@@ -44,7 +44,7 @@ public class ProfileFlagsSamples {
             /**
              * Lists all flags for the given userName.
              */
-            json = idOSAPIFactory.getFlags().listAll(Config.userName);
+            json = idOSAPIFactory.getFlag().listAll(Config.userName);
 
             /**
              * Prints api call response to Flags endpoint.
@@ -55,7 +55,7 @@ public class ProfileFlagsSamples {
              * Retrieves information about the flag created passing the stored
              * flagSlug as a parameter.
              */
-            json = idOSAPIFactory.getFlags().getOne(Config.userName, flagSlug);
+            json = idOSAPIFactory.getFlag().getOne(Config.userName, flagSlug);
 
             /**
              * Prints api call response to Flags endpoint.
@@ -66,7 +66,7 @@ public class ProfileFlagsSamples {
              * Deletes the flag retrieved passing the stored flagSlug as a
              * parameter.
              */
-            json = idOSAPIFactory.getFlags().delete(Config.userName, "middle-name-mismatch");
+            json = idOSAPIFactory.getFlag().delete(Config.userName, "middle-name-mismatch");
 
             /**
              * Prints the status of the call response to Flags endpoint.
@@ -82,17 +82,17 @@ public class ProfileFlagsSamples {
          * necessary to call the create() method passing the userName, the
          * flag's name and the attribute's name as a parameter.
          */
-        json = idOSAPIFactory.getFlags().create(Config.userName, "middle-name-mismatch", "middle-name");
+        json = idOSAPIFactory.getFlag().create(Config.userName, "middle-name-mismatch", "middle-name");
 
         /**
          * Checks if the flag was created before calling other methods related
          * to the flags endpoint (requires an existing flag).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
             /**
              * Deletes all flags related to the userName provided.
              */
-            json = idOSAPIFactory.getFlags().deleteAll(Config.userName);
+            json = idOSAPIFactory.getFlag().deleteAll(Config.userName);
 
             /**
              * Prints the number of deleted flags retrieved from the call

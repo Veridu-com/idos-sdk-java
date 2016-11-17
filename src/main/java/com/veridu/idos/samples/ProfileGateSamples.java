@@ -41,7 +41,7 @@ public class ProfileGateSamples {
          * Checks if the gate was created before calling other methods related
          * to the gates (requires an existing gate).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
             /**
              * Stores the gate slug of the slug created
              */
@@ -83,7 +83,7 @@ public class ProfileGateSamples {
          * Checks if the gate was created before calling other methods related
          * to the gates (requires an existing gate).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
 
             /**
              * Retrieves information on the gate related to the slug that came

@@ -67,7 +67,7 @@ public class ProfileFeatureSamples {
          * Checks if the feature was created before calling other methods
          * related to the features endpoint (requires an existing feature).
          */
-        if (json.get("status").getAsBoolean() == true) {
+        if (json.get("status").getAsBoolean()) {
             /**
              * Lists all features related to the Config.userName provided
              */

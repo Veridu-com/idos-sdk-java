@@ -3,7 +3,6 @@ package com.veridu.idos.endpoints;
 import java.util.HashMap;
 
 import com.google.gson.JsonObject;
-import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.IdOSAuthType;
 
@@ -17,7 +16,7 @@ public class ProfileAttributes extends AbstractEndpoint {
     /**
      * Class Constructor
      */
-    public ProfileAttributes(HashMap<String, String> credentials) throws InvalidToken {
+    public ProfileAttributes(HashMap<String, String> credentials) {
         super(credentials, IdOSAuthType.USER);
     }
 

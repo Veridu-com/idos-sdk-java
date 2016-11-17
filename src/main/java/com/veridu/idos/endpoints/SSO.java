@@ -18,7 +18,7 @@ public class SSO extends AbstractEndpoint {
      * @param credentials
      * @throws InvalidToken
      */
-    public SSO() throws InvalidToken {
+    public SSO() {
         super(null, IdOSAuthType.NONE);
     }
 

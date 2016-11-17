@@ -22,7 +22,7 @@ public class ProfileRaw extends AbstractEndpoint {
      * @param credentials
      * @throws InvalidToken
      */
-    public ProfileRaw(HashMap<String, String> credentials) throws InvalidToken {
+    public ProfileRaw(HashMap<String, String> credentials) {
         super(credentials, IdOSAuthType.HANDLER);
     }
 
