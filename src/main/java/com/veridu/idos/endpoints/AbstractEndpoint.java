@@ -25,6 +25,7 @@ public abstract class AbstractEndpoint implements Serializable {
      * IdOSAuthType (USER, HANDLER, MANAGEMENT)
      */
     protected IdOSAuthType authType = null;
+
     /**
      * Company's slug necessary to make most of requests to the API
      */
@@ -169,14 +170,34 @@ public abstract class AbstractEndpoint implements Serializable {
 
     }
 
+    /**
+     * Checks api response status
+     * 
+     * @param response
+     * @return boolean status
+     */
     private boolean isAPIResponseStatusTrue(JsonObject response) {
         return response.get("status").getAsBoolean();
     }
 
+    /**
+     * Retrieves api response error
+     * 
+     * @param apiResponse
+     * @return JsonObject api error response
+     */
     private JsonObject getAPIJSONError(JsonObject apiResponse) {
         return apiResponse.get("error").getAsJsonObject();
     }
 
+    /**
+     * Returns api call response if status true or throws SDKException
+     * 
+     * @param apiResponse
+     * @return JsonObject response
+     * 
+     * @throws SDKException
+     */
     private JsonObject handleAPIresponse(JsonObject apiResponse) throws SDKException {
         if (isAPIResponseStatusTrue(apiResponse))
             return apiResponse;
@@ -328,4 +349,14 @@ public abstract class AbstractEndpoint implements Serializable {
     public void setCredentials(HashMap<String, String> credentials) {
         this.credentials = credentials;
     }
+
+    /**
+     * Gets the Auth type
+     * 
+     * @return authType
+     */
+    public IdOSAuthType getAuthType() {
+        return authType;
+    }
+
 }
