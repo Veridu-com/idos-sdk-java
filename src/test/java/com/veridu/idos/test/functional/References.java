@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.test.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,7 +30,6 @@ public class References extends MainTestSetup {
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
         response = this.reference.create(userName, name, value);
         JsonObject data = getResponseData(response);
-        System.out.println(data);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
         assertEquals(value, data.get("value").getAsString());
@@ -64,11 +63,11 @@ public class References extends MainTestSetup {
     @Test
     public void test5DeleteAll() throws SDKException, UnsupportedEncodingException {
 
-        // create first att
+        // create first reference
         response = this.reference.create(userName, name, value);
         assertTrue(response.get("status").getAsBoolean());
 
-        // create second att
+        // create second reference
         response = this.reference.create(userName, "another-one", "123+-@áéã");
         assertTrue(response.get("status").getAsBoolean());
 

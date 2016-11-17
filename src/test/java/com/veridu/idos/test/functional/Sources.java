@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.test.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

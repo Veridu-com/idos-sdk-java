@@ -1,10 +1,22 @@
 package com.veridu.idos;
 
-import com.veridu.idos.endpoints.*;
-import com.veridu.idos.exceptions.InvalidToken;
-
 import java.io.Serializable;
 import java.util.HashMap;
+
+import com.veridu.idos.endpoints.ProfileAttributes;
+import com.veridu.idos.endpoints.ProfileCandidates;
+import com.veridu.idos.endpoints.ProfileFeatures;
+import com.veridu.idos.endpoints.ProfileFlags;
+import com.veridu.idos.endpoints.ProfileGates;
+import com.veridu.idos.endpoints.ProfileProcesses;
+import com.veridu.idos.endpoints.ProfileRaw;
+import com.veridu.idos.endpoints.ProfileReferences;
+import com.veridu.idos.endpoints.ProfileScores;
+import com.veridu.idos.endpoints.ProfileSources;
+import com.veridu.idos.endpoints.ProfileTasks;
+import com.veridu.idos.endpoints.Profiles;
+import com.veridu.idos.endpoints.SSO;
+import com.veridu.idos.exceptions.InvalidToken;
 
 /**
  * CredentialFactory Endpoint creates all Endpoints
@@ -18,7 +30,7 @@ public class IdOSAPIFactory implements Serializable {
     private HashMap<String, String> credentials;
 
     /**
-     * ProfileFeatures Endpoint object
+     * ProfileFeaturesTest Endpoint object
      */
     private ProfileFeatures feature;
 
@@ -43,21 +55,26 @@ public class IdOSAPIFactory implements Serializable {
     private ProfileTasks task;
 
     /**
-     * ProfileCandidates Endpoint object
+     * ProfileCandidatesTest Endpoint object
      */
     private ProfileCandidates candidates;
+
+    /**
+     * ProfileAttributes Endpoint object
+     */
+    private ProfileAttributes attributes;
 
     /**
      * ProfileScores Endpoint object
      */
     private ProfileScores score;
     /**
-     * ProfileFlags Endpoint object
+     * ProfileFlagsTest Endpoint object
      */
     private ProfileFlags flags;
 
     /**
-     * ProfileRaw Endpoint object
+     * ProfileRawTest Endpoint object
      */
     private ProfileRaw raw;
 
@@ -87,24 +104,46 @@ public class IdOSAPIFactory implements Serializable {
     }
 
     /**
-     * Instantiates Attribute endpoint
+     * Class constructor
      *
-     * @return ProfileAttribute instance
+     * @param credentials
+     *            HashMap<String, String>
+     */
+    public IdOSAPIFactory() {
+        this.credentials = new HashMap<>();
+    }
+
+    /**
+     * Instantiates Candidate endpoint.
+     *
+     * @return ProfileCandidate instance
      * @throws InvalidToken
      */
-    public ProfileCandidates getCandidates() throws InvalidToken {
+    public ProfileCandidates getCandidate() {
         if (!(this.candidates instanceof ProfileCandidates))
             this.candidates = new ProfileCandidates(this.credentials);
         return this.candidates;
     }
 
     /**
-     * Instantiates Feature endpoint
+     * Instantiates Attribute endpoint.
      *
-     * @return ProfileFeatures instance
+     * @return ProfileAttribute instance
      * @throws InvalidToken
      */
-    public ProfileFeatures getFeature() throws InvalidToken {
+    public ProfileAttributes getAttribute() {
+        if (!(this.attributes instanceof ProfileAttributes))
+            this.attributes = new ProfileAttributes(this.credentials);
+        return this.attributes;
+    }
+
+    /**
+     * Instantiates Feature endpoint.
+     *
+     * @return ProfileFeaturesTest instance
+     * @throws InvalidToken
+     */
+    public ProfileFeatures getFeature() {
         if (!(this.feature instanceof ProfileFeatures))
             this.feature = new ProfileFeatures(this.credentials);
         return this.feature;
@@ -116,7 +155,7 @@ public class IdOSAPIFactory implements Serializable {
      * @return ProfileGates instance
      * @throws InvalidToken
      */
-    public ProfileGates getGate() throws InvalidToken {
+    public ProfileGates getGate() {
         if (!(this.gate instanceof ProfileGates))
             this.gate = new ProfileGates(this.credentials);
         return this.gate;
@@ -128,7 +167,7 @@ public class IdOSAPIFactory implements Serializable {
      * @return ProfileReferences instance
      * @throws InvalidToken
      */
-    public ProfileReferences getReference() throws InvalidToken {
+    public ProfileReferences getReference() {
         if (!(this.reference instanceof ProfileReferences))
             this.reference = new ProfileReferences(this.credentials);
         return this.reference;
@@ -140,7 +179,7 @@ public class IdOSAPIFactory implements Serializable {
      * @return ProfileTasks instance
      * @throws InvalidToken
      */
-    public ProfileTasks getTask() throws InvalidToken {
+    public ProfileTasks getTask() {
         if (!(this.task instanceof ProfileTasks))
             this.task = new ProfileTasks(this.credentials);
         return this.task;
@@ -152,19 +191,19 @@ public class IdOSAPIFactory implements Serializable {
      * @return ProfileScores instance
      * @throws InvalidToken
      */
-    public ProfileScores getScore() throws InvalidToken {
+    public ProfileScores getScore() {
         if (!(this.score instanceof ProfileScores))
             this.score = new ProfileScores(this.credentials);
         return this.score;
     }
 
     /**
-     * Instantiates Warning endpoint
+     * Instantiates Flag endpoint
      *
-     * @return ProfileFlags instance
+     * @return ProfileFlagsTest instance
      * @throws InvalidToken
      */
-    public ProfileFlags getFlags() throws InvalidToken {
+    public ProfileFlags getFlag() {
         if (!(this.flags instanceof ProfileFlags))
             this.flags = new ProfileFlags(this.credentials);
         return this.flags;
@@ -176,7 +215,7 @@ public class IdOSAPIFactory implements Serializable {
      * @return Source instance
      * @throws InvalidToken
      */
-    public ProfileSources getSource() throws InvalidToken {
+    public ProfileSources getSource() {
         if (!(this.source instanceof ProfileSources)) {
             this.source = new ProfileSources(this.credentials);
         }
@@ -189,7 +228,7 @@ public class IdOSAPIFactory implements Serializable {
      * @return Raw instance
      * @throws InvalidToken
      */
-    public ProfileRaw getRaw() throws InvalidToken {
+    public ProfileRaw getRaw() {
         if (!(this.raw instanceof ProfileRaw)) {
             this.raw = new ProfileRaw(this.credentials);
         }
@@ -202,9 +241,9 @@ public class IdOSAPIFactory implements Serializable {
      * @return SSO instance
      * @throws InvalidToken
      */
-    public SSO getSSO() throws InvalidToken {
+    public SSO getSSO() {
         if (!(this.sso instanceof SSO)) {
-            this.sso = new SSO(this.credentials);
+            this.sso = new SSO();
         }
         return this.sso;
     }
@@ -215,7 +254,7 @@ public class IdOSAPIFactory implements Serializable {
      * @return Profile Processes instance
      * @throws InvalidToken
      */
-    public ProfileProcesses getProcess() throws InvalidToken {
+    public ProfileProcesses getProcess() {
         if (!(this.process instanceof ProfileProcesses)) {
             this.process = new ProfileProcesses(this.credentials);
         }
@@ -228,10 +267,11 @@ public class IdOSAPIFactory implements Serializable {
      * @return Profiles intance
      * @throws InvalidToken
      */
-    public Profiles getProfile() throws InvalidToken {
+    public Profiles getProfile() {
         if (!(this.profile instanceof Profiles)) {
             this.profile = new Profiles(this.credentials);
         }
         return this.profile;
     }
+
 }

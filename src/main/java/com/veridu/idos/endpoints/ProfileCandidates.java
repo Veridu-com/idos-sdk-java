@@ -1,13 +1,12 @@
 package com.veridu.idos.endpoints;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+
 import com.google.gson.JsonObject;
-import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 
 /**
  * Profile Candidates Endpoint Class
@@ -19,12 +18,12 @@ public class ProfileCandidates extends AbstractEndpoint {
     /**
      * Class Constructor
      */
-    public ProfileCandidates(HashMap<String, String> credentials) throws InvalidToken {
+    public ProfileCandidates(HashMap<String, String> credentials) {
         super(credentials, IdOSAuthType.HANDLER);
     }
 
     /**
-     * Lists all profiles attributes
+     * Lists all profiles candidates
      *
      * @param username
      * @return JsonObject response
@@ -35,7 +34,7 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Lists all profiles attributes, with filtering
+     * Lists all profiles candidates, with filtering
      *
      * @param username
      * @param filter
@@ -47,19 +46,7 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Retrieves an attribute given its attribute name
-     *
-     * @param username
-     * @param attributeName
-     * @return JsonObject response
-     * @throws SDKException
-     */
-    public JsonObject getOne(String username, String attributeName) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/candidates/" + attributeName);
-    }
-
-    /**
-     * Creates a new attribute passing the name of the attribute
+     * Creates a new candidate passing the name of the attribute
      *
      * @param username
      * @param attributeName
@@ -79,19 +66,7 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Deletes an attribute given its attributeName
-     *
-     * @param username
-     * @param attributeName
-     * @return JsonObject response
-     * @throws SDKException
-     */
-    public JsonObject delete(String username, String attributeName) throws SDKException {
-        return this.fetch("DELETE", "profiles/" + username + "/candidates/" + attributeName);
-    }
-
-    /**
-     * Deletes all attributes related to the given username
+     * Deletes all candidates related to the given username
      *
      * @param username
      * @return JsonObject response
@@ -102,7 +77,7 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all attributes related to the given username, with filtering
+     * Deletes all candidates related to the given username, with filtering
      *
      * @param username
      * @param

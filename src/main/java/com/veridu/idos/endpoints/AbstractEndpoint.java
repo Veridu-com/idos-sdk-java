@@ -25,6 +25,7 @@ public abstract class AbstractEndpoint implements Serializable {
      * IdOSAuthType (USER, HANDLER, MANAGEMENT)
      */
     protected IdOSAuthType authType = null;
+
     /**
      * Company's slug necessary to make most of requests to the API
      */
@@ -47,7 +48,7 @@ public abstract class AbstractEndpoint implements Serializable {
     /**
      * Class constructor
      */
-    public AbstractEndpoint(HashMap<String, String> credentials, IdOSAuthType authType) throws InvalidToken {
+    public AbstractEndpoint(HashMap<String, String> credentials, IdOSAuthType authType) {
         this.credentials = credentials;
         this.authType = authType;
     }
@@ -169,14 +170,34 @@ public abstract class AbstractEndpoint implements Serializable {
 
     }
 
+    /**
+     * Checks api response status
+     * 
+     * @param response
+     * @return boolean status
+     */
     private boolean isAPIResponseStatusTrue(JsonObject response) {
         return response.get("status").getAsBoolean();
     }
 
+    /**
+     * Retrieves api response error
+     * 
+     * @param apiResponse
+     * @return JsonObject api error response
+     */
     private JsonObject getAPIJSONError(JsonObject apiResponse) {
         return apiResponse.get("error").getAsJsonObject();
     }
 
+    /**
+     * Returns api call response if status true or throws SDKException
+     * 
+     * @param apiResponse
+     * @return JsonObject response
+     * 
+     * @throws SDKException
+     */
     private JsonObject handleAPIresponse(JsonObject apiResponse) throws SDKException {
         if (isAPIResponseStatusTrue(apiResponse))
             return apiResponse;
@@ -197,7 +218,6 @@ public abstract class AbstractEndpoint implements Serializable {
      * @throws SDKException
      */
     protected JsonObject sendRequest(String method, String url, JsonObject data) throws SDKException {
-
         final String authHeader = "Authorization";
         String credential = null;
 
@@ -222,12 +242,22 @@ public abstract class AbstractEndpoint implements Serializable {
 
             switch (method) {
             case "POST":
-                ct = Request.Post(url).setHeader(authHeader, credential)
-                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON).execute()
-                        .returnContent();
+                if (this.authType != this.authType.NONE) {
+                    ct = Request.Post(url).setHeader(authHeader, credential)
+                            .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON).execute()
+                            .returnContent();
+                } else {
+                    ct = Request.Post(url).bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)
+                            .execute().returnContent();
+                }
                 break;
             case "GET":
-                ct = Request.Get(url).setHeader(authHeader, credential).execute().returnContent();
+                if (this.authType != this.authType.NONE) {
+                    ct = Request.Get(url).setHeader(authHeader, credential).execute().returnContent();
+                } else {
+                    ct = Request.Get(url).execute().returnContent();
+                }
+
                 break;
             case "DELETE":
                 ct = Request.Delete(url).setHeader(authHeader, credential).execute().returnContent();
@@ -319,4 +349,14 @@ public abstract class AbstractEndpoint implements Serializable {
     public void setCredentials(HashMap<String, String> credentials) {
         this.credentials = credentials;
     }
+
+    /**
+     * Gets the Auth type
+     * 
+     * @return authType
+     */
+    public IdOSAuthType getAuthType() {
+        return authType;
+    }
+
 }

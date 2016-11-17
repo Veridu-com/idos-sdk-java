@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.test.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,19 +16,19 @@ import com.veridu.idos.endpoints.ProfileFlags;
 import com.veridu.idos.exceptions.SDKException;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class Warnings extends MainTestSetup {
-    private ProfileFlags warning;
+public class Flags extends MainTestSetup {
+    private ProfileFlags flag;
     private String slug = "middle-slug-mismatch";
     private String attribute = "middle-name";
 
     @Before
     public void setUp() throws Exception {
-        this.warning = factory.getFlags();
+        this.flag = factory.getFlag();
     }
 
     @Test
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
-        response = this.warning.create(userName, slug, attribute);
+        response = this.flag.create(userName, slug, attribute);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(slug, data.get("slug").getAsString());
@@ -37,7 +37,7 @@ public class Warnings extends MainTestSetup {
 
     @Test
     public void test2GetOne() throws SDKException {
-        response = this.warning.getOne(userName, slug);
+        response = this.flag.getOne(userName, slug);
         assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonObject();
         assertEquals(slug, data.get("slug").getAsString());
@@ -46,7 +46,7 @@ public class Warnings extends MainTestSetup {
 
     @Test
     public void test3ListAll() throws SDKException {
-        JsonObject json = this.warning.listAll(userName);
+        JsonObject json = this.flag.listAll(userName);
         JsonArray array = json.get("data").getAsJsonArray();
         JsonObject data = array.get(0).getAsJsonObject();
         assertTrue(json.get("status").getAsBoolean());
@@ -56,31 +56,31 @@ public class Warnings extends MainTestSetup {
 
     @Test
     public void test4DeleteOne() throws SDKException {
-        JsonObject json = this.warning.delete(userName, slug);
+        JsonObject json = this.flag.delete(userName, slug);
         assertTrue(json.get("status").getAsBoolean());
     }
 
     @Test
     public void test5DeleteAll() throws SDKException, UnsupportedEncodingException {
-        // create first attr
-        response = this.warning.create(userName, slug, attribute);
+        // create first flag
+        response = this.flag.create(userName, slug, attribute);
         assertTrue(response.get("status").getAsBoolean());
 
-        // create second attr
-        response = this.warning.create(userName, "another-one", "another");
+        // create second flag
+        response = this.flag.create(userName, "another-one", "another");
         assertTrue(response.get("status").getAsBoolean());
 
         // test they are there
-        response = this.warning.listAll(userName);
+        response = this.flag.listAll(userName);
         assertTrue(response.get("status").getAsBoolean());
         assertTrue(response.get("data").getAsJsonArray().size() >= 2);
 
         // test actual delete all
-        JsonObject json = this.warning.deleteAll(userName);
+        JsonObject json = this.flag.deleteAll(userName);
         assertTrue(isResponseOk(json));
         assertTrue(json.has("deleted"));
         assertTrue(json.get("deleted").getAsInt() >= 2);
-        json = this.warning.listAll(userName);
+        json = this.flag.listAll(userName);
         assertTrue(json.get("data").getAsJsonArray().size() == 0);
     }
 }

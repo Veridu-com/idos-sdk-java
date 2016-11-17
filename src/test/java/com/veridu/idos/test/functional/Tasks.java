@@ -1,19 +1,18 @@
-package com.veridu.idos.functional;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.UnsupportedEncodingException;
-
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+package com.veridu.idos.test.functional;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.veridu.idos.endpoints.ProfileTasks;
 import com.veridu.idos.exceptions.SDKException;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import java.io.UnsupportedEncodingException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Tasks extends MainTestSetup {

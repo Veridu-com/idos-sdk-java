@@ -4,11 +4,12 @@ import java.io.UnsupportedEncodingException;
 
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
+import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.settings.Config;
 
-public class ProfileCandidateSamples {
-    public static void main(String[] args) throws SDKException, UnsupportedEncodingException {
+public class ProfileAttributeSamples {
+    public static void main(String[] args) throws UnsupportedEncodingException, InvalidToken, SDKException {
         /**
          * JsonObject used to store the api call response
          *
@@ -28,10 +29,10 @@ public class ProfileCandidateSamples {
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Creates a candidate to be listed in listAll() method. To create a new
-         * candidate, it is necessary to call the function create() passing the
-         * stored username, the attribute name, the value of the attribute and
-         * the support value as a parameter.
+         * Creates a candidate to be listed in the attributes endpoint. To
+         * create a new candidate, it is necessary to call the function create()
+         * passing the stored username, the attribute name, the value of the
+         * attribute and the support value as parameter.
          */
         json = idOSAPIFactory.getCandidate().create(Config.userName, "email", "jhon@jhon.com", 0.9);
 
@@ -40,27 +41,17 @@ public class ProfileCandidateSamples {
          * related to the candidates (requires an existing candidate).
          */
         if (json.get("status").getAsBoolean()) {
+            /**
+             * Lists all attributes related to the userName provided.
+             */
+            json = idOSAPIFactory.getAttribute().listAll(Config.userName);
 
             /**
-             * Lists all candidates related to the username provided
+             * Prints api call response to Candidates endpoint.
              */
-            json = idOSAPIFactory.getCandidate().listAll(Config.userName);
-
-            /**
-             * Prints api call response to Candidates endpoint
-             */
-            System.out.println(json.get("data"));
-
-            /**
-             * Deletes all candidates related to the username provided.
-             */
-            json = idOSAPIFactory.getCandidate().deleteAll(Config.userName);
-
-            /**
-             * Prints the number of deleted candidates, information received
-             * from the api call response to Candidates endpoint
-             */
-            System.out.println(json.get("deleted").getAsInt());
+            for (int i = 0; i < json.get("data").getAsJsonArray().size(); i++) {
+                System.out.println(json.get("data").getAsJsonArray().get(i));
+            }
         }
     }
 }

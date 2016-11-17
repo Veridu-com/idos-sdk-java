@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.test.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -29,9 +29,16 @@ public class SSO extends MainTestSetup {
     }
 
     @Test
-    public void test2Create() throws SDKException {
-        response = this.sso.create("facebook", "credentialPubKey", "facebook-token");
+    public void test2GetOne() throws SDKException {
+        response = this.sso.getOne("facebook");
         JsonObject data = this.getResponseData(response);
-        assertTrue(data.has("user_token"));
+        assertTrue(data.has("enabled"));
+    }
+
+    @Test
+    public void test3GetOne() throws SDKException {
+        response = this.sso.getOne("twitter");
+        JsonObject data = this.getResponseData(response);
+        assertTrue(data.has("enabled"));
     }
 }

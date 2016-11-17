@@ -1,4 +1,4 @@
-package com.veridu.idos.functional;
+package com.veridu.idos.test.functional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,7 +25,6 @@ public class Scores extends MainTestSetup {
     @Before
     public void setUp() throws Exception {
         this.score = factory.getScore();
-
     }
 
     @Test
@@ -41,9 +40,23 @@ public class Scores extends MainTestSetup {
     }
 
     @Test
-    public void test2GetOne() throws SDKException {
+    public void test2DeleteOne() throws SDKException {
+        JsonObject json = this.score.delete(userName, attributeName);
+        assertTrue(json.get("status").getAsBoolean());
+    }
+
+    @Test
+    public void test3UpsertOne() throws UnsupportedEncodingException, SDKException {
+        response = this.score.upsert(userName, attributeName, name, value);
+        JsonObject data = getResponseData(response);
+        assertTrue(isResponseOk(response));
+        assertEquals(attributeName, data.get("name").getAsString());
+        assertEquals(value, data.get("value").getAsFloat(), 1e-3);
+    }
+
+    @Test
+    public void test4GetOne() throws SDKException {
         response = this.score.getOne(userName, this.attributeName);
-        System.out.println(response);
         assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonObject();
         assertEquals(attributeName, data.get("name").getAsString());
@@ -52,7 +65,7 @@ public class Scores extends MainTestSetup {
     }
 
     @Test
-    public void test3ListAll() throws SDKException {
+    public void test5ListAll() throws SDKException {
         JsonObject json = this.score.listAll(userName);
         JsonArray array = json.get("data").getAsJsonArray();
         JsonObject data = array.get(0).getAsJsonObject();
@@ -63,20 +76,14 @@ public class Scores extends MainTestSetup {
     }
 
     @Test
-    public void test4DeleteOne() throws SDKException {
-        JsonObject json = this.score.delete(userName, attributeName);
-        assertTrue(json.get("status").getAsBoolean());
-    }
-
-    @Test
-    public void test5DeleteAll() throws SDKException, UnsupportedEncodingException {
+    public void test6DeleteAll() throws SDKException, UnsupportedEncodingException {
 
         // create first att
-        response = this.score.create(userName, attributeName, name, value);
+        response = this.score.upsert(userName, attributeName, name, value);
         assertTrue(response.get("status").getAsBoolean());
 
         // create second att
-        response = this.score.create(userName, "attributeName", "other-name", 0.6f);
+        response = this.score.upsert(userName, "attributeName", "other-name", 0.6f);
         assertTrue(response.get("status").getAsBoolean());
 
         // test they are there

@@ -1,7 +1,5 @@
 package com.veridu.idos.endpoints;
 
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
@@ -20,8 +18,8 @@ public class SSO extends AbstractEndpoint {
      * @param credentials
      * @throws InvalidToken
      */
-    public SSO(HashMap<String, String> credentials) throws InvalidToken {
-        super(credentials, IdOSAuthType.NONE);
+    public SSO() {
+        super(null, IdOSAuthType.NONE);
     }
 
     /**
@@ -35,7 +33,7 @@ public class SSO extends AbstractEndpoint {
     }
 
     /**
-     * Creates a new SSO provider
+     * Creates a new SSO provider(OAuth2)
      * 
      * @param providerName
      * @param credentialPublicKey
@@ -49,6 +47,26 @@ public class SSO extends AbstractEndpoint {
         data.addProperty("credential", credentialPublicKey);
         data.addProperty("access_token", accessToken);
 
+        return this.fetch("POST", "sso", data);
+    }
+
+    /**
+     * Creates a new SSO provider(OAuth1)
+     * 
+     * @param providerName
+     * @param credentialPublicKey
+     * @param accessToken
+     * @param tokenSecret
+     * @return JsonObject
+     * @throws SDKException
+     */
+    public JsonObject create(String providerName, String credentialPublicKey, String accessToken, String tokenSecret)
+            throws SDKException {
+        JsonObject data = new JsonObject();
+        data.addProperty("provider", providerName);
+        data.addProperty("credential", credentialPublicKey);
+        data.addProperty("access_token", accessToken);
+        data.addProperty("token_secret", tokenSecret);
         return this.fetch("POST", "sso", data);
     }
 

@@ -3,7 +3,6 @@ package com.veridu.idos.endpoints;
 import java.util.HashMap;
 
 import com.google.gson.JsonObject;
-import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
@@ -21,7 +20,7 @@ public class ProfileSources extends AbstractEndpoint {
      * 
      * @param token
      */
-    public ProfileSources(HashMap<String, String> credentials) throws InvalidToken {
+    public ProfileSources(HashMap<String, String> credentials) {
         super(credentials, IdOSAuthType.USER);
     }
 
@@ -75,6 +74,23 @@ public class ProfileSources extends AbstractEndpoint {
         data.addProperty("name", name);
         data.add("tags", jsonTags);
         return this.fetch("POST", "profiles/" + username + "/sources", data);
+    }
+
+    /**
+     * Updates a source giving its sourceId
+     * 
+     * @param username
+     * @param sourceId
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject update(String username, int sourceId, HashMap<String, String> tags) throws SDKException {
+        JsonObject jsonTags = new JsonObject();
+        for (String key : tags.keySet())
+            jsonTags.addProperty(key, tags.get(key));
+        JsonObject data = new JsonObject();
+        data.add("tags", jsonTags);
+        return this.fetch("PATCH", "profiles/" + username + "/sources/" + sourceId, data);
     }
 
     /**

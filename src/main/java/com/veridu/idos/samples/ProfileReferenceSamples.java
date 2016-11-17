@@ -5,76 +5,87 @@ import java.io.UnsupportedEncodingException;
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
+import com.veridu.idos.settings.Config;
 
 public class ProfileReferenceSamples {
 
     public static void main(String[] args) throws SDKException, UnsupportedEncodingException {
         /**
-         * JsonObject used to parse the response
-         * 
+         * JsonObject used to store the api call response
+         *
          * @see https://github.com/google/gson
          */
-        JsonObject parsed = null;
+        JsonObject json = null;
+
         /**
-         * IdOSAPIFactory is a class that instantiate all endpoints as their
-         * methods (getEndpointName) are called. The endpoints don't need to be
-         * instantiated one by one. You just need to call the
-         * factory.getEndpoint and its going to be instantiated and available to
-         * call its methods. In other words, it means that all endpoints is
-         * going to pass by an IdOSAPIFactory Class, and accessed through this
-         * object
-         * 
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
-        /* Username necessary for all requests of this endpoint */
-        String username = "fd1fde2f31535a266ea7f70fdf224079";
-
         /**
-         * Gets the response from the API listing all references
+         * Creates a new reference. To create a new reference it is necessary to
+         * call the createNew() method passing the userName, the reference name
+         * and the reference value as a parameter.
          */
-        JsonObject json = idOSAPIFactory.getReference().listAll(username);
+        json = idOSAPIFactory.getReference().create(Config.userName, "reference", "value");
 
-        /**
-         * Prints the response
-         */
-        System.out.println(json.get("data").getAsJsonArray());
+        if (json.get("status").getAsBoolean() == true) {
+            /**
+             * Lists all references related to the provided userName.
+             */
+            json = idOSAPIFactory.getReference().listAll(Config.userName);
 
-        /**
-         * Gets the response from the API trying to create a new reference
-         */
-        json = idOSAPIFactory.getReference().create(username, "attributeName", "attributeValue");
+            /**
+             * Prints the api call response to References Endpoint
+             */
+            for (int i = 0; i < json.get("data").getAsJsonArray().size(); i++) {
+                System.out.println(json.get("data").getAsJsonArray().get(i).getAsJsonObject());
+            }
 
-        /**
-         * Get the response form the API getting one reference
-         */
-        json = idOSAPIFactory.getReference().getOne(username, "attributeName");
+            /**
+             * Updates the created reference passing the reference's name and
+             * the new reference value as a parameter.
+             */
+            json = idOSAPIFactory.getReference().update(Config.userName, "reference", "new-value");
 
-        /**
-         * Prints the array response
-         */
-        System.out.println(json.get("data").getAsJsonObject());
+            /**
+             * Retrieves information about one reference, if the status of the
+             * last request is true.
+             */
+            if (json.get("status").getAsBoolean()) {
+                json = idOSAPIFactory.getReference().getOne(Config.userName, "reference");
 
-        /**
-         * Deletes the reference created giving the reference name
-         */
-        json = idOSAPIFactory.getReference().delete(username, "attributeName");
+                /**
+                 * Prints the api call response to References Endpoint
+                 */
+                System.out.println(json.get("data").getAsJsonObject());
 
-        /**
-         * Prints the status of the request
-         */
-        System.out.println(json.get("status").getAsBoolean());
+                /**
+                 * Deletes the reference created giving the reference name
+                 */
+                json = idOSAPIFactory.getReference().delete(Config.userName, "reference");
 
-        /**
-         * Deletes all profile references related to the username
-         */
-        json = idOSAPIFactory.getReference().deleteAll(username);
+                /**
+                 * Prints the status of the api call response
+                 */
+                System.out.println(json.get("status").getAsBoolean());
+            }
+            /**
+             * Deletes all profile references related to the provided username
+             */
+            json = idOSAPIFactory.getReference().deleteAll(Config.userName);
 
-        /**
-         * Prints the number of deleted references
-         */
-        System.out.println(json.get("deleted").getAsInt());
-
+            /**
+             * Prints the number of deleted references, information from the api
+             * call to References Endpoint.
+             */
+            System.out.println(json.get("deleted").getAsInt());
+        }
     }
-
 }

@@ -5,74 +5,89 @@ import java.io.UnsupportedEncodingException;
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
+import com.veridu.idos.settings.Config;
 
 public class ProfileScoreSamples {
 
     public static void main(String[] args) throws SDKException, UnsupportedEncodingException {
         /**
-         * JsonObject used to parse the response
-         * 
+         * JsonObject used to store the api call response
+         *
          * @see https://github.com/google/gson
          */
         JsonObject json = null;
-        /**
-         * IdOSAPIFactory is a class that instantiate all endpoints as their
-         * methods (getEndpointName) are called. The endpoints don't need to be
-         * instantiated one by one. You just need to call the
-         * factory.getEndpoint and its going to be instantiated and available to
-         * call its methods. In other words, it means that all endpoints is
-         * going to pass by an IdOSAPIFactory Class, and accessed through this
-         * object
-         * 
-         */
-        IdOSAPIFactory credentialFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
-
-        /* Username necessary for all requests of this endpoint */
-        String username = "fd1fde2f31535a266ea7f70fdf224079";
 
         /**
-         * Gets the response from the API listing all scores
+         * To instantiate the idOSAPIFactory object, which is responsible for
+         * calling the endpoints, it iss necessary to pass throughout the
+         * constructor a HashMap containing all credentials related to the type
+         * of authorization required by the desired endpoint. The method
+         * getCredentials() from the IdOSSamplesHelper Class, gets the
+         * credentials from the settings.Config class and returns the HashMap
+         * containing the credentials.
          */
-        json = credentialFactory.getScore().listAll(username);
+        IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Prints the response
+         * Creates or updates a score. The upsert() method checks if the score
+         * already exists on the database, if so, it updates it. Otherwise, it
+         * creates a new score. To create or update a score it is necessary to
+         * call the method upsert() passing the userName, the attribute name,
+         * the score name and the score value as a parameter.
          */
-        System.out.println(json.get("data").getAsJsonArray());
+        json = idOSAPIFactory.getScore().upsert(Config.userName, "lastName", "Doe", 0.6);
 
         /**
-         * Gets the response from the API trying to create a new score
+         * Checks if the score was created before calling other methods related
+         * to the scores endpoint that requires an existing score.
          */
-        json = credentialFactory.getScore().create(username, "lastName", "Doe", 0.6);
+        if (json.get("status").getAsBoolean()) {
 
-        System.out.println(json);
-        /**
-         * Get the response form the API getting one score
-         */
-        json = credentialFactory.getScore().getOne(username, "lastName");
+            /**
+             * Lists all scores related to the provided userName.
+             */
+            json = idOSAPIFactory.getScore().listAll(Config.userName);
 
-        /**
-         * Prints the array response
-         */
-        System.out.println(json.get("data").getAsJsonObject());
+            /**
+             * Prints the api call response to Scores endpoint.
+             */
+            for (int i = 0; i < json.get("data").getAsJsonArray().size(); i++) {
+                System.out.println(json.get("data").getAsJsonArray().get(i).getAsJsonObject());
+            }
 
-        /**
-         * Deletes the score created giving the score name
-         */
-        json = credentialFactory.getScore().delete(username, "lastName");
+            /**
+             * Retrieves information of the score created/updated giving the
+             * userName and the score's name to the getOne() method as a
+             * parameter.
+             */
+            json = idOSAPIFactory.getScore().getOne(Config.userName, "lastName");
 
-        /**
-         * Prints the status of the request
-         */
-        System.out.println(json.get("status").getAsBoolean());
+            /**
+             * Prints api call response to Scores endpoint
+             */
+            System.out.println(json.get("data").getAsJsonObject());
+
+            /**
+             * Deletes the score created passing the username and the score name
+             * as a parameter.
+             */
+            json = idOSAPIFactory.getScore().delete(Config.userName, "lastName");
+
+            /**
+             * Prints the status of the api call response to Scores endpoint.
+             */
+            System.out.println(json.get("status").getAsBoolean());
+
+        }
 
         /**
          * Deletes all attribute scores related to the username
          */
-        json = credentialFactory.getScore().deleteAll(username);
+        json = idOSAPIFactory.getScore().deleteAll(Config.userName);
 
         /**
-         * Prints the number of deleted scores
+         * Prints the number of deleted scores, information given by the api
+         * call response to Scores endpoint;
          */
         System.out.println(json.get("deleted").getAsInt());
     }

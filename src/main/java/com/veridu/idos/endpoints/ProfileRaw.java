@@ -22,7 +22,7 @@ public class ProfileRaw extends AbstractEndpoint {
      * @param credentials
      * @throws InvalidToken
      */
-    public ProfileRaw(HashMap<String, String> credentials) throws InvalidToken {
+    public ProfileRaw(HashMap<String, String> credentials) {
         super(credentials, IdOSAuthType.HANDLER);
     }
 
@@ -115,5 +115,16 @@ public class ProfileRaw extends AbstractEndpoint {
         }
         data.add("data", array);
         return this.fetch("PATCH", "profiles/" + username + "/raw/" + collection, data);
+    }
+
+    /**
+     * Deletes all raw data related to the username provided
+     * 
+     * @param username
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject deleteAll(String username) throws SDKException {
+        return this.fetch("DELETE", "profiles/" + username + "/raw");
     }
 }

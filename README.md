@@ -3,7 +3,7 @@ Veridu idOS JAVA SDK
 
 Installation
 ------------
-Is recommended to install this SDK by using [maven](https://maven.apache.org).
+Is recommended to install this SDK using [maven](https://maven.apache.org).
 
 If you are using maven, please edit your `pom.xml` and add the following:
 
@@ -23,17 +23,17 @@ You can find examples of basic usage on `src/main/java/com/veridu/idos/samples/`
 
 Tests
 -----
-To run the tests, just run in the command line inside the root of this project: ```mvn test```.
+To run the tests, run using the command line inside the root of this project: ```mvn test```.
 
 How To Use The New SDK
 ----------------------
 
 The majority of the endpoints require Authentication Tokens when making requests to the API.
-There are three kinds of tokens: UserToken, CredentialToken or IdentityToken.
+There are three kinds of tokens: UserToken, CredentialToken and IdentityToken.
 
 ### First Step
 
-The first step is to instantiate the IdOSAPIFactory Class passing a HashMap<String, String> of the credentials to be used.
+The first step is to instantiate the IdOSAPIFactory Class using a HashMap of the credentials to be used.
 
 ```java
 /**
@@ -52,7 +52,7 @@ IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(credentials);
 
 ### Second Step
 
-The second step is to call the endpoint desired to make the request. As an example we are going to use the /profiles and the listAll() method to list all profiles related to the credential
+The second step is to call the desired endpoint to make the request. As an example we are going to use the /profiles and the listAll() method to list all profiles related to the credential
 
 ```java
 /**
