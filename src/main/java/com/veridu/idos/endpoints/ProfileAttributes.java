@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.SDKException;
+import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
 
 /**
@@ -29,5 +30,17 @@ public class ProfileAttributes extends AbstractEndpoint {
      */
     public JsonObject listAll(String username) throws SDKException {
         return this.fetch("GET", "profiles/" + username + "/attributes");
+    }
+
+    /**
+     * Lists all profiles attributes
+     *
+     * @param username
+     * @param filter
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject listAll(String username, Filter filter) throws SDKException {
+        return this.fetch("GET", "profiles/" + username + "/attributes", null, filter);
     }
 }
