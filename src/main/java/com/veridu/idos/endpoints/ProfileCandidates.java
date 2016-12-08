@@ -1,12 +1,12 @@
 package com.veridu.idos.endpoints;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 /**
  * Profile Candidates Endpoint Class
@@ -18,8 +18,8 @@ public class ProfileCandidates extends AbstractEndpoint {
     /**
      * Class Constructor
      */
-    public ProfileCandidates(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public ProfileCandidates(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**

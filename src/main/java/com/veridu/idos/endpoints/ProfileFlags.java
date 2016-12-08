@@ -19,8 +19,8 @@ public class ProfileFlags extends AbstractEndpoint {
      *
      * @param token
      */
-    public ProfileFlags(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public ProfileFlags(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**

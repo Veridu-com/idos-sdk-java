@@ -1,13 +1,12 @@
 package com.veridu.idos.test.functional;
 
-import java.util.HashMap;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.settings.Config;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+
+import java.util.HashMap;
 
 public class MainTestSetup {
 
@@ -24,7 +23,7 @@ public class MainTestSetup {
         credentials.put("servicePublicKey", Config.servicePublicKey);
         credentials.put("username", Config.userName);
 
-        factory = new IdOSAPIFactory(getCredentials());
+        factory = new IdOSAPIFactory(getCredentials(), Config.BASE_URL, true);
         userName = getCredentials().get("username");
     }
 

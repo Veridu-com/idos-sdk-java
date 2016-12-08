@@ -1,12 +1,12 @@
 package com.veridu.idos.endpoints;
 
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
+
+import java.util.HashMap;
 
 /**
  * Profile Raw Endpoint Class
@@ -22,8 +22,8 @@ public class ProfileRaw extends AbstractEndpoint {
      * @param credentials
      * @throws InvalidToken
      */
-    public ProfileRaw(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public ProfileRaw(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
@@ -119,7 +119,7 @@ public class ProfileRaw extends AbstractEndpoint {
 
     /**
      * Deletes all raw data related to the username provided
-     * 
+     *
      * @param username
      * @return JsonObject response
      * @throws SDKException

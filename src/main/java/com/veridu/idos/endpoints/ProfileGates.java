@@ -18,8 +18,8 @@ public class ProfileGates extends AbstractEndpoint {
     /**
      * Class constructor
      */
-    public ProfileGates(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public ProfileGates(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**

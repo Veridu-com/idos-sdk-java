@@ -1,13 +1,13 @@
 package com.veridu.idos.endpoints;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 /**
  * Settings Class
@@ -19,8 +19,8 @@ public class Settings extends AbstractEndpoint {
     /**
      * Class constructor
      */
-    public Settings(HashMap<String, String> credentials) throws InvalidToken {
-        super(credentials, IdOSAuthType.IDENTITY);
+    public Settings(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) throws InvalidToken {
+        super(credentials, IdOSAuthType.IDENTITY, baseURL, doNotCheckSSL);
     }
 
     /**

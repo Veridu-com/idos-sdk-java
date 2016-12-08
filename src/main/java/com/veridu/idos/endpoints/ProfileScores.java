@@ -16,8 +16,8 @@ import com.veridu.idos.utils.IdOSAuthType;
  */
 public class ProfileScores extends AbstractEndpoint {
 
-    public ProfileScores(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public ProfileScores(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**

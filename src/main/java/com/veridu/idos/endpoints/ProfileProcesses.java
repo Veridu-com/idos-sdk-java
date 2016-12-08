@@ -1,22 +1,22 @@
 package com.veridu.idos.endpoints;
 
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.utils.IdOSAuthType;
+
+import java.util.HashMap;
 
 public class ProfileProcesses extends AbstractEndpoint {
     /**
      * Class Constructor
      */
-    public ProfileProcesses(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public ProfileProcesses(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
      * Lists all profiles processes
-     * 
+     *
      * @param username
      * @return JsonObject response
      * @throws SDKException
@@ -27,7 +27,7 @@ public class ProfileProcesses extends AbstractEndpoint {
 
     /**
      * Retrieves an process given its process name
-     * 
+     *
      * @param username
      * @param processId
      * @return JsonObject response

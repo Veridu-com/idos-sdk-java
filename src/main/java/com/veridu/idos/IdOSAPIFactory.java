@@ -1,28 +1,27 @@
 package com.veridu.idos;
 
+import com.veridu.idos.endpoints.*;
+import com.veridu.idos.exceptions.InvalidToken;
+import com.veridu.idos.settings.Config;
+
 import java.io.Serializable;
 import java.util.HashMap;
-
-import com.veridu.idos.endpoints.ProfileAttributes;
-import com.veridu.idos.endpoints.ProfileCandidates;
-import com.veridu.idos.endpoints.ProfileFeatures;
-import com.veridu.idos.endpoints.ProfileFlags;
-import com.veridu.idos.endpoints.ProfileGates;
-import com.veridu.idos.endpoints.ProfileProcesses;
-import com.veridu.idos.endpoints.ProfileRaw;
-import com.veridu.idos.endpoints.ProfileReferences;
-import com.veridu.idos.endpoints.ProfileScores;
-import com.veridu.idos.endpoints.ProfileSources;
-import com.veridu.idos.endpoints.ProfileTasks;
-import com.veridu.idos.endpoints.Profiles;
-import com.veridu.idos.endpoints.SSO;
-import com.veridu.idos.exceptions.InvalidToken;
 
 /**
  * CredentialFactory Endpoint creates all Endpoints
  *
  */
 public class IdOSAPIFactory implements Serializable {
+
+    /**
+     * base API URL
+     */
+    private String baseURL = Config.BASE_URL;
+
+    /**
+     * ssl checking flag
+     */
+    private boolean doNotCheckSSL = false;
 
     /**
      * Credentials data
@@ -108,6 +107,42 @@ public class IdOSAPIFactory implements Serializable {
      *
      * @param credentials
      *            HashMap<String, String>
+     * @param baseURL API URL
+     */
+    public IdOSAPIFactory(HashMap<String, String> credentials, String baseURL) {
+        this.credentials = credentials;
+        this.baseURL = baseURL;
+    }
+
+    /**
+     * Class constructor
+     *
+     * @param credentials
+     *            HashMap<String, String>
+     * @param doNotCheckSSLCertificate whether to disable ssl verification for API requests
+     */
+    public IdOSAPIFactory(HashMap<String, String> credentials, boolean doNotCheckSSLCertificate) {
+        this.credentials = credentials;
+        this.doNotCheckSSL = doNotCheckSSLCertificate;
+    }
+
+    /**
+     * Class constructor
+     *
+     * @param credentials
+     *            HashMap<String, String>
+     * @param baseURL API URL
+     * @param doNotCheckSSLCertificate whether to disable ssl verification for API requests
+     */
+    public IdOSAPIFactory(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSLCertificate) {
+        this.credentials = credentials;
+        this.baseURL = baseURL;
+        this.doNotCheckSSL = doNotCheckSSLCertificate;
+    }
+
+    /**
+     * Class constructor
+     *
      */
     public IdOSAPIFactory() {
         this.credentials = new HashMap<>();
@@ -121,7 +156,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileCandidates getCandidate() {
         if (!(this.candidates instanceof ProfileCandidates))
-            this.candidates = new ProfileCandidates(this.credentials);
+            this.candidates = new ProfileCandidates(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.candidates;
     }
 
@@ -133,7 +168,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileAttributes getAttribute() {
         if (!(this.attributes instanceof ProfileAttributes))
-            this.attributes = new ProfileAttributes(this.credentials);
+            this.attributes = new ProfileAttributes(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.attributes;
     }
 
@@ -145,7 +180,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileFeatures getFeature() {
         if (!(this.feature instanceof ProfileFeatures))
-            this.feature = new ProfileFeatures(this.credentials);
+            this.feature = new ProfileFeatures(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.feature;
     }
 
@@ -157,7 +192,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileGates getGate() {
         if (!(this.gate instanceof ProfileGates))
-            this.gate = new ProfileGates(this.credentials);
+            this.gate = new ProfileGates(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.gate;
     }
 
@@ -169,7 +204,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileReferences getReference() {
         if (!(this.reference instanceof ProfileReferences))
-            this.reference = new ProfileReferences(this.credentials);
+            this.reference = new ProfileReferences(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.reference;
     }
 
@@ -181,7 +216,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileTasks getTask() {
         if (!(this.task instanceof ProfileTasks))
-            this.task = new ProfileTasks(this.credentials);
+            this.task = new ProfileTasks(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.task;
     }
 
@@ -193,7 +228,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileScores getScore() {
         if (!(this.score instanceof ProfileScores))
-            this.score = new ProfileScores(this.credentials);
+            this.score = new ProfileScores(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.score;
     }
 
@@ -205,7 +240,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileFlags getFlag() {
         if (!(this.flags instanceof ProfileFlags))
-            this.flags = new ProfileFlags(this.credentials);
+            this.flags = new ProfileFlags(this.credentials, this.baseURL, this.doNotCheckSSL);
         return this.flags;
     }
 
@@ -217,7 +252,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileSources getSource() {
         if (!(this.source instanceof ProfileSources)) {
-            this.source = new ProfileSources(this.credentials);
+            this.source = new ProfileSources(this.credentials, this.baseURL, this.doNotCheckSSL);
         }
         return this.source;
     }
@@ -230,7 +265,7 @@ public class IdOSAPIFactory implements Serializable {
      */
     public ProfileRaw getRaw() {
         if (!(this.raw instanceof ProfileRaw)) {
-            this.raw = new ProfileRaw(this.credentials);
+            this.raw = new ProfileRaw(this.credentials, this.baseURL, this.doNotCheckSSL);
         }
         return this.raw;
     }
@@ -243,33 +278,33 @@ public class IdOSAPIFactory implements Serializable {
      */
     public SSO getSSO() {
         if (!(this.sso instanceof SSO)) {
-            this.sso = new SSO();
+            this.sso = new SSO(this.baseURL, this.doNotCheckSSL);
         }
         return this.sso;
     }
 
     /**
      * Instantiates ProfileProcesses endpoint
-     * 
+     *
      * @return Profile Processes instance
      * @throws InvalidToken
      */
     public ProfileProcesses getProcess() {
         if (!(this.process instanceof ProfileProcesses)) {
-            this.process = new ProfileProcesses(this.credentials);
+            this.process = new ProfileProcesses(this.credentials, this.baseURL, this.doNotCheckSSL);
         }
         return this.process;
     }
 
     /**
      * Instantiates Profiles endpoint
-     * 
+     *
      * @return Profiles intance
      * @throws InvalidToken
      */
     public Profiles getProfile() {
         if (!(this.profile instanceof Profiles)) {
-            this.profile = new Profiles(this.credentials);
+            this.profile = new Profiles(this.credentials, this.baseURL, this.doNotCheckSSL);
         }
         return this.profile;
     }
