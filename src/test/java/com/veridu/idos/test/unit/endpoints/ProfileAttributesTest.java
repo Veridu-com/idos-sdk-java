@@ -1,13 +1,12 @@
 package com.veridu.idos.test.unit.endpoints;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.hamcrest.CoreMatchers.isA;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-
+import com.google.gson.JsonObject;
+import com.veridu.idos.endpoints.AbstractEndpoint;
+import com.veridu.idos.endpoints.ProfileAttributes;
+import com.veridu.idos.settings.Config;
+import com.veridu.idos.test.unit.AbstractUnit;
+import com.veridu.idos.utils.IdOSAuthType;
+import com.veridu.idos.utils.IdOSUtils;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
@@ -19,12 +18,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.google.gson.JsonObject;
-import com.veridu.idos.endpoints.AbstractEndpoint;
-import com.veridu.idos.endpoints.ProfileAttributes;
-import com.veridu.idos.test.unit.AbstractUnit;
-import com.veridu.idos.utils.IdOSAuthType;
-import com.veridu.idos.utils.IdOSUtils;
+import java.util.HashMap;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.hamcrest.CoreMatchers.isA;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ProfileAttributes.class, AbstractEndpoint.class, Request.class, Response.class, IdOSUtils.class,
@@ -43,7 +43,7 @@ public class ProfileAttributesTest extends AbstractUnit {
 
     @Test
     public void testConstructor() {
-        ProfileAttributes attributes = new ProfileAttributes(this.credentials);
+        ProfileAttributes attributes = new ProfileAttributes(this.credentials, Config.BASE_URL, false);
         assertThat(attributes, isA(ProfileAttributes.class));
     }
 
@@ -68,7 +68,7 @@ public class ProfileAttributesTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         assertEquals(json, attributesMock.listAll("username"));
     }
 }

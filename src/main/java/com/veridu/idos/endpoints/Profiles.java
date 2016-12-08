@@ -10,8 +10,8 @@ public class Profiles extends AbstractEndpoint {
     /**
      * Class constructor
      */
-    public Profiles(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public Profiles(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**

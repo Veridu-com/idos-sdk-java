@@ -1,12 +1,16 @@
 package com.veridu.idos.test.unit.endpoints;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.veridu.idos.IdOSAPIFactory;
+import com.veridu.idos.endpoints.AbstractEndpoint;
+import com.veridu.idos.endpoints.ProfileCandidates;
+import com.veridu.idos.endpoints.ProfileTasks;
+import com.veridu.idos.settings.Config;
+import com.veridu.idos.test.unit.AbstractUnit;
+import com.veridu.idos.utils.Filter;
+import com.veridu.idos.utils.IdOSAuthType;
+import com.veridu.idos.utils.IdOSUtils;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
@@ -21,17 +25,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.powermock.reflect.internal.WhiteboxImpl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.veridu.idos.IdOSAPIFactory;
-import com.veridu.idos.endpoints.AbstractEndpoint;
-import com.veridu.idos.endpoints.ProfileCandidates;
-import com.veridu.idos.endpoints.ProfileTasks;
-import com.veridu.idos.settings.Config;
-import com.veridu.idos.test.unit.AbstractUnit;
-import com.veridu.idos.utils.Filter;
-import com.veridu.idos.utils.IdOSAuthType;
-import com.veridu.idos.utils.IdOSUtils;
+import java.util.HashMap;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ AbstractEndpoint.class, Request.class, Response.class, IdOSUtils.class, Content.class })
@@ -51,7 +50,7 @@ public class AbstractEndpointTest extends AbstractUnit {
      */
     @Test
     public void testConstructor() {
-        ProfileTasks tasks = new ProfileTasks(credentials);
+        ProfileTasks tasks = new ProfileTasks(credentials, Config.BASE_URL, false);
         assertSame("HANDLER", tasks.getAuthType().toString());
     }
 
@@ -181,7 +180,7 @@ public class AbstractEndpointTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         assertEquals(json,
                 WhiteboxImpl.invokeMethod(endpointMock, "sendRequest", "GET", "https://idos.api.io/1.0", null));
     }
@@ -208,7 +207,7 @@ public class AbstractEndpointTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");
         assertEquals(json,
@@ -237,7 +236,7 @@ public class AbstractEndpointTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");
         assertEquals(json,
@@ -266,7 +265,7 @@ public class AbstractEndpointTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");
         assertEquals(json,
@@ -294,7 +293,7 @@ public class AbstractEndpointTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");
         assertEquals(json,

@@ -7,24 +7,23 @@ import com.veridu.idos.utils.IdOSAuthType;
 
 /**
  * SSO Endpoint Class
- * 
+ *
  * @version 2.0
  */
 public class SSO extends AbstractEndpoint {
 
     /**
      * Constructor Class
-     * 
-     * @param credentials
+     *
      * @throws InvalidToken
      */
-    public SSO() {
-        super(null, IdOSAuthType.NONE);
+    public SSO(String baseURL, boolean doNotCheckSSL) {
+        super(null, IdOSAuthType.NONE, baseURL, doNotCheckSSL);
     }
 
     /**
      * Lists all providers
-     * 
+     *
      * @return JsonObject
      * @throws SDKException
      */
@@ -34,7 +33,7 @@ public class SSO extends AbstractEndpoint {
 
     /**
      * Creates a new SSO provider(OAuth2)
-     * 
+     *
      * @param providerName
      * @param credentialPublicKey
      * @param accessToken
@@ -52,7 +51,7 @@ public class SSO extends AbstractEndpoint {
 
     /**
      * Creates a new SSO provider(OAuth1)
-     * 
+     *
      * @param providerName
      * @param credentialPublicKey
      * @param accessToken
@@ -72,7 +71,7 @@ public class SSO extends AbstractEndpoint {
 
     /**
      * Retrieves the status of a sso provider given its provider name
-     * 
+     *
      * @param providerName
      * @return JsonObject
      * @throws SDKException

@@ -1,25 +1,47 @@
 package com.veridu.idos.endpoints;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.HashMap;
-
-import org.apache.http.client.fluent.Content;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.entity.ContentType;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.exceptions.SDKException;
-import com.veridu.idos.settings.Config;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
 import com.veridu.idos.utils.IdOSUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.fluent.Executor;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
+import java.io.Serializable;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+import java.util.HashMap;
 
 public abstract class AbstractEndpoint implements Serializable {
+
+    /**
+     * base API URL
+     */
+    private final String baseURL;
+
+    /**
+     * Flag to disable ssl checking
+     */
+    private boolean doNotCheckSSLCertificate = false;
 
     /**
      * IdOSAuthType (USER, HANDLER, MANAGEMENT)
@@ -46,11 +68,29 @@ public abstract class AbstractEndpoint implements Serializable {
     private HashMap<String, String> credentials;
 
     /**
+     * trustmanager for disabling ssl checking
+     */
+    private static final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        }
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        }
+    } };
+
+    /**
      * Class constructor
      */
-    public AbstractEndpoint(HashMap<String, String> credentials, IdOSAuthType authType) {
+    public AbstractEndpoint(HashMap<String, String> credentials, IdOSAuthType authType, String baseURL,
+            boolean doNotCheckSSLCertificate) {
         this.credentials = credentials;
         this.authType = authType;
+        this.baseURL = baseURL;
+        this.doNotCheckSSLCertificate = doNotCheckSSLCertificate;
     }
 
     /**
@@ -103,7 +143,7 @@ public abstract class AbstractEndpoint implements Serializable {
     }
 
     private String transformURL(String method, String resource, Filter filter) {
-        String url = Config.BASE_URL;
+        String url = this.baseURL;
         if (resource.charAt(0) != '/')
             url = url.concat("/");
         url = url.concat(resource);
@@ -172,7 +212,7 @@ public abstract class AbstractEndpoint implements Serializable {
 
     /**
      * Checks api response status
-     * 
+     *
      * @param response
      * @return boolean status
      */
@@ -182,7 +222,7 @@ public abstract class AbstractEndpoint implements Serializable {
 
     /**
      * Retrieves api response error
-     * 
+     *
      * @param apiResponse
      * @return JsonObject api error response
      */
@@ -192,10 +232,10 @@ public abstract class AbstractEndpoint implements Serializable {
 
     /**
      * Returns api call response if status true or throws SDKException
-     * 
+     *
      * @param apiResponse
      * @return JsonObject response
-     * 
+     *
      * @throws SDKException
      */
     private JsonObject handleAPIresponse(JsonObject apiResponse) throws SDKException {
@@ -238,45 +278,68 @@ public abstract class AbstractEndpoint implements Serializable {
         }
 
         try {
-            Content ct = null;
+            HttpResponse httpRes = null;
+
+            SSLContext sc = null;
+            CloseableHttpClient httpClient = null;
+
+            if (doNotCheckSSLCertificate) {
+                try {
+                    sc = SSLContext.getInstance("SSL");
+                    sc.init(null, trustAllCerts, new SecureRandom());
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (KeyManagementException e) {
+                    e.printStackTrace();
+                }
+
+                httpClient = HttpClients.custom().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                        .setSSLContext(sc).build();
+            } else {
+                httpClient = HttpClients.createDefault(); // create default client
+            }
 
             switch (method) {
             case "POST":
                 if (this.authType != this.authType.NONE) {
-                    ct = Request.Post(url).setHeader(authHeader, credential)
-                            .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON).execute()
-                            .returnContent();
+                    httpRes = Executor.newInstance(httpClient).execute(
+                            Request.Post(url).setHeader(authHeader, credential)
+                                    .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON))
+                            .returnResponse();
                 } else {
-                    ct = Request.Post(url).bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)
-                            .execute().returnContent();
+                    httpRes = Executor.newInstance(httpClient).execute(
+                            Request.Post(url).bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON))
+                            .returnResponse();
                 }
                 break;
             case "GET":
                 if (this.authType != this.authType.NONE) {
-                    ct = Request.Get(url).setHeader(authHeader, credential).execute().returnContent();
+                    httpRes = Executor.newInstance(httpClient)
+                            .execute(Request.Get(url).setHeader(authHeader, credential)).returnResponse();
                 } else {
-                    ct = Request.Get(url).execute().returnContent();
+                    httpRes = Executor.newInstance(httpClient).execute(Request.Get(url)).returnResponse();
                 }
-
                 break;
             case "DELETE":
-                ct = Request.Delete(url).setHeader(authHeader, credential).execute().returnContent();
+                httpRes = Executor.newInstance(httpClient)
+                        .execute(Request.Delete(url).setHeader(authHeader, credential)).returnResponse();
                 break;
             case "PUT":
-                ct = Request.Put(url).setHeader(authHeader, credential)
-                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON).execute()
-                        .returnContent();
+                httpRes = Executor.newInstance(httpClient).execute(Request.Put(url).setHeader(authHeader, credential)
+                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)).returnResponse();
                 break;
             case "PATCH":
-                ct = Request.Patch(url).setHeader(authHeader, credential)
-                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON).execute()
-                        .returnContent();
+                httpRes = Executor.newInstance(httpClient).execute(Request.Patch(url).setHeader(authHeader, credential)
+                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)).returnResponse();
                 break;
-
             }
 
-            return handleAPIresponse(this.convertToJson(ct.toString()));
+            return handleAPIresponse(this.convertToJson(EntityUtils.toString(httpRes.getEntity())));
 
+        } catch (HttpResponseException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -352,7 +415,7 @@ public abstract class AbstractEndpoint implements Serializable {
 
     /**
      * Gets the Auth type
-     * 
+     *
      * @return authType
      */
     public IdOSAuthType getAuthType() {

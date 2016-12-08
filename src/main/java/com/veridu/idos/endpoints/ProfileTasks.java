@@ -14,8 +14,8 @@ import java.util.HashMap;
  */
 public class ProfileTasks extends AbstractEndpoint {
 
-    public ProfileTasks(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.HANDLER);
+    public ProfileTasks(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**

@@ -9,7 +9,7 @@ import com.veridu.idos.utils.IdOSAuthType;
 
 /**
  * ProfileSources Endpoint class
- * 
+ *
  * @version 2.0
  *
  */
@@ -17,16 +17,16 @@ public class ProfileSources extends AbstractEndpoint {
 
     /**
      * Constructor class
-     * 
+     *
      * @param token
      */
-    public ProfileSources(HashMap<String, String> credentials) {
-        super(credentials, IdOSAuthType.USER);
+    public ProfileSources(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
+        super(credentials, IdOSAuthType.USER, baseURL, doNotCheckSSL);
     }
 
     /**
      * Lists all sources given an username
-     * 
+     *
      * @param username
      * @return JsonObject response
      * @throws SDKException
@@ -37,7 +37,7 @@ public class ProfileSources extends AbstractEndpoint {
 
     /**
      * Lists all sources given an username
-     * 
+     *
      * @param username
      * @return JsonObject response
      * @throws SDKException
@@ -48,7 +48,7 @@ public class ProfileSources extends AbstractEndpoint {
 
     /**
      * Retrieves a source given its source name
-     * 
+     *
      * @param username
      * @param sourceId
      * @return JsonObject response
@@ -60,7 +60,7 @@ public class ProfileSources extends AbstractEndpoint {
 
     /**
      * Creates a source passing the source name
-     * 
+     *
      * @param username
      * @param sourceId
      * @return JsonObject response
@@ -78,7 +78,7 @@ public class ProfileSources extends AbstractEndpoint {
 
     /**
      * Updates a source giving its sourceId
-     * 
+     *
      * @param username
      * @param sourceId
      * @return JsonObject response
@@ -95,7 +95,7 @@ public class ProfileSources extends AbstractEndpoint {
 
     /**
      * Deletes a source given the source name
-     * 
+     *
      * @param username
      * @param sourceId
      * @return JsonObject response
@@ -107,7 +107,7 @@ public class ProfileSources extends AbstractEndpoint {
 
     /**
      * Deletes all sources associated with a username
-     * 
+     *
      * @param username
      * @return JsonObject response
      * @throws SDKException

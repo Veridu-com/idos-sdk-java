@@ -1,12 +1,12 @@
 package com.veridu.idos.test.unit.endpoints;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.util.HashMap;
-
+import com.google.gson.JsonObject;
+import com.veridu.idos.endpoints.AbstractEndpoint;
+import com.veridu.idos.endpoints.ProfileSources;
+import com.veridu.idos.exceptions.SDKException;
+import com.veridu.idos.test.unit.AbstractUnit;
+import com.veridu.idos.utils.IdOSAuthType;
+import com.veridu.idos.utils.IdOSUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
@@ -20,14 +20,12 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.google.gson.JsonObject;
-import com.veridu.idos.endpoints.AbstractEndpoint;
-import com.veridu.idos.endpoints.ProfileSources;
-import com.veridu.idos.exceptions.InvalidToken;
-import com.veridu.idos.exceptions.SDKException;
-import com.veridu.idos.test.unit.AbstractUnit;
-import com.veridu.idos.utils.IdOSAuthType;
-import com.veridu.idos.utils.IdOSUtils;
+import java.io.IOException;
+import java.util.HashMap;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ProfileSources.class, AbstractEndpoint.class, Request.class, Response.class, IdOSUtils.class,
@@ -62,7 +60,7 @@ public class ProfileSourcesTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         assertEquals(json, sourcesMock.listAll("username"));
 
     }
@@ -89,7 +87,7 @@ public class ProfileSourcesTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         HashMap<String, String> tags = new HashMap<>();
         assertEquals(json, sourcesMock.create("userName", "email", tags));
     }
@@ -115,7 +113,7 @@ public class ProfileSourcesTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         assertEquals(json, sourcesMock.getOne("userName", 758632156));
     }
 
@@ -141,7 +139,7 @@ public class ProfileSourcesTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         HashMap<String, String> tags = new HashMap<>();
         assertEquals(json, sourcesMock.update("userName", 785642136, tags));
     }
@@ -167,7 +165,7 @@ public class ProfileSourcesTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         assertEquals(json, sourcesMock.delete("userName", 758632156));
     }
 
@@ -192,7 +190,7 @@ public class ProfileSourcesTest extends AbstractUnit {
         when(content.toString()).thenReturn("{\"status\":true}");
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
+                .thenReturn("token");
         assertEquals(json, sourcesMock.deleteAll("userName"));
     }
 }
