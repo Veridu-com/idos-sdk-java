@@ -47,12 +47,12 @@ public class ProfileScores extends AbstractEndpoint {
      * Retrieves the score related to the given scoreName
      *
      * @param username
-     * @param attributeName
+     * @param scoreName
      * @return JsonObject response
      * @throws SDKException
      */
-    public JsonObject getOne(String username, String attributeName) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/scores/" + attributeName);
+    public JsonObject getOne(String username, String scoreName) throws SDKException {
+        return this.fetch("GET", "profiles/" + username + "/scores/" + scoreName);
     }
 
     /**
@@ -130,7 +130,6 @@ public class ProfileScores extends AbstractEndpoint {
      * Deletes all scores related to the user
      *
      * @param username
-     * @param attributeName
      * @return
      * @throws SDKException
      */
