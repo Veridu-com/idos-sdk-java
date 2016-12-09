@@ -244,7 +244,7 @@ public abstract class AbstractEndpoint implements Serializable {
         else {
             JsonObject apiError = getAPIJSONError(apiResponse);
             throw new SDKException(apiError.get("message").getAsString(), apiError.get("type").getAsString(),
-                    apiError.get("link").getAsString());
+                    apiError.get("link").getAsString(), apiError.get("code").getAsInt());
         }
     }
 
