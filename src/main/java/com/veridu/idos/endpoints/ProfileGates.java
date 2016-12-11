@@ -16,14 +16,18 @@ import java.util.HashMap;
  */
 public class ProfileGates extends AbstractEndpoint {
     /**
-     * Class constructor
+     * Class Constructor
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileGates(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all gates given an username
+     * Lists all gates related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -34,7 +38,7 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Lists all gates given an username, with filtering
+     * Lists all gates related to the given user with filtering
      *
      * @param username
      * @param filter
@@ -58,10 +62,11 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Creates a gate passing the gate name
+     * Creates a new gate for the given user
      *
      * @param username
      * @param gateName
+     * @param pass
      * @return JsonObject response
      * @throws SDKException
      * @throws UnsupportedEncodingException
@@ -75,10 +80,11 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Creates a gate passing the gate name
+     * Creates a new gate for the given user
      *
      * @param username
      * @param gateName
+     * @param pass
      * @param confidenceLevel
      * @return JsonObject response
      * @throws SDKException
@@ -94,10 +100,11 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Updates or creates a gate passing the gate name
+     * Updates or creates a gate for the given user
      *
      * @param username
      * @param gateName
+     * @param pass
      * @return JsonObject response
      * @throws SDKException
      * @throws UnsupportedEncodingException
@@ -111,10 +118,11 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Updates or creates a gate passing the gate name
+     * Updates or creates a gate for the given user
      *
      * @param username
      * @param gateName
+     * @param pass
      * @param confidenceLevel
      * @return JsonObject response
      * @throws SDKException
@@ -130,7 +138,7 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Updates a gate given its gate name
+     * Updates a gate for the given gate name
      *
      * @param username
      * @param gateName
@@ -147,7 +155,7 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Deletes a gate given the gate name
+     * Deletes a gate related to the given gate name
      *
      * @param username
      * @param gateName
@@ -159,7 +167,7 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all gates associated with a username
+     * Deletes all gates related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -170,7 +178,7 @@ public class ProfileGates extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all gates associated with a username
+     * Deletes all gates related to the given user with filtering
      *
      * @param username
      * @param filter

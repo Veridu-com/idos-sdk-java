@@ -9,13 +9,17 @@ import java.util.HashMap;
 public class ProfileProcesses extends AbstractEndpoint {
     /**
      * Class Constructor
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileProcesses(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all profiles processes
+     * Lists all profiles processes related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -26,7 +30,7 @@ public class ProfileProcesses extends AbstractEndpoint {
     }
 
     /**
-     * Retrieves an process given its process name
+     * Retrieves an process given its process id
      *
      * @param username
      * @param processId

@@ -9,16 +9,19 @@ import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
 
 public class ProfileFeatures extends AbstractEndpoint {
-
     /**
-     * Class constructor
+     * Class Constructor
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileFeatures(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Retrieve a complete list of all features that belong to the given user.
+     * Retrieve a complete list of all features for the given user.
      *
      * @param username
      * @return JsonObject response
@@ -29,7 +32,7 @@ public class ProfileFeatures extends AbstractEndpoint {
     }
 
     /**
-     * Retrieve a complete list of all features that belong to the given user,
+     * Retrieve a complete list of all features that belong to the given user
      * with filtering.
      *
      * @param username
@@ -54,7 +57,7 @@ public class ProfileFeatures extends AbstractEndpoint {
     }
 
     /**
-     * Update or insert a new profile feature for the given user.
+     * Updates or creates a new profile feature for the given user.
      *
      * @param username
      * @param name
@@ -69,7 +72,7 @@ public class ProfileFeatures extends AbstractEndpoint {
     }
 
     /**
-     * Update or insert a new feature for the given user.
+     * Updates or creates a new feature for the given user.
      *
      * @param username
      * @param name
@@ -145,6 +148,7 @@ public class ProfileFeatures extends AbstractEndpoint {
      *
      * @param username
      * @param name
+     * @param sourceId
      * @param value
      * @return JsonObject response
      * @throws SDKException
@@ -181,6 +185,7 @@ public class ProfileFeatures extends AbstractEndpoint {
      *
      * @param username
      * @param name
+     * @param sourceId
      * @param value
      * @return JsonObject response
      * @throws SDKException
@@ -239,6 +244,7 @@ public class ProfileFeatures extends AbstractEndpoint {
      *
      * @param username
      * @param name
+     * @param sourceId
      * @param value
      * @return JsonObject response
      * @throws SDKException
@@ -275,6 +281,7 @@ public class ProfileFeatures extends AbstractEndpoint {
      *
      * @param username
      * @param name
+     * @param sourceId
      * @param value
      * @return JsonObject response
      * @throws SDKException
@@ -311,6 +318,7 @@ public class ProfileFeatures extends AbstractEndpoint {
      *
      * @param username
      * @param name
+     * @param sourceId
      * @param value
      * @return JsonObject response
      * @throws SDKException
@@ -369,7 +377,7 @@ public class ProfileFeatures extends AbstractEndpoint {
      *
      * @param username
      * @param featureId
-     * @param name
+     * @param sourceId
      * @param value
      * @return JsonObject response
      * @throws SDKException

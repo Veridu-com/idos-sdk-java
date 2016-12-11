@@ -88,6 +88,11 @@ public class IdOSAPIFactory implements Serializable {
     private ProfileProcesses process;
 
     /**
+     * ProfileRecommmendation object
+     */
+    private ProfileRecommendation recommendation;
+
+    /**
      * Profiles object
      */
     private Profiles profile;
@@ -152,7 +157,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Candidate endpoint.
      *
      * @return ProfileCandidate instance
-     * @throws InvalidToken
      */
     public ProfileCandidates getCandidate() {
         if (!(this.candidates instanceof ProfileCandidates))
@@ -164,7 +168,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Attribute endpoint.
      *
      * @return ProfileAttribute instance
-     * @throws InvalidToken
      */
     public ProfileAttributes getAttribute() {
         if (!(this.attributes instanceof ProfileAttributes))
@@ -176,7 +179,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Feature endpoint.
      *
      * @return ProfileFeaturesTest instance
-     * @throws InvalidToken
      */
     public ProfileFeatures getFeature() {
         if (!(this.feature instanceof ProfileFeatures))
@@ -188,7 +190,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Gate endpoint
      *
      * @return ProfileGates instance
-     * @throws InvalidToken
      */
     public ProfileGates getGate() {
         if (!(this.gate instanceof ProfileGates))
@@ -200,7 +201,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Reference endpoint
      *
      * @return ProfileReferences instance
-     * @throws InvalidToken
      */
     public ProfileReferences getReference() {
         if (!(this.reference instanceof ProfileReferences))
@@ -212,7 +212,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Task endpoint
      *
      * @return ProfileTasks instance
-     * @throws InvalidToken
      */
     public ProfileTasks getTask() {
         if (!(this.task instanceof ProfileTasks))
@@ -224,7 +223,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Score endpoint
      *
      * @return ProfileScores instance
-     * @throws InvalidToken
      */
     public ProfileScores getScore() {
         if (!(this.score instanceof ProfileScores))
@@ -236,7 +234,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Flag endpoint
      *
      * @return ProfileFlagsTest instance
-     * @throws InvalidToken
      */
     public ProfileFlags getFlag() {
         if (!(this.flags instanceof ProfileFlags))
@@ -248,7 +245,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Source endpoint
      *
      * @return Source instance
-     * @throws InvalidToken
      */
     public ProfileSources getSource() {
         if (!(this.source instanceof ProfileSources)) {
@@ -261,7 +257,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates Raw endpoint
      *
      * @return Raw instance
-     * @throws InvalidToken
      */
     public ProfileRaw getRaw() {
         if (!(this.raw instanceof ProfileRaw)) {
@@ -274,7 +269,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates SSO endpoint
      *
      * @return SSO instance
-     * @throws InvalidToken
      */
     public SSO getSSO() {
         if (!(this.sso instanceof SSO)) {
@@ -287,7 +281,6 @@ public class IdOSAPIFactory implements Serializable {
      * Instantiates ProfileProcesses endpoint
      *
      * @return Profile Processes instance
-     * @throws InvalidToken
      */
     public ProfileProcesses getProcess() {
         if (!(this.process instanceof ProfileProcesses)) {
@@ -297,10 +290,22 @@ public class IdOSAPIFactory implements Serializable {
     }
 
     /**
+     * Instantiates ProfileRecommendation endpoint
+     *
+     * @return Profile Recommendation instance
+     */
+    public ProfileRecommendation getRecommendation() {
+        if (!(this.recommendation instanceof ProfileRecommendation)) {
+            this.recommendation = new ProfileRecommendation(this.credentials, this.baseURL, this.doNotCheckSSL);
+        }
+
+        return this.recommendation;
+    }
+
+    /**
      * Instantiates Profiles endpoint
      *
      * @return Profiles intance
-     * @throws InvalidToken
      */
     public Profiles getProfile() {
         if (!(this.profile instanceof Profiles)) {

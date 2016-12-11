@@ -16,6 +16,10 @@ import java.util.HashMap;
 public class ProfileAttributes extends AbstractEndpoint {
     /**
      * Class Constructor
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileAttributes(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.USER, baseURL, doNotCheckSSL);

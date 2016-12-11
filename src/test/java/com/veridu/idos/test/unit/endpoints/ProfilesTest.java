@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.veridu.idos.settings.Config;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
@@ -62,7 +63,7 @@ public class ProfilesTest extends AbstractUnit {
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
                         .thenReturn("token");
-        assertEquals(json, profilesMock.listAll());
+        assertEquals(json, profilesMock.getOne(Config.userName));
 
     }
 }
