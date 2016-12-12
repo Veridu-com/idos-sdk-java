@@ -1,5 +1,6 @@
 package com.veridu.idos.samples;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
@@ -34,8 +35,8 @@ public class ProfileRecommendationSamples {
          * call the upsert() method passing the userName, the result, and both array containing passed
          * and failed values as parameters.
          */
-        HashMap<String, String> passed = new HashMap<>();
-        HashMap<String, String> failed = new HashMap<>();
+        JsonArray passed = new JsonArray();
+        JsonArray failed = new JsonArray();
         json = idOSAPIFactory.getRecommendation().upsert(Config.userName, "result", passed, failed);
 
         /**

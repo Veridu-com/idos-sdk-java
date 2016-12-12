@@ -1,5 +1,6 @@
 package com.veridu.idos.test.functional;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.veridu.idos.endpoints.ProfileGates;
 import com.veridu.idos.endpoints.ProfileRecommendation;
@@ -30,8 +31,8 @@ public class Recommendation extends MainTestSetup {
     }
     @Test
     public void test1UpsertOne() throws UnsupportedEncodingException, SDKException {
-        HashMap<String, String> passed = new HashMap<>();
-        HashMap<String, String> failed = new HashMap<>();
+        JsonArray passed = new JsonArray();
+        JsonArray failed = new JsonArray();
         response = this.recommendation.upsert(this.userName, "result", passed, failed);
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));

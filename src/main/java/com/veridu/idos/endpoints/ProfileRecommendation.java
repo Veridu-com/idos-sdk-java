@@ -1,5 +1,6 @@
 package com.veridu.idos.endpoints;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.veridu.idos.exceptions.SDKException;
 
@@ -38,21 +39,12 @@ public class ProfileRecommendation extends AbstractEndpoint {
      * @throws SDKException
      * @throws UnsupportedEncodingException
      */
-    public JsonObject upsert(String username, String result, HashMap<String, String> passed, HashMap<String, String> failed)
+    public JsonObject upsert(String username, String result, JsonArray passed, JsonArray failed)
             throws SDKException, UnsupportedEncodingException {
         JsonObject data = new JsonObject();
-
-        JsonObject jsonPassed = new JsonObject();
-        for (String key : passed.keySet())
-            jsonPassed.addProperty(key, passed.get(key));
-
-        JsonObject jsonFailed = new JsonObject();
-        for (String key : failed.keySet())
-            jsonPassed.addProperty(key, failed.get(key));
-
         data.addProperty("result", result);
-        data.add("passed", jsonPassed);
-        data.add("failed", jsonFailed);
+        data.add("passed", passed);
+        data.add("failed", failed);
         return this.fetch("PUT", "profiles/" + username + "/recommendation", data);
     }
 }
