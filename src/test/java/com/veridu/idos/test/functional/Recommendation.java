@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.veridu.idos.endpoints.ProfileGates;
 import com.veridu.idos.endpoints.ProfileRecommendation;
 import com.veridu.idos.exceptions.SDKException;
+import com.veridu.idos.utils.IdOSAuthType;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -41,6 +42,7 @@ public class Recommendation extends MainTestSetup {
 
     @Test
     public void test2GetOne() throws SDKException {
+        this.recommendation.setAuthType(IdOSAuthType.USER);
         response = this.recommendation.getOne(userName);
         assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonObject();

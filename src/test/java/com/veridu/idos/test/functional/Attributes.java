@@ -1,5 +1,7 @@
 package com.veridu.idos.test.functional;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.UnsupportedEncodingException;
@@ -25,7 +27,7 @@ public class Attributes extends MainTestSetup {
     }
 
     @Test
-    public void test3ListAll() throws SDKException, UnsupportedEncodingException {
+    public void test1ListAll() throws SDKException, UnsupportedEncodingException {
         // Creates a candidate to be listed in the attributes endpoint.
         factory.getCandidate().create(Config.userName, "email", "jhon@jhon.com", 0.9);
 
@@ -35,5 +37,13 @@ public class Attributes extends MainTestSetup {
         assertTrue(json.get("status").getAsBoolean());
         assertTrue(data.has("name"));
         assertTrue(data.has("value"));
+    }
+
+    @Test
+    public void test2GetOne() throws SDKException {
+        JsonObject json = factory.getAttribute().getOne(userName, "email");
+        assertTrue(json.get("status").getAsBoolean());
+        assertEquals("jhon@jhon.com", json.get("data").getAsJsonObject().get("value").getAsString());
+        assertEquals("email", json.get("data").getAsJsonObject().get("name").getAsString());
     }
 }

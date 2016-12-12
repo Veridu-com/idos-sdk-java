@@ -24,7 +24,7 @@ public class ProfileRecommendation extends AbstractEndpoint {
      * @throws SDKException
      */
     public JsonObject getOne(String username) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/recommendation/");
+        return this.fetch("GET", "profiles/" + username + "/recommendation");
     }
 
     /**
