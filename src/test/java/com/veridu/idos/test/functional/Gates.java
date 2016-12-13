@@ -29,11 +29,10 @@ public class Gates extends MainTestSetup {
     public void test1CreateNew() throws UnsupportedEncodingException, SDKException {
         // Deletes all gates to avoid create an existing gate
         this.gate.deleteAll(userName);
-        response = this.gate.create(userName, name, false, "confidence_level");
+        response = this.gate.create(userName, name, "confidence_level");
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
-        assertEquals("false", data.get("pass").getAsString());
         assertEquals("confidence_level", data.get("confidence_level").getAsString());
     }
 
@@ -45,12 +44,11 @@ public class Gates extends MainTestSetup {
 
     @Test
     public void test3UpsertOne() throws UnsupportedEncodingException, SDKException {
-        response = this.gate.upsert(userName, name, false, "confidence_level");
+        response = this.gate.upsert(userName, name, "high");
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
-        assertEquals("false", data.get("pass").getAsString());
-        assertEquals("confidence_level", data.get("confidence_level").getAsString());
+        assertEquals("high", data.get("confidence_level").getAsString());
     }
 
     @Test
@@ -59,17 +57,15 @@ public class Gates extends MainTestSetup {
         assertTrue(response.get("status").getAsBoolean());
         JsonObject data = response.get("data").getAsJsonObject();
         assertEquals(name, data.get("name").getAsString());
-        assertEquals("false", data.get("pass").getAsString());
     }
 
     @Test
     public void test5UpdateOne() throws SDKException, UnsupportedEncodingException {
-        response = this.gate.update(userName, slug, true);
+        response = this.gate.update(userName, slug, "medium");
         JsonObject data = getResponseData(response);
         assertTrue(isResponseOk(response));
         assertEquals(name, data.get("name").getAsString());
-        assertEquals("true", data.get("pass").getAsString());
-        assertEquals("confidence_level", data.get("confidence_level").getAsString());
+        assertEquals("medium", data.get("confidence_level").getAsString());
     }
 
     @Test
@@ -79,18 +75,18 @@ public class Gates extends MainTestSetup {
         JsonObject data = array.get(0).getAsJsonObject();
         assertTrue(json.get("status").getAsBoolean());
         assertTrue(data.has("name"));
-        assertTrue(data.has("pass"));
+        assertTrue(data.has("confidence_level"));
     }
 
     @Test
     public void test7DeleteAll() throws SDKException, UnsupportedEncodingException {
 
         // create first gate
-        response = this.gate.upsert(userName, name, false);
+        response = this.gate.upsert(userName, name, "medium");
         assertTrue(response.get("status").getAsBoolean());
 
         // create second gate
-        response = this.gate.upsert(userName, "another-one", true);
+        response = this.gate.upsert(userName, "another-one", "high");
         assertTrue(response.get("status").getAsBoolean());
 
         // test they are there
