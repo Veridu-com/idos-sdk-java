@@ -16,6 +16,10 @@ import java.util.HashMap;
 public class ProfileAttributes extends AbstractEndpoint {
     /**
      * Class Constructor
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileAttributes(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.USER, baseURL, doNotCheckSSL);
@@ -42,5 +46,17 @@ public class ProfileAttributes extends AbstractEndpoint {
      */
     public JsonObject listAll(String username, Filter filter) throws SDKException {
         return this.fetch("GET", "profiles/" + username + "/attributes", null, filter);
+    }
+
+    /**
+     * Retrieves attributes information related to the given attributeName
+     *
+     * @param username
+     * @param attributeName
+     * @return JsonObject response
+     * @throws SDKException
+     */
+    public JsonObject getOne(String username, String attributeName) throws SDKException {
+        return this.fetch("GET", "profiles/" + username + "/attributes/" + attributeName);
     }
 }

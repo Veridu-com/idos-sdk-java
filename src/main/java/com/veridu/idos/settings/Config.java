@@ -5,7 +5,6 @@ public class Config {
      * Default base URL;
      */
     public static String BASE_URL = "https://api.idos.io/1.0";
-
     /**
      * Service's public key
      */

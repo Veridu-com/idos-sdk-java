@@ -15,13 +15,19 @@ import com.veridu.idos.utils.IdOSAuthType;
  *
  */
 public class ProfileScores extends AbstractEndpoint {
-
+    /**
+     * Constructor Class
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
+     */
     public ProfileScores(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all scores for a user
+     * Lists all scores for the given user
      *
      * @param username
      * @return JsonObject response
@@ -32,7 +38,7 @@ public class ProfileScores extends AbstractEndpoint {
     }
 
     /**
-     * Lists all scores for the given attribute name
+     * Lists all scores for the given user with filtering
      *
      * @param username
      * @param filter
@@ -44,19 +50,19 @@ public class ProfileScores extends AbstractEndpoint {
     }
 
     /**
-     * Retrieves the score related to the given scoreName
+     * Retrieves the score for the given score name
      *
      * @param username
-     * @param attributeName
+     * @param scoreName
      * @return JsonObject response
      * @throws SDKException
      */
-    public JsonObject getOne(String username, String attributeName) throws SDKException {
-        return this.fetch("GET", "profiles/" + username + "/scores/" + attributeName);
+    public JsonObject getOne(String username, String scoreName) throws SDKException {
+        return this.fetch("GET", "profiles/" + username + "/scores/" + scoreName);
     }
 
     /**
-     * Creates a new score
+     * Creates a new score for the given user
      *
      * @param username
      * @param scoreName
@@ -76,7 +82,7 @@ public class ProfileScores extends AbstractEndpoint {
     }
 
     /**
-     * Update or insert a new score
+     * Creates or updates a score for the given user
      *
      * @param username
      * @param scoreName
@@ -96,7 +102,7 @@ public class ProfileScores extends AbstractEndpoint {
     }
 
     /**
-     * Updates an existing score given the score name
+     * Updates an existing score for the given score name
      *
      * @param username
      * @param scoreName
@@ -127,11 +133,10 @@ public class ProfileScores extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all scores related to the user
+     * Deletes all scores related to the given user
      *
      * @param username
-     * @param attributeName
-     * @return
+     * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject deleteAll(String username) throws SDKException {
@@ -139,15 +144,14 @@ public class ProfileScores extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all scores related to a user
+     * Deletes all scores related to the given user
      *
      * @param username
      * @param filter
-     * @return
+     * @return JsonObject response
      * @throws SDKException
      */
     public JsonObject deleteAll(String username, Filter filter) throws SDKException {
         return this.fetch("DELETE", "profiles/" + username + "/scores", null, filter);
     }
-
 }

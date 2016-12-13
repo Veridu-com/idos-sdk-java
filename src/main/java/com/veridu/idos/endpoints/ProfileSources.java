@@ -9,23 +9,21 @@ import com.veridu.idos.utils.IdOSAuthType;
 
 /**
  * ProfileSources Endpoint class
- *
- * @version 2.0
- *
  */
 public class ProfileSources extends AbstractEndpoint {
-
     /**
-     * Constructor class
+     * Constructor Class
      *
-     * @param token
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileSources(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.USER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all sources given an username
+     * Lists all sources related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -36,9 +34,10 @@ public class ProfileSources extends AbstractEndpoint {
     }
 
     /**
-     * Lists all sources given an username
+     * Lists all sources related to the given user with filtering
      *
      * @param username
+     * @param filter
      * @return JsonObject response
      * @throws SDKException
      */
@@ -47,7 +46,7 @@ public class ProfileSources extends AbstractEndpoint {
     }
 
     /**
-     * Retrieves a source given its source name
+     * Retrieves a source given its source id
      *
      * @param username
      * @param sourceId
@@ -59,10 +58,11 @@ public class ProfileSources extends AbstractEndpoint {
     }
 
     /**
-     * Creates a source passing the source name
+     * Creates a source for the given username
      *
      * @param username
-     * @param sourceId
+     * @param name
+     * @param tags
      * @return JsonObject response
      * @throws SDKException
      */
@@ -80,6 +80,7 @@ public class ProfileSources extends AbstractEndpoint {
      * Updates a source giving its sourceId
      *
      * @param username
+     * @param tags
      * @param sourceId
      * @return JsonObject response
      * @throws SDKException
@@ -94,7 +95,7 @@ public class ProfileSources extends AbstractEndpoint {
     }
 
     /**
-     * Deletes a source given the source name
+     * Deletes a source given its source id
      *
      * @param username
      * @param sourceId
@@ -106,7 +107,7 @@ public class ProfileSources extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all sources associated with a username
+     * Deletes all sources related to the given user
      *
      * @param username
      * @return JsonObject response

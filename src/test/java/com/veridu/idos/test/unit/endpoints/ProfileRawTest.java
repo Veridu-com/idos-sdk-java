@@ -94,33 +94,6 @@ public class ProfileRawTest extends AbstractUnit {
     }
 
     @Test
-    public void testUpdate() throws ClientProtocolException, IOException, SDKException {
-        ProfileRaw rawMock = Mockito.mock(ProfileRaw.class, Mockito.CALLS_REAL_METHODS);
-        rawMock.setCredentials(this.credentials);
-        PowerMockito.mockStatic(IdOSUtils.class);
-        JsonObject json = new JsonObject();
-        json.addProperty("status", true);
-        rawMock.setAuthType(IdOSAuthType.HANDLER);
-        PowerMockito.mockStatic(Request.class);
-        PowerMockito.mockStatic(Response.class);
-        PowerMockito.mockStatic(Content.class);
-        Request request = Mockito.mock(Request.class);
-        Response response = Mockito.mock(Response.class);
-        Content content = PowerMockito.mock(Content.class);
-        when(Request.Patch(anyString())).thenReturn(request);
-        when(request.setHeader(anyString(), anyString())).thenReturn(request);
-        when(request.bodyByteArray(Matchers.anyObject(), Matchers.anyObject())).thenReturn(request);
-        PowerMockito.doReturn(response).when(request).execute();
-        PowerMockito.doReturn(content).when(response).returnContent();
-        when(content.toString()).thenReturn("{\"status\":true}");
-        when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
-                this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
-                        .thenReturn("token");
-        HashMap<String, String> data = new HashMap<String, String>();
-        assertEquals(json, rawMock.update("userName", "collection-test", data));
-    }
-
-    @Test
     public void testDeleteAll() throws ClientProtocolException, IOException, SDKException {
         ProfileRaw rawMock = Mockito.mock(ProfileRaw.class, Mockito.CALLS_REAL_METHODS);
         rawMock.setCredentials(this.credentials);

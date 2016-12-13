@@ -11,11 +11,11 @@ import com.veridu.idos.utils.IdOSAuthType;
  * @version 2.0
  */
 public class SSO extends AbstractEndpoint {
-
     /**
      * Constructor Class
      *
-     * @throws InvalidToken
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public SSO(String baseURL, boolean doNotCheckSSL) {
         super(null, IdOSAuthType.NONE, baseURL, doNotCheckSSL);
