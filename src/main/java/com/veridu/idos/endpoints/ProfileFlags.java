@@ -13,18 +13,19 @@ import com.veridu.idos.utils.IdOSAuthType;
  * @version 2.0
  */
 public class ProfileFlags extends AbstractEndpoint {
-
     /**
-     * Constructor class
+     * Class Constructor
      *
-     * @param token
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileFlags(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all flags given the username
+     * Lists all flags for the given user
      *
      * @param username
      * @return JsonObject response
@@ -35,7 +36,7 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Lists all flags given the username, with filtering
+     * Lists all flags for the given user with filtering
      *
      * @param username
      * @param filter
@@ -47,7 +48,7 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Retrieves the warn related to the given flag slug
+     * Retrieves flags related to the given flag slug
      *
      * @param username
      * @param flagSlug
@@ -59,7 +60,7 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Creates a new flag related to the username given
+     * Creates a new flag for the given user
      *
      * @param username
      * @param slug
@@ -89,7 +90,7 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all flags related to the given username
+     * Deletes all flags related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -100,7 +101,7 @@ public class ProfileFlags extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all flags related to the given username, with filtering
+     * Deletes all flags related to the given user with filtering
      *
      * @param username
      * @param filter

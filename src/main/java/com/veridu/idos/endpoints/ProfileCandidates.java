@@ -17,6 +17,10 @@ import java.util.HashMap;
 public class ProfileCandidates extends AbstractEndpoint {
     /**
      * Class Constructor
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileCandidates(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
@@ -34,7 +38,7 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Lists all profiles candidates, with filtering
+     * Lists all profiles candidates with filtering
      *
      * @param username
      * @param filter
@@ -66,7 +70,7 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all candidates related to the given username
+     * Deletes all candidates related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -77,10 +81,10 @@ public class ProfileCandidates extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all candidates related to the given username, with filtering
+     * Deletes all candidates related to the given user with filtering
      *
      * @param username
-     * @param
+     * @param filter
      * @return JsonObject response
      * @throws SDKException
      */

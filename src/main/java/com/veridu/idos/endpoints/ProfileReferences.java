@@ -15,16 +15,19 @@ import java.util.HashMap;
  *
  */
 public class ProfileReferences extends AbstractEndpoint {
-
     /**
-     * Constructor class
+     * Class Constructor
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileReferences(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all references given an username
+     * Lists all references for the given username
      *
      * @param username
      * @return JsonObject response
@@ -35,7 +38,7 @@ public class ProfileReferences extends AbstractEndpoint {
     }
 
     /**
-     * Lists all references given an username
+     * Lists all references for the given user
      *
      * @param username
      * @return JsonObject response
@@ -58,7 +61,7 @@ public class ProfileReferences extends AbstractEndpoint {
     }
 
     /**
-     * Creates a reference passing the attribute name
+     * Creates a reference for the given user
      *
      * @param username
      * @param attributeName
@@ -103,7 +106,7 @@ public class ProfileReferences extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all references associated with a username
+     * Deletes all references related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -114,7 +117,7 @@ public class ProfileReferences extends AbstractEndpoint {
     }
 
     /**
-     * Deletes all references associated with a username
+     * Deletes all references related to the given user
      *
      * @param username
      * @return JsonObject response

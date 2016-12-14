@@ -1,12 +1,17 @@
 package com.veridu.idos.samples;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.veridu.idos.IdOSAPIFactory;
 import com.veridu.idos.exceptions.SDKException;
 import com.veridu.idos.settings.Config;
 
-public class ProfilesSamples {
-    public static void main(String[] args) throws SDKException {
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+
+public class ProfileRecommendationSamples {
+
+    public static void main(String[] args) throws SDKException, UnsupportedEncodingException {
         /**
          * JsonObject used to store the api call response
          *
@@ -26,10 +31,17 @@ public class ProfilesSamples {
         IdOSAPIFactory idOSAPIFactory = new IdOSAPIFactory(IdOSSamplesHelper.getCredentials());
 
         /**
-         * Lists all profiles
+         * Creates or updates a recommendation. To create a new recommendation it is necessary to
+         * call the upsert() method passing the userName, the result, and both array containing passed
+         * and failed values as parameters.
          */
-        json = idOSAPIFactory.getProfile().getOne(Config.userName);
+        JsonArray passed = new JsonArray();
+        JsonArray failed = new JsonArray();
+        json = idOSAPIFactory.getRecommendation().upsert(Config.userName, "result", passed, failed);
 
+        /**
+         * Prints the json response
+         */
         System.out.println(json.get("data").getAsJsonObject());
     }
 }

@@ -8,18 +8,21 @@ import java.util.HashMap;
 
 /**
  * Profile Tasks Endpoint Class
- *
- * @version 2.0
- *
  */
 public class ProfileTasks extends AbstractEndpoint {
-
+    /**
+     * Constructor Class
+     *
+     * @param credentials
+     * @param baseURL
+     * @param doNotCheckSSL
+     */
     public ProfileTasks(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all tasks related to the username given the process id
+     * Lists all tasks related to the given user and process id
      *
      * @param username
      * @param processId
@@ -34,6 +37,7 @@ public class ProfileTasks extends AbstractEndpoint {
      * Retrieves a task given its task id
      *
      * @param username
+     * @param processId
      * @param taskId
      * @return JsonObject response
      * @throws SDKException
@@ -43,7 +47,7 @@ public class ProfileTasks extends AbstractEndpoint {
     }
 
     /**
-     * Creates a new task
+     * Creates a new task for the given user
      *
      * @param username
      * @param processId
@@ -64,7 +68,7 @@ public class ProfileTasks extends AbstractEndpoint {
     }
 
     /**
-     * Creates a new task
+     * Creates a new task for the given user
      *
      * @param username
      * @param processId
@@ -87,7 +91,7 @@ public class ProfileTasks extends AbstractEndpoint {
     }
 
     /**
-     * Creates a new task
+     * Creates a new task for the given user
      *
      * @param username
      * @param processId
@@ -133,7 +137,7 @@ public class ProfileTasks extends AbstractEndpoint {
     }
 
     /**
-     * Updates a task given its taksId and processId
+     * Updates a task given its task id
      *
      * @param username
      * @param processId
@@ -153,7 +157,7 @@ public class ProfileTasks extends AbstractEndpoint {
     }
 
     /**
-     * Updates a task given its taksId and processId
+     * Updates a task given its task id
      *
      * @param username
      * @param processId

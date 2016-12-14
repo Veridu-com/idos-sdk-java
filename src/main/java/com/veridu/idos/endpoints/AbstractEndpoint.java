@@ -33,6 +33,8 @@ import java.util.HashMap;
 
 public abstract class AbstractEndpoint implements Serializable {
 
+    private static final boolean DEBUG = false;
+
     /**
      * base API URL
      */
@@ -334,7 +336,16 @@ public abstract class AbstractEndpoint implements Serializable {
                 break;
             }
 
-            return handleAPIresponse(this.convertToJson(EntityUtils.toString(httpRes.getEntity())));
+            String response = EntityUtils.toString(httpRes.getEntity());
+
+            if (DEBUG) {
+                System.out.println("-----------------------------");
+                System.out.println("API response:");
+                System.out.println(response);
+                System.out.println("-----------------------------");
+            }
+
+            return handleAPIresponse(this.convertToJson(response));
 
         } catch (HttpResponseException e) {
             e.printStackTrace();

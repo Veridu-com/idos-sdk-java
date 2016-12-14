@@ -15,19 +15,19 @@ import java.util.HashMap;
  *
  */
 public class ProfileRaw extends AbstractEndpoint {
-
     /**
-     * Class constructor
+     * Class Constructor
      *
      * @param credentials
-     * @throws InvalidToken
+     * @param baseURL
+     * @param doNotCheckSSL
      */
     public ProfileRaw(HashMap<String, String> credentials, String baseURL, boolean doNotCheckSSL) {
         super(credentials, IdOSAuthType.HANDLER, baseURL, doNotCheckSSL);
     }
 
     /**
-     * Lists all raw data related to the given source
+     * Lists all raw data related to the given user
      *
      * @param username
      * @return JsonObject response
@@ -38,7 +38,7 @@ public class ProfileRaw extends AbstractEndpoint {
     }
 
     /**
-     * Lists all raw data related to the given source
+     * Lists all raw data related to the given user with filtering
      *
      * @param username
      * @param filter
@@ -50,7 +50,7 @@ public class ProfileRaw extends AbstractEndpoint {
     }
 
     /**
-     * Creates a new raw data
+     * Creates a new raw data for the given user
      *
      * @param username
      * @param sourceId
@@ -74,7 +74,7 @@ public class ProfileRaw extends AbstractEndpoint {
     }
 
     /**
-     * Creates or updates a raw data
+     * Creates or updates a raw data for the given user
      *
      * @param username
      * @param sourceId
@@ -98,27 +98,7 @@ public class ProfileRaw extends AbstractEndpoint {
     }
 
     /**
-     * Updates a raw data given its collection (name)
-     *
-     * @param username
-     * @param collection
-     * @param collectionData
-     * @return JsonObject response
-     * @throws SDKException
-     */
-    public JsonObject update(String username, String collection, HashMap<String, String> collectionData)
-            throws SDKException {
-        JsonObject data = new JsonObject();
-        JsonObject array = new JsonObject();
-        for (String key : collectionData.keySet()) {
-            array.addProperty(key, collectionData.get(key));
-        }
-        data.add("data", array);
-        return this.fetch("PATCH", "profiles/" + username + "/raw/" + collection, data);
-    }
-
-    /**
-     * Deletes all raw data related to the username provided
+     * Deletes all raw data related to the given user
      *
      * @param username
      * @return JsonObject response
