@@ -66,35 +66,15 @@ public class ProfileGates extends AbstractEndpoint {
      *
      * @param username
      * @param gateName
-     * @param pass
-     * @return JsonObject response
-     * @throws SDKException
-     * @throws UnsupportedEncodingException
-     */
-    public JsonObject create(String username, String gateName, boolean pass)
-            throws SDKException, UnsupportedEncodingException {
-        JsonObject data = new JsonObject();
-        data.addProperty("name", gateName);
-        data.addProperty("pass", pass);
-        return this.fetch("POST", "profiles/" + username + "/gates", data);
-    }
-
-    /**
-     * Creates a new gate for the given user
-     *
-     * @param username
-     * @param gateName
-     * @param pass
      * @param confidenceLevel
      * @return JsonObject response
      * @throws SDKException
      * @throws UnsupportedEncodingException
      */
-    public JsonObject create(String username, String gateName, boolean pass, String confidenceLevel)
+    public JsonObject create(String username, String gateName, String confidenceLevel)
             throws SDKException, UnsupportedEncodingException {
         JsonObject data = new JsonObject();
         data.addProperty("name", gateName);
-        data.addProperty("pass", pass);
         data.addProperty("confidence_level", confidenceLevel);
         return this.fetch("POST", "profiles/" + username + "/gates", data);
     }
@@ -104,35 +84,15 @@ public class ProfileGates extends AbstractEndpoint {
      *
      * @param username
      * @param gateName
-     * @param pass
-     * @return JsonObject response
-     * @throws SDKException
-     * @throws UnsupportedEncodingException
-     */
-    public JsonObject upsert(String username, String gateName, boolean pass)
-            throws SDKException, UnsupportedEncodingException {
-        JsonObject data = new JsonObject();
-        data.addProperty("name", gateName);
-        data.addProperty("pass", pass);
-        return this.fetch("PUT", "profiles/" + username + "/gates", data);
-    }
-
-    /**
-     * Updates or creates a gate for the given user
-     *
-     * @param username
-     * @param gateName
-     * @param pass
      * @param confidenceLevel
      * @return JsonObject response
      * @throws SDKException
      * @throws UnsupportedEncodingException
      */
-    public JsonObject upsert(String username, String gateName, boolean pass, String confidenceLevel)
+    public JsonObject upsert(String username, String gateName, String confidenceLevel)
             throws SDKException, UnsupportedEncodingException {
         JsonObject data = new JsonObject();
         data.addProperty("name", gateName);
-        data.addProperty("pass", pass);
         data.addProperty("confidence_level", confidenceLevel);
         return this.fetch("PUT", "profiles/" + username + "/gates", data);
     }
@@ -142,15 +102,15 @@ public class ProfileGates extends AbstractEndpoint {
      *
      * @param username
      * @param gateName
-     * @param pass
+     * @param confidenceLevel
      * @return JsonObject response
      * @throws SDKException
      * @throws UnsupportedEncodingException
      */
-    public JsonObject update(String username, String gateName, boolean pass)
+    public JsonObject update(String username, String gateName, String confidenceLevel)
             throws SDKException, UnsupportedEncodingException {
         JsonObject data = new JsonObject();
-        data.addProperty("pass", pass);
+        data.addProperty("confidence_level", confidenceLevel);
         return this.fetch("PATCH", "profiles/" + username + "/gates/" + gateName, data);
     }
 

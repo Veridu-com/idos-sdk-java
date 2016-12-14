@@ -87,8 +87,7 @@ public class ProfileGatesTest extends AbstractUnit {
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
                 .thenReturn("token");
-        assertEquals(json, gatesMock.create("userName", "18+", true));
-        assertEquals(json, gatesMock.create("userName", "18+", true, "confidence_level"));
+        assertEquals(json, gatesMock.create("userName", "18+", "medium"));
     }
 
     @Test
@@ -139,8 +138,7 @@ public class ProfileGatesTest extends AbstractUnit {
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
                 .thenReturn("token");
-        assertEquals(json, gatesMock.update("userName", "18", false));
-        assertEquals(json, gatesMock.update("userName", "18", false));
+        assertEquals(json, gatesMock.update("userName", "18", "medium"));
     }
 
     @Test
@@ -191,8 +189,7 @@ public class ProfileGatesTest extends AbstractUnit {
         when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
                 this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
                 .thenReturn("token");
-        assertEquals(json, gatesMock.upsert("userName", "18+", true));
-        assertEquals(json, gatesMock.upsert("userName", "18+", true, "confidence_factor"));
+        assertEquals(json, gatesMock.upsert("userName", "18+", "medium"));
     }
 
     @Test

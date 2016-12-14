@@ -35,7 +35,7 @@ public class ProfileGateSamples {
          * call the method upsert() passing the userName, the gate's name and
          * the boolean pass value as a parameter.
          */
-        json = idOSAPIFactory.getGate().upsert(Config.userName, "18+", true);
+        json = idOSAPIFactory.getGate().upsert(Config.userName, "18+", "medium");
 
         /**
          * Checks if the gate was created before calling other methods related
@@ -77,7 +77,7 @@ public class ProfileGateSamples {
          * value as a parameter.
          * 
          */
-        json = idOSAPIFactory.getGate().create(Config.userName, "Gate Name", false);
+        json = idOSAPIFactory.getGate().create(Config.userName, "Gate Name", "high");
 
         /**
          * Checks if the gate was created before calling other methods related
