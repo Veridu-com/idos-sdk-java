@@ -11,9 +11,15 @@ import com.veridu.idos.test.unit.AbstractUnit;
 import com.veridu.idos.utils.Filter;
 import com.veridu.idos.utils.IdOSAuthType;
 import com.veridu.idos.utils.IdOSUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Content;
+import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,11 +35,13 @@ import java.util.HashMap;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ AbstractEndpoint.class, Request.class, Response.class, IdOSUtils.class, Content.class })
+@PrepareForTest({ AbstractEndpoint.class, Request.class, Response.class, IdOSUtils.class,
+        HttpClients.class, Executor.class, EntityUtils.class, HttpClient.class, HttpResponse.class, HttpEntity.class})
 public class AbstractEndpointTest extends AbstractUnit {
 
     HashMap<String, String> credentials;
@@ -45,8 +53,6 @@ public class AbstractEndpointTest extends AbstractUnit {
 
     /**
      * Tests if the Constructor has the expected behavior
-     *
-     * @
      */
     @Test
     public void testConstructor() {
@@ -61,11 +67,12 @@ public class AbstractEndpointTest extends AbstractUnit {
      */
     @Test
     public void testFetchEmptyData() throws Exception {
-        AbstractEndpoint abstractMock = Mockito.mock(AbstractEndpoint.class);
+        AbstractEndpoint abstractMock = Mockito.mock(AbstractEndpoint.class, CALLS_REAL_METHODS);
         JsonObject json = new JsonObject();
+        abstractMock.setBaseURL("https://idos.io.com");
         json.addProperty("response", "response");
-        abstractMock.setAuthType(IdOSAuthType.IDENTITY);
-        Mockito.when(abstractMock.request("GET", Config.BASE_URL + "/profiles", null, null)).thenReturn(json);
+        abstractMock.setAuthType(IdOSAuthType.NONE);
+        doReturn(json).when(abstractMock).request("GET", "https://idos.io.com" + "/profiles", null, null);
         Mockito.when(WhiteboxImpl.invokeMethod(abstractMock, "fetch", "GET", "/profiles", null, null))
                 .thenCallRealMethod();
         assertSame(json, WhiteboxImpl.invokeMethod(abstractMock, "fetch", "GET", "/profiles", null, null));
@@ -78,12 +85,13 @@ public class AbstractEndpointTest extends AbstractUnit {
      */
     @Test
     public void testFetch() throws Exception {
-        AbstractEndpoint abstractMock = Mockito.mock(AbstractEndpoint.class);
+        AbstractEndpoint abstractMock = Mockito.mock(AbstractEndpoint.class, CALLS_REAL_METHODS);
+        abstractMock.setBaseURL("https://idos.io.com");
         JsonObject json = new JsonObject();
         json.addProperty("data", "data");
         JsonObject response = new JsonObject();
         response.addProperty("response", "response");
-        Mockito.when(abstractMock.request("POST", Config.BASE_URL + "/profiles", json, null)).thenReturn(response);
+        doReturn(response).when(abstractMock).request("POST", "https://idos.io.com" + "/profiles", json, null);
         Mockito.when(WhiteboxImpl.invokeMethod(abstractMock, "fetch", "POST", "/profiles", json, null))
                 .thenCallRealMethod();
         assertSame(response, WhiteboxImpl.invokeMethod(abstractMock, "fetch", "POST", "/profiles", json, null));
@@ -98,13 +106,13 @@ public class AbstractEndpointTest extends AbstractUnit {
     public void testFetchWithFilter() throws Exception {
         Filter filter = Filter.createFilter();
         filter.addFilterByKeyName("filter", "filter");
-        AbstractEndpoint abstractMock = Mockito.mock(AbstractEndpoint.class);
+        AbstractEndpoint abstractMock = Mockito.mock(AbstractEndpoint.class, CALLS_REAL_METHODS);
+        abstractMock.setBaseURL("https://idos.io.com");
         JsonObject json = new JsonObject();
         json.addProperty("data", "data");
         JsonObject response = new JsonObject();
         response.addProperty("response", "response");
-        Mockito.when(abstractMock.request("POST", Config.BASE_URL + "/profiles?filter=filter", json, filter))
-                .thenReturn(response);
+        doReturn(response).when(abstractMock).request("POST", "https://idos.io.com" + "/profiles?filter=filter", json, filter);
         Mockito.when(WhiteboxImpl.invokeMethod(abstractMock, "fetch", "POST", "/profiles", json, filter))
                 .thenCallRealMethod();
         assertSame(response, WhiteboxImpl.invokeMethod(abstractMock, "fetch", "POST", "/profiles", json, filter));
@@ -162,24 +170,34 @@ public class AbstractEndpointTest extends AbstractUnit {
     @Test
     public void testSendRequestGetMethod() throws Exception {
         AbstractEndpoint endpointMock = Mockito.mock(AbstractEndpoint.class, Mockito.CALLS_REAL_METHODS);
-        endpointMock.setCredentials(this.credentials);
         PowerMockito.mockStatic(IdOSUtils.class);
+        PowerMockito.mockStatic(HttpClients.class);
+        endpointMock.setCredentials(this.credentials);
+        endpointMock.setAuthType(IdOSAuthType.HANDLER);
+        endpointMock.setBaseURL("https://idos.api.com");
+        endpointMock.setDoNotCheckSSLCertificate(false);
         JsonObject json = new JsonObject();
         json.addProperty("status", true);
-        endpointMock.setAuthType(IdOSAuthType.HANDLER);
         PowerMockito.mockStatic(Request.class);
         PowerMockito.mockStatic(Response.class);
-        PowerMockito.mockStatic(Content.class);
+        PowerMockito.mockStatic(Executor.class);
+        PowerMockito.mockStatic(EntityUtils.class);
         Request request = Mockito.mock(Request.class);
         Response response = Mockito.mock(Response.class);
-        Content content = Mockito.mock(Content.class);
+        HttpClient httpClient = Mockito.mock(HttpClient.class);
+        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
+        Executor executor = Mockito.mock(Executor.class);
         when(Request.Get(anyString())).thenReturn(request);
+        when(Executor.newInstance(any())).thenReturn(executor);
+        doReturn(response).when(executor).execute(any());
         when(request.setHeader(anyString(), anyString())).thenReturn(request);
-        PowerMockito.doReturn(response).when(request).execute();
-        PowerMockito.doReturn(content).when(response).returnContent();
-        when(content.toString()).thenReturn("{\"status\":true}");
-        when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
-                this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
+        when(response.returnResponse()).thenReturn(httpResponse);
+
+        HttpEntity entity = Mockito.mock(HttpEntity.class);
+        when(httpResponse.getEntity()).thenReturn(entity);
+        EntityUtils entityUtils = mock(EntityUtils.class);
+        when(entityUtils.toString(any())).thenReturn("{\"status\":true}");
+        when(IdOSUtils.generateToken(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                 .thenReturn("token");
         assertEquals(json,
                 WhiteboxImpl.invokeMethod(endpointMock, "sendRequest", "GET", "https://idos.api.io/1.0", null));
@@ -188,25 +206,35 @@ public class AbstractEndpointTest extends AbstractUnit {
     @Test
     public void testSendRequestPostMethod() throws Exception {
         AbstractEndpoint endpointMock = Mockito.mock(AbstractEndpoint.class, Mockito.CALLS_REAL_METHODS);
-        endpointMock.setCredentials(this.credentials);
         PowerMockito.mockStatic(IdOSUtils.class);
+        PowerMockito.mockStatic(HttpClients.class);
+        endpointMock.setCredentials(this.credentials);
+        endpointMock.setAuthType(IdOSAuthType.HANDLER);
+        endpointMock.setBaseURL("https://idos.api.com");
+        endpointMock.setDoNotCheckSSLCertificate(false);
         JsonObject json = new JsonObject();
         json.addProperty("status", true);
-        endpointMock.setAuthType(IdOSAuthType.HANDLER);
         PowerMockito.mockStatic(Request.class);
         PowerMockito.mockStatic(Response.class);
-        PowerMockito.mockStatic(Content.class);
+        PowerMockito.mockStatic(Executor.class);
+        PowerMockito.mockStatic(EntityUtils.class);
         Request request = Mockito.mock(Request.class);
         Response response = Mockito.mock(Response.class);
-        Content content = PowerMockito.mock(Content.class);
+        HttpClient httpClient = Mockito.mock(HttpClient.class);
+        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
+        Executor executor = Mockito.mock(Executor.class);
         when(Request.Post(anyString())).thenReturn(request);
-        when(request.setHeader(anyString(), anyString())).thenReturn(request);
         when(request.bodyByteArray(Matchers.anyObject(), Matchers.anyObject())).thenReturn(request);
-        PowerMockito.doReturn(response).when(request).execute();
-        PowerMockito.doReturn(content).when(response).returnContent();
-        when(content.toString()).thenReturn("{\"status\":true}");
-        when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
-                this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
+        when(Executor.newInstance(any())).thenReturn(executor);
+        doReturn(response).when(executor).execute(any());
+        when(request.setHeader(anyString(), anyString())).thenReturn(request);
+        when(response.returnResponse()).thenReturn(httpResponse);
+
+        HttpEntity entity = Mockito.mock(HttpEntity.class);
+        when(httpResponse.getEntity()).thenReturn(entity);
+        EntityUtils entityUtils = mock(EntityUtils.class);
+        when(entityUtils.toString(any())).thenReturn("{\"status\":true}");
+        when(IdOSUtils.generateToken(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                 .thenReturn("token");
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");
@@ -217,25 +245,35 @@ public class AbstractEndpointTest extends AbstractUnit {
     @Test
     public void testSendRequestPutMethod() throws Exception {
         AbstractEndpoint endpointMock = Mockito.mock(AbstractEndpoint.class, Mockito.CALLS_REAL_METHODS);
-        endpointMock.setCredentials(this.credentials);
         PowerMockito.mockStatic(IdOSUtils.class);
+        PowerMockito.mockStatic(HttpClients.class);
+        endpointMock.setCredentials(this.credentials);
+        endpointMock.setAuthType(IdOSAuthType.HANDLER);
+        endpointMock.setBaseURL("https://idos.api.com");
+        endpointMock.setDoNotCheckSSLCertificate(false);
         JsonObject json = new JsonObject();
         json.addProperty("status", true);
-        endpointMock.setAuthType(IdOSAuthType.HANDLER);
         PowerMockito.mockStatic(Request.class);
         PowerMockito.mockStatic(Response.class);
-        PowerMockito.mockStatic(Content.class);
+        PowerMockito.mockStatic(Executor.class);
+        PowerMockito.mockStatic(EntityUtils.class);
         Request request = Mockito.mock(Request.class);
         Response response = Mockito.mock(Response.class);
-        Content content = PowerMockito.mock(Content.class);
+        HttpClient httpClient = Mockito.mock(HttpClient.class);
+        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
+        Executor executor = Mockito.mock(Executor.class);
         when(Request.Put(anyString())).thenReturn(request);
-        when(request.setHeader(anyString(), anyString())).thenReturn(request);
         when(request.bodyByteArray(Matchers.anyObject(), Matchers.anyObject())).thenReturn(request);
-        PowerMockito.doReturn(response).when(request).execute();
-        PowerMockito.doReturn(content).when(response).returnContent();
-        when(content.toString()).thenReturn("{\"status\":true}");
-        when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
-                this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
+        when(Executor.newInstance(any())).thenReturn(executor);
+        doReturn(response).when(executor).execute(any());
+        when(request.setHeader(anyString(), anyString())).thenReturn(request);
+        when(response.returnResponse()).thenReturn(httpResponse);
+
+        HttpEntity entity = Mockito.mock(HttpEntity.class);
+        when(httpResponse.getEntity()).thenReturn(entity);
+        EntityUtils entityUtils = mock(EntityUtils.class);
+        when(entityUtils.toString(any())).thenReturn("{\"status\":true}");
+        when(IdOSUtils.generateToken(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                 .thenReturn("token");
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");
@@ -246,26 +284,37 @@ public class AbstractEndpointTest extends AbstractUnit {
     @Test
     public void testSendRequestPatchMethod() throws Exception {
         AbstractEndpoint endpointMock = Mockito.mock(AbstractEndpoint.class, Mockito.CALLS_REAL_METHODS);
-        endpointMock.setCredentials(this.credentials);
         PowerMockito.mockStatic(IdOSUtils.class);
+        PowerMockito.mockStatic(HttpClients.class);
+        endpointMock.setCredentials(this.credentials);
+        endpointMock.setAuthType(IdOSAuthType.HANDLER);
+        endpointMock.setBaseURL("https://idos.api.com");
+        endpointMock.setDoNotCheckSSLCertificate(false);
         JsonObject json = new JsonObject();
         json.addProperty("status", true);
-        endpointMock.setAuthType(IdOSAuthType.HANDLER);
         PowerMockito.mockStatic(Request.class);
         PowerMockito.mockStatic(Response.class);
-        PowerMockito.mockStatic(Content.class);
+        PowerMockito.mockStatic(Executor.class);
+        PowerMockito.mockStatic(EntityUtils.class);
         Request request = Mockito.mock(Request.class);
         Response response = Mockito.mock(Response.class);
-        Content content = PowerMockito.mock(Content.class);
+        HttpClient httpClient = Mockito.mock(HttpClient.class);
+        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
+        Executor executor = Mockito.mock(Executor.class);
         when(Request.Patch(anyString())).thenReturn(request);
-        when(request.setHeader(anyString(), anyString())).thenReturn(request);
         when(request.bodyByteArray(Matchers.anyObject(), Matchers.anyObject())).thenReturn(request);
-        PowerMockito.doReturn(response).when(request).execute();
-        PowerMockito.doReturn(content).when(response).returnContent();
-        when(content.toString()).thenReturn("{\"status\":true}");
-        when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
-                this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
+        when(Executor.newInstance(any())).thenReturn(executor);
+        doReturn(response).when(executor).execute(any());
+        when(request.setHeader(anyString(), anyString())).thenReturn(request);
+        when(response.returnResponse()).thenReturn(httpResponse);
+
+        HttpEntity entity = Mockito.mock(HttpEntity.class);
+        when(httpResponse.getEntity()).thenReturn(entity);
+        EntityUtils entityUtils = mock(EntityUtils.class);
+        when(entityUtils.toString(any())).thenReturn("{\"status\":true}");
+        when(IdOSUtils.generateToken(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                 .thenReturn("token");
+
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");
         assertEquals(json,
@@ -275,24 +324,34 @@ public class AbstractEndpointTest extends AbstractUnit {
     @Test
     public void testSendRequestDeleteMethod() throws Exception {
         AbstractEndpoint endpointMock = Mockito.mock(AbstractEndpoint.class, Mockito.CALLS_REAL_METHODS);
-        endpointMock.setCredentials(this.credentials);
         PowerMockito.mockStatic(IdOSUtils.class);
+        PowerMockito.mockStatic(HttpClients.class);
+        endpointMock.setCredentials(this.credentials);
+        endpointMock.setAuthType(IdOSAuthType.HANDLER);
+        endpointMock.setBaseURL("https://idos.api.com");
+        endpointMock.setDoNotCheckSSLCertificate(false);
         JsonObject json = new JsonObject();
         json.addProperty("status", true);
-        endpointMock.setAuthType(IdOSAuthType.HANDLER);
         PowerMockito.mockStatic(Request.class);
         PowerMockito.mockStatic(Response.class);
-        PowerMockito.mockStatic(Content.class);
+        PowerMockito.mockStatic(Executor.class);
+        PowerMockito.mockStatic(EntityUtils.class);
         Request request = Mockito.mock(Request.class);
         Response response = Mockito.mock(Response.class);
-        Content content = Mockito.mock(Content.class);
+        HttpClient httpClient = Mockito.mock(HttpClient.class);
+        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
+        Executor executor = Mockito.mock(Executor.class);
         when(Request.Delete(anyString())).thenReturn(request);
+        when(Executor.newInstance(any())).thenReturn(executor);
+        doReturn(response).when(executor).execute(any());
         when(request.setHeader(anyString(), anyString())).thenReturn(request);
-        PowerMockito.doReturn(response).when(request).execute();
-        PowerMockito.doReturn(content).when(response).returnContent();
-        when(content.toString()).thenReturn("{\"status\":true}");
-        when(IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
-                this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey")))
+        when(response.returnResponse()).thenReturn(httpResponse);
+
+        HttpEntity entity = Mockito.mock(HttpEntity.class);
+        when(httpResponse.getEntity()).thenReturn(entity);
+        EntityUtils entityUtils = mock(EntityUtils.class);
+        when(entityUtils.toString(any())).thenReturn("{\"status\":true}");
+        when(IdOSUtils.generateToken(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
                 .thenReturn("token");
         JsonObject data = new JsonObject();
         data.addProperty("key", "value");

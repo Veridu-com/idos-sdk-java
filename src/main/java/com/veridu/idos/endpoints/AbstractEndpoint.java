@@ -38,7 +38,7 @@ public abstract class AbstractEndpoint implements Serializable {
     /**
      * base API URL
      */
-    private final String baseURL;
+    private String baseURL;
 
     /**
      * Flag to disable ssl checking
@@ -433,4 +433,27 @@ public abstract class AbstractEndpoint implements Serializable {
         return authType;
     }
 
+    /**
+     * Sets the base url
+     * @param baseURL
+     */
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    /**
+     * Gets base url
+     * @return baseURL
+     */
+    public String getBaseURL() {
+        return this.baseURL;
+    }
+
+    /**
+     * sets the boolean flag doNotCheckSSLCertificate
+     * @param doNotCheckSSLCertificate
+     */
+    public void setDoNotCheckSSLCertificate(boolean doNotCheckSSLCertificate) {
+        this.doNotCheckSSLCertificate = doNotCheckSSLCertificate;
+    }
 }

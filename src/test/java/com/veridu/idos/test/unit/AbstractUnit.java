@@ -10,6 +10,7 @@ public abstract class AbstractUnit {
         credentials.put("credentialPublicKey", "credentialPublicKey");
         credentials.put("servicePrivateKey", "servicePrivateKey");
         credentials.put("servicePublicKey", "servicePublicKey");
+        credentials.put("username", "username");
 
         return credentials;
     }
