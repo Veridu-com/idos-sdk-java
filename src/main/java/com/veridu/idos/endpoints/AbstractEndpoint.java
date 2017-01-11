@@ -88,7 +88,7 @@ public abstract class AbstractEndpoint implements Serializable {
      * Class constructor
      */
     public AbstractEndpoint(HashMap<String, String> credentials, IdOSAuthType authType, String baseURL,
-                            boolean doNotCheckSSLCertificate) {
+            boolean doNotCheckSSLCertificate) {
         this.credentials = credentials;
         this.authType = authType;
         this.baseURL = baseURL;
@@ -264,19 +264,19 @@ public abstract class AbstractEndpoint implements Serializable {
         String credential = null;
 
         switch (this.authType) {
-            case HANDLER:
-                credential = "CredentialToken " + this.currentToken;
-                break;
-            case USER:
-                credential = "UserToken " + this.currentToken;
-                break;
-            case IDENTITY:
-                credential = "IdentityToken " + this.currentToken;
-                break;
-            case NONE:
-                break;
-            default:
-                throw new SDKException("Invalid credentials.");
+        case HANDLER:
+            credential = "CredentialToken " + this.currentToken;
+            break;
+        case USER:
+            credential = "UserToken " + this.currentToken;
+            break;
+        case IDENTITY:
+            credential = "IdentityToken " + this.currentToken;
+            break;
+        case NONE:
+            break;
+        default:
+            throw new SDKException("Invalid credentials.");
         }
 
         try {
@@ -302,38 +302,38 @@ public abstract class AbstractEndpoint implements Serializable {
             }
 
             switch (method) {
-                case "POST":
-                    if (this.authType != this.authType.NONE) {
-                        httpRes = Executor.newInstance(httpClient).execute(
-                                Request.Post(url).setHeader(authHeader, credential)
-                                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON))
-                                .returnResponse();
-                    } else {
-                        httpRes = Executor.newInstance(httpClient).execute(
-                                Request.Post(url).bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON))
-                                .returnResponse();
-                    }
-                    break;
-                case "GET":
-                    if (this.authType != this.authType.NONE) {
-                        httpRes = Executor.newInstance(httpClient)
-                                .execute(Request.Get(url).setHeader(authHeader, credential)).returnResponse();
-                    } else {
-                        httpRes = Executor.newInstance(httpClient).execute(Request.Get(url)).returnResponse();
-                    }
-                    break;
-                case "DELETE":
+            case "POST":
+                if (this.authType != this.authType.NONE) {
+                    httpRes = Executor.newInstance(httpClient).execute(
+                            Request.Post(url).setHeader(authHeader, credential)
+                                    .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON))
+                            .returnResponse();
+                } else {
+                    httpRes = Executor.newInstance(httpClient).execute(
+                            Request.Post(url).bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON))
+                            .returnResponse();
+                }
+                break;
+            case "GET":
+                if (this.authType != this.authType.NONE) {
                     httpRes = Executor.newInstance(httpClient)
-                            .execute(Request.Delete(url).setHeader(authHeader, credential)).returnResponse();
-                    break;
-                case "PUT":
-                    httpRes = Executor.newInstance(httpClient).execute(Request.Put(url).setHeader(authHeader, credential)
-                            .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)).returnResponse();
-                    break;
-                case "PATCH":
-                    httpRes = Executor.newInstance(httpClient).execute(Request.Patch(url).setHeader(authHeader, credential)
-                            .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)).returnResponse();
-                    break;
+                            .execute(Request.Get(url).setHeader(authHeader, credential)).returnResponse();
+                } else {
+                    httpRes = Executor.newInstance(httpClient).execute(Request.Get(url)).returnResponse();
+                }
+                break;
+            case "DELETE":
+                httpRes = Executor.newInstance(httpClient)
+                        .execute(Request.Delete(url).setHeader(authHeader, credential)).returnResponse();
+                break;
+            case "PUT":
+                httpRes = Executor.newInstance(httpClient).execute(Request.Put(url).setHeader(authHeader, credential)
+                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)).returnResponse();
+                break;
+            case "PATCH":
+                httpRes = Executor.newInstance(httpClient).execute(Request.Patch(url).setHeader(authHeader, credential)
+                        .bodyByteArray(data.toString().getBytes(), ContentType.APPLICATION_JSON)).returnResponse();
+                break;
             }
 
             String response = EntityUtils.toString(httpRes.getEntity());
@@ -392,23 +392,23 @@ public abstract class AbstractEndpoint implements Serializable {
      */
     private String generateAuthToken() throws InvalidToken {
         switch (this.authType) {
-            case USER:
-                this.currentToken = IdOSUtils.generateUserToken(this.credentials.get("credentialPrivateKey"),
-                        this.credentials.get("credentialPublicKey"), this.credentials.get("username"));
-                break;
-            case IDENTITY:
-                this.currentToken = IdOSUtils.generateManagementToken(this.credentials.get("companyPrivateKey"),
-                        this.credentials.get("companyPublicKey"));
-                break;
-            case HANDLER:
-                this.currentToken = IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
-                        this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey"));
-                break;
-            case NONE:
-                this.currentToken = "none";
-                break;
-            default:
-                throw new InvalidToken();
+        case USER:
+            this.currentToken = IdOSUtils.generateUserToken(this.credentials.get("credentialPrivateKey"),
+                    this.credentials.get("credentialPublicKey"), this.credentials.get("username"));
+            break;
+        case IDENTITY:
+            this.currentToken = IdOSUtils.generateManagementToken(this.credentials.get("companyPrivateKey"),
+                    this.credentials.get("companyPublicKey"));
+            break;
+        case HANDLER:
+            this.currentToken = IdOSUtils.generateHandlerToken(this.credentials.get("servicePrivateKey"),
+                    this.credentials.get("servicePublicKey"), this.credentials.get("credentialPublicKey"));
+            break;
+        case NONE:
+            this.currentToken = "none";
+            break;
+        default:
+            throw new InvalidToken();
         }
 
         return this.currentToken;
