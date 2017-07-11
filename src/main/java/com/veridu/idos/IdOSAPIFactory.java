@@ -1,7 +1,6 @@
 package com.veridu.idos;
 
 import com.veridu.idos.endpoints.*;
-import com.veridu.idos.exceptions.InvalidToken;
 import com.veridu.idos.settings.Config;
 
 import java.io.Serializable;
@@ -151,6 +150,31 @@ public class IdOSAPIFactory implements Serializable {
      */
     public IdOSAPIFactory() {
         this.credentials = new HashMap<>();
+    }
+
+    public HashMap<String, String> getCredentials() {
+        return this.credentials;
+    }
+
+    public void setCredentials(HashMap<String, String> credentials) {
+        this.credentials = credentials;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj instanceof IdOSAPIFactory) {
+            final IdOSAPIFactory other = (IdOSAPIFactory) obj;
+            if (other.getCredentials() != null && this.getCredentials() != null)
+                return other.getCredentials().equals(this.credentials);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.credentials.hashCode();
     }
 
     /**
